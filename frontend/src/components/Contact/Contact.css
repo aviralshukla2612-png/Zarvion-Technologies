@@ -1,10 +1,4 @@
 :root {
-  --bg: #050816;
-  --blue: #2F80FF;
-  --blue-soft: #5AA8FF;
-  --white: #FFFFFF;
-  --text-light: #B6C2D9;
-  --border: rgba(255, 255, 255, 0.06);
   --radius-lg: 22px;
   --radius-sm: 12px;
   --font-display: "Sora", "Space Grotesk", system-ui, sans-serif;
@@ -13,7 +7,7 @@
 }
 
 .contact-section {
-  padding: 160px 48px 80px; /* Increased top padding */
+  padding: 80px 48px 80px; /* Reduced padding */
   background: var(--bg);
   color: var(--white);
   border-top: 1px solid var(--border);
@@ -46,6 +40,22 @@
   grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: start;
+  perspective: 1400px;
+}
+
+/* ============================================================
+   SCROLL REVEAL — left column items fade/slide up in sequence
+   once .contact-section gains .is-visible (set by an
+   IntersectionObserver in Contact.jsx).
+   ============================================================ */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 1.3s cubic-bezier(.22,1,.36,1), transform 1.3s cubic-bezier(.22,1,.36,1);
+}
+.contact-section.is-visible .reveal-item {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ---- Left Column ---- */
@@ -125,7 +135,7 @@
   justify-content: center;
   flex-shrink: 0;
   color: var(--blue-soft);
-  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
 }
 
 .contact-icon svg {
@@ -147,7 +157,7 @@
   margin: 0;
 }
 
-/* Office link row */
+/* Office / Phone / Email link row — all three now share this */
 .contact-item-link {
   text-decoration: none;
   cursor: pointer;
@@ -177,6 +187,7 @@
   height: 13px;
 }
 
+/* Unified hover state for every contact row (Phone, Email, Office) */
 .contact-item-link:hover,
 .contact-item-link:focus-visible {
   background: rgba(47, 128, 255, 0.07);
@@ -188,6 +199,7 @@
   color: var(--blue-soft);
   border-color: rgba(90, 168, 255, 0.4);
   background: rgba(47, 128, 255, 0.1);
+  transform: scale(1.06);
 }
 
 .contact-item-link:hover .contact-item-cta,
@@ -201,33 +213,240 @@
   outline-offset: 2px;
 }
 
-/* ---- Right Column: Form ---- */
-.contact-form-wrapper {
+/* ============================================================
+   RIGHT COLUMN — hover-reveal card.
+   Front face (CTA copy) and back face (form) sit stacked on top
+   of each other inside a fixed-height panel. Hovering the panel —
+   or focusing into one of the form fields with the keyboard —
+   crossfades + un-tilts the back face into view. An animated
+   rotating-gradient border and a pair of glows intensify on hover
+   for extra polish.
+   ============================================================ */
+.contact-cta-panel {
+  position: relative;
+  overflow: hidden;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 48px;
   box-shadow: 0 40px 90px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  height: 560px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(.22,1,.36,1), box-shadow 0.6s ease;
+  cursor: pointer;
+  outline: none;
+}
+
+.contact-cta-panel:hover,
+.contact-cta-panel:focus-within {
+  transform: rotateX(2deg) rotateY(-2deg) translateY(-6px);
+  box-shadow: 0 55px 120px rgba(47, 128, 255, 0.22), 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Animated rotating-gradient border, revealed on hover */
+.contact-cta-border {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 1px;
+  background: conic-gradient(from 0deg, var(--blue-soft), transparent 30%, transparent 70%, var(--blue-soft));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  animation: cta-border-spin 6s linear infinite;
+  animation-play-state: paused;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.contact-cta-panel:hover .contact-cta-border,
+.contact-cta-panel:focus-within .contact-cta-border {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes cta-border-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Fallback border for when the animated one is hidden */
+.contact-cta-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  z-index: 2;
+  pointer-events: none;
+  transition: border-color 0.4s ease;
+}
+
+.contact-cta-panel:hover::before,
+.contact-cta-panel:focus-within::before {
+  border-color: transparent;
+}
+
+.contact-cta-glow {
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(47, 128, 255, 0.18), transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.6s ease;
+  z-index: 0;
+}
+
+.contact-cta-glow-2 {
+  top: auto;
+  right: auto;
+  bottom: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(90, 168, 255, 0.14), transparent 70%);
+  opacity: 0;
+}
+
+.contact-cta-panel:hover .contact-cta-glow,
+.contact-cta-panel:focus-within .contact-cta-glow {
+  transform: scale(1.25);
+}
+
+.contact-cta-panel:hover .contact-cta-glow-2,
+.contact-cta-panel:focus-within .contact-cta-glow-2 {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+/* Front + back faces, cross-faded */
+.cta-face {
+  position: absolute;
+  inset: 0;
+  padding: 56px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  z-index: 1;
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(.22,1,.36,1);
+}
+
+.cta-front {
+  justify-content: center;
+  opacity: 1;
+  transform: translateY(0) rotateX(0deg);
+}
+
+.contact-cta-panel:hover .cta-front,
+.contact-cta-panel:focus-within .cta-front {
+  opacity: 0;
+  transform: translateY(-22px) rotateX(8deg);
+  pointer-events: none;
+}
+
+.cta-back {
+  opacity: 0;
+  transform: translateY(22px) rotateX(-8deg);
+  pointer-events: none;
+  overflow-y: auto;
+}
+
+.contact-cta-panel:hover .cta-back,
+.contact-cta-panel:focus-within .cta-back {
+  opacity: 1;
+  transform: translateY(0) rotateX(0deg);
+  pointer-events: auto;
+}
+
+.contact-cta-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-soft);
+}
+
+.contact-cta-title {
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.contact-cta-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-light);
+  max-width: 380px;
+  margin-bottom: 8px;
+}
+
+.contact-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--blue), var(--blue-soft));
+  color: var(--white);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 15px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, letter-spacing 0.25s ease;
+}
+
+.contact-cta-panel:hover .contact-cta-btn {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(47, 128, 255, 0.35);
+}
+
+.contact-cta-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.contact-cta-panel:hover .contact-cta-btn svg {
+  transform: translate(2px, -2px);
+}
+
+/* ============================================================
+   FORM (back face) — staggered field reveal on hover/focus-within
+   ============================================================ */
+.reveal-field {
+  opacity: 0;
+  transform: translateY(-14px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.contact-cta-panel:hover .reveal-field,
+.contact-cta-panel:focus-within .reveal-field {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .contact-form h3 {
   font-family: var(--font-heading);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 600;
-  margin-bottom: 32px;
+  margin-bottom: 22px;
   color: var(--white);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 16px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .form-group label {
@@ -244,10 +463,10 @@
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
-  padding: 14px 16px;
+  padding: 12px 14px;
   color: var(--white);
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 14px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   outline: none;
 }
@@ -269,7 +488,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 16px 24px;
+  padding: 14px 24px;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--blue), var(--blue-soft));
   color: var(--white);
@@ -279,7 +498,7 @@
   border: none;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin-top: 8px;
+  margin-top: 4px;
 }
 
 .submit-btn:hover {
@@ -314,23 +533,32 @@
     padding: 120px 24px 60px;
   }
 
-  .contact-form-wrapper {
+  .contact-cta-panel {
+    height: auto;
+    min-height: 300px;
+  }
+
+  /* On touch/narrow layouts, hover is unreliable — show the form
+     directly beneath the CTA copy instead of cross-fading. */
+  .cta-face {
+    position: static;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
     padding: 32px 24px;
   }
-}
 
-@media (max-width: 600px) {
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 0;
+  .cta-back {
+    padding-top: 0;
   }
 
-  .contact-title {
-    font-size: 28px;
+  .reveal-field {
+    opacity: 1;
+    transform: none;
   }
 
-  .contact-section {
-    padding: 100px 16px 40px;
+  .contact-cta-btn {
+    display: none;
   }
 }
 
@@ -338,7 +566,24 @@
   .contact-item,
   .contact-icon,
   .contact-item-cta,
-  .submit-btn {
-    transition: none;
+  .submit-btn,
+  .reveal-item,
+  .reveal-field,
+  .contact-cta-btn,
+  .contact-cta-btn svg,
+  .contact-cta-panel,
+  .contact-cta-border,
+  .contact-cta-glow,
+  .cta-face {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Without transitions to reveal them, force everything visible
+     immediately so reduced-motion users aren't left with hidden
+     content. */
+  .reveal-item {
+    opacity: 1;
+    transform: none;
   }
 }

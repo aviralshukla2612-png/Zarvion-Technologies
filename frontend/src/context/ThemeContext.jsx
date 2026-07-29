@@ -20,26 +20,6 @@ export function ThemeProvider({ children }) {
     applyTheme(theme);
   }, [theme]);
 
-  useEffect(() => {
-    if (!window.matchMedia) return;
-    const mql = window.matchMedia('(prefers-color-scheme: light)');
-
-    const handleChange = () => {
-      if (hasExplicitChoice.current) return;
-      setThemeState(getSystemTheme());
-    };
-
-    mql.addEventListener
-      ? mql.addEventListener('change', handleChange)
-      : mql.addListener(handleChange);
-
-    return () => {
-      mql.removeEventListener
-        ? mql.removeEventListener('change', handleChange)
-        : mql.removeListener(handleChange);
-    };
-  }, []);
-
   const setTheme = useCallback((next) => {
     if (next !== THEMES.DARK && next !== THEMES.LIGHT) return;
     hasExplicitChoice.current = true;

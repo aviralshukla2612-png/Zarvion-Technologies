@@ -42,7 +42,7 @@
   display:flex;
   align-items:stretch;
   border-radius:var(--radius-lg);
-  background:rgba(255,255,255,0.05);
+  background:var(--bg-raised);
   border:1px solid rgba(90,168,255,0.18);
   backdrop-filter:blur(22px);
   -webkit-backdrop-filter:blur(22px);
@@ -73,7 +73,7 @@
   position:absolute;
   inset:0;
   background:
-    linear-gradient(180deg, rgba(5,8,22,0) 40%, rgba(5,8,22,.6) 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 0%, transparent) 40%, color-mix(in srgb, var(--bg) 60%, transparent) 100%),
     linear-gradient(90deg, rgba(47,128,255,.28) 0%, rgba(47,128,255,0) 55%);
   mix-blend-mode:multiply;
 }

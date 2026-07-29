@@ -1,15 +1,30 @@
 /* ============================================================
    ServiceDetails.css — Zarvion Technologies
+   ============================================================
+   FIX IN THIS PASS
+   ---------------------------------------------------------
+   Several rules tried to get a translucent accent color using
+   syntax like `var(--accent) 20` or `var(--accent) 40` (e.g.
+   `border: 1px solid var(--accent) 20;`,
+   `box-shadow: 0 8px 30px var(--accent) 40;`). That is not valid
+   CSS — a custom-property token followed by a bare number is not
+   a color, so the browser drops the entire declaration. In practice
+   this meant borders, glows, badge backgrounds, icon rings, and
+   shadows across the page were silently not rendering their accent
+   tint at all.
+   Every one of those has been replaced with
+   `color-mix(in srgb, var(--accent) N%, transparent)`, which is
+   the valid way to get an N% version of the per-service accent
+   color. Nothing else about the layout or logic changed.
    ============================================================ */
 
 /* ─── Variables ─────────────────────────────────────────────── */
 .service-details-page {
-  --bg: #010610;
-  --bg-card: #0A1628;
-  --text: #FFFFFF;
-  --text-secondary: #94A3B8;
-  --text-dim: #475569;
-  --border: rgba(148, 163, 184, 0.1);
+  --bg-card: var(--bg-raised);
+  --text: var(--white);
+  --text-secondary: var(--text-light);
+  --text-dim: var(--dim);
+  --border: var(--border);
   --radius: 24px;
   --radius-sm: 12px;
   background: var(--bg);
@@ -154,7 +169,7 @@
 .service-hero-icon-emoji {
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 20px 60px var(--accent) 30);
+  filter: drop-shadow(0 20px 60px color-mix(in srgb, var(--accent) 30%, transparent));
 }
 
 .service-hero-icon-ring {
@@ -162,14 +177,14 @@
   border-radius: 50%;
   width: 250px;
   height: 250px;
-  border: 1px solid var(--accent) 20;
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   animation: ringSpin 20s linear infinite;
 }
 
 .service-hero-icon-ring--2 {
   width: 320px;
   height: 320px;
-  border-color: var(--accent) 15;
+  border-color: color-mix(in srgb, var(--accent) 15%, transparent);
   animation: ringSpin 25s linear infinite reverse;
 }
 
@@ -191,9 +206,9 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 8px 18px;
-  border: 1px solid var(--accent) 30;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   border-radius: 100px;
-  background: var(--accent) 10;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
   color: var(--accent);
   width: fit-content;
 }
@@ -235,12 +250,12 @@
 .service-hero-cta--primary {
   color: #fff;
   background: linear-gradient(135deg, var(--accent), var(--accent-dim));
-  box-shadow: 0 8px 30px var(--accent) 40;
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
 .service-hero-cta--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px var(--accent) 50;
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 .service-hero-cta--secondary {
@@ -300,7 +315,7 @@
 .service-hero-scroll-line {
   width: 1px;
   height: 30px;
-  background: linear-gradient(to bottom, var(--accent) 50, transparent);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--accent) 50%, transparent), transparent);
 }
 
 @keyframes scrollBob {
@@ -321,10 +336,11 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
-  background: var(--accent) 10;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
   padding: 6px 16px;
   border-radius: 100px;
   margin-bottom: 16px;
+  margin-top: 24px;
 }
 
 .section-title {
@@ -425,7 +441,7 @@
   gap: 16px;
   padding: 20px 24px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--accent) 10;
+  border: 1px solid color-mix(in srgb, var(--accent) 10%, transparent);
   background: var(--bg-card);
   opacity: 0;
   transform: translateY(20px);
@@ -438,7 +454,7 @@
 }
 
 .benefits-card:hover {
-  border-color: var(--accent) 20;
+  border-color: color-mix(in srgb, var(--accent) 20%, transparent);
   transform: translateY(-2px);
 }
 
@@ -446,7 +462,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--accent) 15;
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
   color: var(--accent);
   display: flex;
   align-items: center;
@@ -457,7 +473,7 @@
 
 .benefits-card-text {
   font-size: 14px;
-  color: #CBD5E1;
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
@@ -477,7 +493,7 @@
 .features-card {
   padding: 32px 28px;
   border-radius: var(--radius);
-  border: 1px solid var(--accent) 10;
+  border: 1px solid color-mix(in srgb, var(--accent) 10%, transparent);
   background: var(--bg-card);
   text-align: center;
   opacity: 0;
@@ -491,7 +507,7 @@
 }
 
 .features-card:hover {
-  border-color: var(--accent) 20;
+  border-color: color-mix(in srgb, var(--accent) 20%, transparent);
   transform: translateY(-4px);
 }
 
@@ -503,7 +519,7 @@
 
 .features-card-text {
   font-size: 15px;
-  color: #E2E8F0;
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
@@ -546,7 +562,7 @@
   font-weight: 700;
   color: #fff;
   flex-shrink: 0;
-  box-shadow: 0 0 30px var(--accent) 30;
+  box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 .process-item-content {
@@ -569,7 +585,7 @@
 .process-item-line {
   width: 2px;
   height: 24px;
-  background: var(--accent) 20;
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
   margin: 8px 0 0 23px;
 }
 
@@ -589,7 +605,7 @@
 .testimonials-card {
   padding: 32px;
   border-radius: var(--radius);
-  border: 1px solid var(--accent) 10;
+  border: 1px solid color-mix(in srgb, var(--accent) 10%, transparent);
   background: var(--bg-card);
   opacity: 0;
   transform: translateY(20px);
@@ -611,7 +627,7 @@
 .testimonials-text {
   font-size: 16px;
   line-height: 1.7;
-  color: #E2E8F0;
+  color: var(--text-secondary);
   margin-bottom: 16px;
 }
 
@@ -641,14 +657,14 @@
 
 .faq-item {
   border-radius: 16px;
-  border: 1px solid var(--accent) 10;
+  border: 1px solid color-mix(in srgb, var(--accent) 10%, transparent);
   background: var(--bg-card);
   overflow: hidden;
   transition: border-color 0.3s ease;
 }
 
 .faq-item.open {
-  border-color: var(--accent) 20;
+  border-color: color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
 .faq-question {
@@ -710,7 +726,7 @@
 .cta-content {
   padding: 60px 48px;
   border-radius: var(--radius);
-  border: 1px solid var(--accent) 20;
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   background: var(--bg-card);
   text-align: center;
   position: relative;
@@ -729,7 +745,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, var(--accent) 10, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%);
   pointer-events: none;
 }
 
@@ -763,7 +779,7 @@
   text-decoration: none;
   color: #fff;
   background: linear-gradient(135deg, var(--accent), var(--accent-dim));
-  box-shadow: 0 8px 30px var(--accent) 40;
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--accent) 40%, transparent);
   transition: all 0.3s ease;
   position: relative;
   z-index: 1;
@@ -771,7 +787,7 @@
 
 .cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px var(--accent) 50;
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 /* ─── Animations ───────────────────────────────────────────────── */

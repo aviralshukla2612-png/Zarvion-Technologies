@@ -5,13 +5,14 @@ import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import './Navbar.css';
 
 const Navbar = () => {
+  const [filled, setFilled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
-      // Scrollspy logic
+      setFilled(window.scrollY > 10);
       const sections = ['about', 'services', 'demanded', 'contact'];
       let current = '';
       for (const section of sections) {
@@ -25,16 +26,13 @@ const Navbar = () => {
       }
       setActiveSection(current);
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === 'Escape') setMenuOpen(false);
-    };
+    const handleKey = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
@@ -54,11 +52,10 @@ const Navbar = () => {
 
   return (
     <>
-      {/* NAVBAR */}
-      <nav className="navbar" aria-label="Primary">
+      <nav className={`navbar ${filled ? 'filled' : ''}`} aria-label="Primary">
         <Link to="/" className="brand" aria-label="Zarvion Technologies home" onClick={closeMenu}>
-          {/* Removed the text, made logo bigger via CSS */}
           <img src={logo} alt="Zarvion Technologies logo" />
+          {/* "ZarvionTechnologies" text removed */}
         </Link>
 
         <ul className="nav-links">
@@ -90,7 +87,6 @@ const Navbar = () => {
         </button>
       </nav>
 
-      {/* MOBILE MENU */}
       <div id="mobile-menu" className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
         <ul>
           <li><Link to="/" className={!activeSection ? 'active' : ''} onClick={closeMenu}>Home</Link></li>

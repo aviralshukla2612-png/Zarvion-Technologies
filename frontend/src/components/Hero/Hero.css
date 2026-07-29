@@ -11,16 +11,16 @@
 .hero-left {
   position: relative;
   z-index: 10;
-  flex: 0 0 56%;
-  max-width: 680px;
+  flex: 1 1 50%;
+  max-width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 60px 40px 40px 80px;
-  margin: 0 auto;
+  padding: 60px 40px 40px 8vw;
+  margin: 0;
   background: var(--bg);
-  transform: translateY(5%); /* 👈 adjust this value to move lower */
+  transform: translateY(-8%); /* shifted up to reduce gap */
 }
 
 .h-tag {
@@ -126,26 +126,29 @@
 /* RIGHT — 3D Hyperspeed column */
 .hero-right {
   position: relative;
-  flex: 1 1 auto;
+  flex: 1 1 50%;
+  max-width: 50%;
   height: 100%;
   overflow: hidden;
-  background: #05070d;
+  background: var(--bg);
 }
 
 .veil {
   position: absolute;
   inset: 0;
   background:
+    /* Horizontal fade for desktop (smooth transition from text) */
     linear-gradient(90deg,
       var(--bg) 0%,
-      rgba(1,6,16,0.55) 10%,
-      rgba(1,6,16,0.05) 30%,
-      transparent 55%),
+      color-mix(in srgb, var(--bg) 70%, transparent) 15%,
+      transparent 35%),
+    /* Vertical fade for top and bottom */
     linear-gradient(to bottom,
-      rgba(1,6,16,0.35) 0%,
-      transparent 22%,
+      var(--bg) 0%,
+      color-mix(in srgb, var(--bg) 40%, transparent) 15%,
+      transparent 30%,
       transparent 70%,
-      rgba(1,6,16,0.55) 100%);
+      var(--bg) 100%);
   z-index: 20;
   pointer-events: none;
 }
@@ -169,8 +172,20 @@
     transform: none; /* reset on mobile if needed */
   }
   .hero-right {
-    flex: 1 1 auto;
-    min-height: 50vh;
-    height: auto;
+    flex: none;
+    height: 50vh;
+    min-height: 400px;
+    width: 100%;
+    max-width: 100%;
+  }
+  .veil {
+    background:
+      /* Only vertical fade for mobile to blend with text above and footer below */
+      linear-gradient(to bottom,
+        var(--bg) 0%,
+        color-mix(in srgb, var(--bg) 60%, transparent) 20%,
+        transparent 40%,
+        transparent 70%,
+        var(--bg) 100%);
   }
 }

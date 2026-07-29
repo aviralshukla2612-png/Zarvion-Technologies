@@ -91,14 +91,21 @@ const DemandedRoles = () => {
       const step = cardWidth + gap;
       const totalCards = ROLES.length;
       const totalWidth = step * (totalCards - 1);
-      const viewportHeight = viewport.clientHeight || window.innerHeight;
 
-      // Set track height for scroll distance
-      track.style.height = `${viewportHeight + totalWidth}px`;
+      // IMPORTANT: don't set an explicit track height here. Track's
+      // natural height already equals the viewport (its child
+      // .pin-viewport is 100vh). ScrollTrigger's pin (with
+      // pinSpacing enabled by default) automatically reserves the
+      // extra `totalWidth` of scroll distance on top of that for us.
+      // Manually adding totalWidth to the track height on top of that
+      // double-counts the scroll distance, producing a long "dead"
+      // stretch of scrolling that feels laggy/jittery. So: leave the
+      // track's height alone and let GSAP own the math.
+      track.style.height = '';
 
       // --- Create quickSetters for each card ---
       const setters = cards.map((card) => ({
-        scale: gsap.quickSetter(card, 'scale', 'px'),
+        scale: gsap.quickSetter(card, 'scale'),
         opacity: gsap.quickSetter(card, 'opacity'),
         zIndex: gsap.quickSetter(card, 'zIndex'),
       }));
@@ -122,13 +129,21 @@ const DemandedRoles = () => {
           trigger: track,
           start: 'top top',
           end: `+=${totalWidth}`,
-          scrub: 1.2,
+          scrub: true,
           pin: true,
           invalidateOnRefresh: true,
           anticipatePin: 1,
           fastScrollEnd: true,
-          onUpdate: (self) => {
-            const progress = self.progress;
+          onUpdate: () => {
+            // Use the TIMELINE's own (scrubbed/eased) progress here,
+            // not the ScrollTrigger's raw scroll progress. The stage's
+            // x-position is driven by this same timeline, so deriving
+            // scale/opacity/zIndex from tl.progress() keeps every card
+            // property perfectly in sync with where it actually is on
+            // screen — no more desync between the (smoothed) horizontal
+            // slide and the (previously instant) scale/opacity, which
+            // was the real source of the jitter.
+            const progress = tl.progress();
             const rawIndex = progress * (totalCards - 1);
             const roundedIndex = Math.round(rawIndex);
 
@@ -258,7 +273,9 @@ const DemandedRoles = () => {
           <span className="roles-badge-dot" aria-hidden="true"></span>
           HOT CAREER OPPORTUNITIES
         </span>
-        <h2 className="roles-heading">Most Demanded IT Roles</h2>
+        <h2 className="roles-heading">
+          Most Demanded IT <span className="roles-highlight">Roles</span>
+        </h2>
         <p className="roles-desc">
           Explore today's fastest-growing technology careers and discover the skills,
           opportunities, and career paths that leading companies are actively hiring for.

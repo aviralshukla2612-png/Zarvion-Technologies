@@ -64,8 +64,8 @@ export const services = [
     subtitle: 'Turn Your Profile Into a Recruiter Magnet',
     description: 'SEO-optimised professional branding with compelling About sections, Featured portfolios, and strategic keyword density that drives recruiter inbound.',
     heroImage: '💼',
-    accent: '#60A5FA',
-    accentDim: '#2563EB',
+    accent: '#22D3EE',
+    accentDim: '#0E7490',
     overview: 'Your LinkedIn profile is your digital storefront. We transform it into a powerful personal brand that attracts recruiters, builds credibility, and opens doors.',
     stats: [
       { label: 'Profile Views', value: '5.7x' },
@@ -117,8 +117,8 @@ export const services = [
     subtitle: 'Ace Every Interview With Precision',
     description: 'Live mock interviews with senior industry coaches, real-time feedback loops, STAR method mastery, and company-specific preparation.',
     heroImage: '🎯',
-    accent: '#38BDF8',
-    accentDim: '#0369A1',
+    accent: '#F59E0B',
+    accentDim: '#B45309',
     overview: 'Interviewing is a skill, not a talent. We help you master it through practice, feedback, and proven strategies that have helped thousands of professionals land their dream roles.',
     stats: [
       { label: 'Offer Rate', value: '87%' },

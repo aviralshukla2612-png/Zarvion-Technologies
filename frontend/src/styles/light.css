@@ -3,8 +3,8 @@
    intentionally identical to dark.css and must never diverge. */
 
 [data-theme='light'] {
-  --bg: #ffffff;
-  --bg-raised: #ffffff;
+  --bg: #eef0f4;
+  --bg-raised: #f8f9fa;
   --border: rgba(0,0,0,0.08);
   --dim: #6b7280;
 
@@ -13,7 +13,7 @@
      for compatibility and just repoint its VALUE to near-black in light
      mode, so no component file needs to be touched. */
   --white: #0a0a0a;
-  --black: #000;
+  --black: #ffffff;
 
   --blue: #3a9fff;
   --blue-glow: rgba(58,159,255,0.7);

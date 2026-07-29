@@ -238,5 +238,17 @@
 
 @media (max-width: 860px) {
   .testimonials-inner { grid-template-columns: 1fr; }
-  .stack-wrap { height: 420px; }
+  .stack-wrap { height: 420px; width: 100%; }
+  .stack-cards { width: 100%; max-width: 380px; }
+}
+
+@media (max-width: 480px) {
+  .testimonials-section { padding: 60px 20px; }
+  .stack-wrap { height: 380px; }
+  .stack-cards { height: 100%; }
+  .card-quote { font-size: 40px; }
+  .card-text { font-size: 16px; }
+  .stack-nav.prev { left: -12px; }
+  .stack-nav.next { right: -12px; }
+  .stack-card { padding: 30px 24px 24px; }
 }

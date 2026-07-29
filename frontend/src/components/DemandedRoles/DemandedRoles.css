@@ -4,12 +4,7 @@
    ============================================================ */
 
 :root {
-  --bg: #050816;
-  --blue: #2F80FF;
-  --blue-soft: #5AA8FF;
-  --white: #FFFFFF;
-  --text-light: #B6C2D9;
-  --card-bg: rgba(255, 255, 255, 0.04);
+  --card-bg: color-mix(in srgb, var(--white) 4%, transparent);
   --card-border: rgba(90, 168, 255, 0.12);
   --card-border-hi: rgba(90, 168, 255, 0.5);
   --radius-lg: 24px;
@@ -91,7 +86,11 @@
   font-size: clamp(36px, 4.5vw, 56px);
   line-height: 1.08;
   margin: 24px 0 18px;
-  background: linear-gradient(180deg, var(--white) 0%, #DCE7FF 100%);
+  color: var(--white);
+}
+
+.roles-highlight {
+  background: linear-gradient(90deg, #6fa4ff, #a6c6ff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -231,7 +230,7 @@
   font-size: clamp(34px, 4.2vw, 56px);
   font-weight: 700;
   line-height: 1.05;
-  color: var(--white);
+  color: #ffffff;
   text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transform: translateY(24px) scale(0.96);
@@ -261,7 +260,7 @@
 
 @media (max-width: 768px) {
   .roles-section {
-    padding-top: 40px;
+    padding-top: 100px;
   }
   .pin-track {
     height: auto !important;
