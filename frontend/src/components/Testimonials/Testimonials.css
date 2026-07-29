@@ -93,6 +93,7 @@
   box-shadow:
     0 8px 32px rgba(0,0,0,0.35),
     inset 0 1px 0 rgba(255,255,255,0.15);
+  overflow: hidden;
 }
 
 .stack-card:active {
@@ -110,7 +111,7 @@
 }
 
 .stack-card.pos-1 {
-  background: rgba(255,255,255,0.04);
+  background: rgba(20,26,38,0.85);
   border-color: rgba(255,255,255,0.1);
   z-index: 2;
   transform: translate(-22px, -18px) rotate(-5deg) scale(0.96);
@@ -119,7 +120,7 @@
 }
 
 .stack-card.pos-2 {
-  background: rgba(255,255,255,0.03);
+  background: rgba(20,26,38,0.75);
   border-color: rgba(255,255,255,0.08);
   z-index: 1;
   transform: translate(-40px, -32px) rotate(-9deg) scale(0.92);
