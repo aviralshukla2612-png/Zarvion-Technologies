@@ -1,0 +1,52 @@
+/* src/styles/global.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap');
+
+@import './variables.css';
+@import './dark.css';
+@import './light.css';
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--dim);
+  font-family: var(--font-body);
+  font-size: var(--font-base);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Smooth theme switch — 300ms, does not touch GSAP/Lenis timelines,
+   only color-related CSS properties on paintable elements. */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color var(--theme-dur) var(--theme-ease),
+    border-color var(--theme-dur) var(--theme-ease),
+    color var(--theme-dur) var(--theme-ease),
+    box-shadow var(--theme-dur) var(--theme-ease),
+    fill var(--theme-dur) var(--theme-ease),
+    stroke var(--theme-dur) var(--theme-ease) !important;
+}

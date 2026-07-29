@@ -1,0 +1,775 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Services.css — Zarvion Technologies
+   Sticky stacking scroll effect (houseofyellow.nl-style)
+   Rich card visuals: icon illustration, orbit rings, particles,
+   halo/shimmer glow, feature list, CTA, bg number, rail.
+
+   FIX IN THIS PASS
+   ---------------------------------------------------------
+   The card content (description, feature list, CTA, active icon
+   style, active text color) was not appearing even though the
+   `.is-active` class was correctly applied to the right card (the
+   progress rail confirmed this). That means some other CSS in the
+   host app — a Tailwind reset, a duplicate/global rule, or plain
+   source order — was overriding these opacity/color/background
+   rules despite matching class names being present.
+   Every rule below that depends on `.is-active` / `.is-passed` now
+   carries `!important`, so it can no longer lose to unrelated
+   global styles. Nothing else about the mechanic changed.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Section wrapper ────────────────────────────────────────────── */
+.srv-section {
+  position: relative;
+  background: #010610;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+}
+
+.srv-section--home {
+  padding: 96px 0 40px;
+  --roll-base: 88px;
+}
+
+.srv-section--page {
+  padding: 130px 0 60px;
+  --roll-base: 122px;
+}
+
+/* ─── Container ──────────────────────────────────────────────────── */
+.srv-container {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+/* ─── Ambient grid ────────────────────────────────────────────────── */
+.srv-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Glow blobs ──────────────────────────────────────────────────── */
+.srv-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+.srv-blob--a {
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, rgba(59,130,246,.14) 0%, transparent 70%);
+  top: -120px;
+  right: -80px;
+  animation: blobDrift 14s ease-in-out infinite alternate;
+}
+.srv-blob--b {
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, rgba(96,165,250,.10) 0%, transparent 70%);
+  bottom: -100px;
+  left: -60px;
+  animation: blobDrift 18s ease-in-out infinite alternate-reverse;
+}
+@keyframes blobDrift {
+  from { transform: translate3d(0,0,0) scale(1);        }
+  to   { transform: translate3d(30px,40px,0) scale(1.1); }
+}
+
+/* ─── Header ──────────────────────────────────────────────────────── */
+.srv-header {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 700px;
+  width: 100%;
+  margin-bottom: 40px;
+}
+.srv-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #60A5FA;
+  background: rgba(96,165,250,.07);
+  border: 1px solid rgba(96,165,250,.18);
+  padding: 5px 16px 5px 12px;
+  border-radius: 100px;
+}
+.srv-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #60A5FA;
+  box-shadow: 0 0 12px rgba(96,165,250,.6);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%,100% { opacity:.5; transform:scale(1);    }
+  50%      { opacity:1;  transform:scale(1.35); }
+}
+.srv-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(28px,4.5vw,48px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.025em;
+  margin: 14px 0 10px;
+  line-height: 1.1;
+}
+.srv-title--accent {
+  background: linear-gradient(125deg, #3B82F6 10%, #60A5FA 60%, #93C5FD 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.srv-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #94A3B8;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MINI STICKY HEADER
+   ═══════════════════════════════════════════════════════════════════ */
+.srv-mini-header {
+  position: sticky;
+  top: calc(var(--roll-base) - 24px);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 18px;
+  padding: 8px 18px;
+  border-radius: 100px;
+  background: rgba(1,6,16,.72);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(96,165,250,.16);
+  box-shadow: 0 8px 24px -12px rgba(0,0,0,.5);
+}
+.srv-mini-header-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #60A5FA;
+  box-shadow: 0 0 10px rgba(96,165,250,.6);
+  flex-shrink: 0;
+}
+.srv-mini-header-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: #E2E8F0;
+  white-space: nowrap;
+}
+.srv-mini-header-count {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: #60A5FA;
+  padding-left: 10px;
+  border-left: 1px solid rgba(148,163,184,.25);
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   END-OF-STACK MARKER
+   ═══════════════════════════════════════════════════════════════════ */
+.srv-roll-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 48px 0 8px;
+}
+.srv-roll-end-line {
+  flex: 1 1 auto;
+  max-width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(148,163,184,.3), transparent);
+}
+.srv-roll-end-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,.55);
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ROLL + RAIL LAYOUT WRAPPER
+   ═══════════════════════════════════════════════════════════════════ */
+.srv-roll-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   STICKY STACKING ROLL
+   ═══════════════════════════════════════════════════════════════════ */
+.srv-roll {
+  position: relative;
+  width: 100%;
+  max-width: 1060px;
+  --roll-step: 88px;
+}
+
+.srv-roll-item {
+  position: sticky;
+  top: 88px;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 4px;
+}
+
+/* ─── Card shell ─────────────────────────────────────────────────── */
+.srv-roll-inner {
+  position: relative;
+  width: 100%;
+  background:
+    linear-gradient(180deg, #050B18 0%, #030913 100%);
+  border: 1px solid rgba(148,163,184,.12);
+  border-radius: 28px;
+  padding: 56px 56px 52px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px -20px rgba(0,0,0,.6);
+  transition: border-color .45s ease, box-shadow .45s ease, background .45s ease;
+}
+.srv-roll-item.is-active .srv-roll-inner {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent) !important;
+  box-shadow: 0 24px 60px -18px color-mix(in srgb, var(--accent) 30%, transparent),
+              0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent) inset !important;
+}
+
+/* Background number watermark */
+.srv-roll-bgnum {
+  position: absolute;
+  top: -18px;
+  right: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 128px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(148,163,184,.10);
+  pointer-events: none;
+  user-select: none;
+  transition: -webkit-text-stroke-color .45s ease;
+}
+.srv-roll-item.is-active .srv-roll-bgnum {
+  -webkit-text-stroke-color: color-mix(in srgb, var(--accent) 30%, transparent) !important;
+}
+
+/* ─── Body: two columns — text on the left, icon on the right ──────── */
+.srv-roll-body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  z-index: 1;
+}
+
+.srv-roll-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Icon block: halo + orbit rings + particles + icon */
+.srv-roll-icon-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 132px;
+  height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.srv-roll-halo {
+  position: absolute;
+  inset: -28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 55%, transparent) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(.7);
+  transition: opacity .5s ease, transform .5s ease;
+  filter: blur(2px);
+}
+.srv-roll-item.is-active .srv-roll-halo {
+  opacity: .55 !important;
+  transform: scale(1) !important;
+  animation: haloShimmer 3.2s ease-in-out infinite;
+}
+@keyframes haloShimmer {
+  0%,100% { opacity: .45; }
+  50%      { opacity: .75; }
+}
+
+.srv-roll-orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.srv-roll-orbit--1 { inset: -20px; }
+.srv-roll-orbit--2 { inset: -42px; border-style: dashed; }
+.srv-roll-item.is-active .srv-roll-orbit {
+  opacity: .5 !important;
+}
+.srv-roll-item.is-active .srv-roll-orbit--1 { animation: spin 10s linear infinite; }
+.srv-roll-item.is-active .srv-roll-orbit--2 { animation: spin 18s linear infinite reverse; }
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.srv-roll-particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.srv-roll-particle--1 { top: -30px; left: 50%; }
+.srv-roll-particle--2 { bottom: -14px; left: -34px; }
+.srv-roll-particle--3 { bottom: -26px; right: -30px; }
+.srv-roll-item.is-active .srv-roll-particle {
+  opacity: .85 !important;
+}
+.srv-roll-item.is-active .srv-roll-particle--1 { animation: floatY 3.4s ease-in-out infinite; }
+.srv-roll-item.is-active .srv-roll-particle--2 { animation: floatY 4.1s ease-in-out infinite .3s; }
+.srv-roll-item.is-active .srv-roll-particle--3 { animation: floatY 3.7s ease-in-out infinite .6s; }
+@keyframes floatY {
+  0%,100% { transform: translateY(0);   opacity: .5; }
+  50%      { transform: translateY(-6px); opacity: 1;  }
+}
+
+.srv-roll-icon {
+  position: relative;
+  z-index: 1;
+  width: 132px;
+  height: 132px;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(148,163,184,.55);
+  background: rgba(148,163,184,.06);
+  border: 1px solid rgba(148,163,184,.14);
+  transition: color .45s ease, background .45s ease, border-color .45s ease, transform .35s ease;
+}
+.srv-roll-icon svg { width: 60px; height: 60px; }
+.srv-roll-item.is-active .srv-roll-icon {
+  color: #fff !important;
+  background: linear-gradient(155deg, color-mix(in srgb, var(--accent) 85%, transparent) 0%, var(--accent-dim) 130%) !important;
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent) !important;
+}
+.srv-roll-item.is-active .srv-roll-text:hover ~ .srv-roll-icon-wrap .srv-roll-icon {
+  transform: scale(1.05);
+}
+
+/* ─── Heading row ─────────────────────────────────────────────────── */
+.srv-roll-headrow {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.srv-roll-index {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  color: rgba(148,163,184,.5);
+  flex-shrink: 0;
+  transition: color .4s ease;
+}
+
+.srv-roll-title {
+  position: relative;
+  display: inline-block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(24px, 3.8vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  color: rgba(148,163,184,.35);
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 160px;
+  cursor: pointer;
+  transition: color .45s ease, letter-spacing .35s ease;
+}
+.srv-roll-item.is-active .srv-roll-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s ease;
+}
+.srv-roll-item.is-active .srv-roll-title:hover {
+  color: #fff !important;
+  letter-spacing: 0;
+}
+.srv-roll-item.is-active .srv-roll-title:hover::after {
+  transform: scaleX(1);
+}
+
+/* ─── Body: only meaningfully visible while the item is active ─── */
+.srv-roll-desc {
+  position: relative;
+  z-index: 1;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #94A3B8;
+  max-width: 620px;
+  margin: 20px 0 0;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+.srv-roll-features {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px 24px;
+  margin: 22px 0 0;
+  padding: 0;
+  max-width: 560px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .5s ease .05s, transform .5s ease .05s;
+}
+
+.srv-roll-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #CBD5E1;
+}
+
+.srv-roll-feature-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.srv-roll-feature-icon svg { width: 12px; height: 12px; }
+
+.srv-roll-cta {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+  padding: 11px 22px;
+  border-radius: 100px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(120deg, var(--accent) 0%, var(--accent-dim) 100%);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .5s ease .1s, transform .5s ease .1s, filter .3s ease, transform .3s ease;
+}
+.srv-roll-cta:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+.srv-roll-cta svg { transition: transform .3s ease; }
+.srv-roll-cta:hover svg { transform: translateX(3px); }
+
+/* ─── Active state ───────────────────────────────────────────────── */
+/* These are the rules that were being silently overridden — hardened
+   with !important so they always win regardless of any conflicting
+   global CSS (Tailwind reset, other stylesheets, source order, etc). */
+.srv-roll-item.is-active .srv-roll-index {
+  color: var(--accent, #60A5FA) !important;
+}
+.srv-roll-item.is-active .srv-roll-title {
+  color: #fff !important;
+}
+.srv-roll-item.is-active .srv-roll-desc,
+.srv-roll-item.is-active .srv-roll-features,
+.srv-roll-item.is-active .srv-roll-cta {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ─── Passed state (stacked, dimmed, heading-only strip) ───────────── */
+.srv-roll-item.is-passed .srv-roll-index,
+.srv-roll-item.is-passed .srv-roll-title {
+  color: rgba(148,163,184,.3) !important;
+}
+.srv-roll-item.is-passed .srv-roll-inner {
+  border-color: rgba(148,163,184,.08) !important;
+  box-shadow: none !important;
+}
+/* A passed card's body must stay hidden too — otherwise, if a global
+   rule ever forces opacity back to 1 on these elements, passed cards
+   would show their (now stale) description/features/CTA underneath
+   the stack instead of just the heading strip. */
+.srv-roll-item.is-passed .srv-roll-desc,
+.srv-roll-item.is-passed .srv-roll-features,
+.srv-roll-item.is-passed .srv-roll-cta {
+  opacity: 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   HOVER REVEAL
+   Hovering any card — active, passed, or not-yet-reached — reveals
+   its full content immediately, on top of (and independent from) the
+   scroll-driven active state above. Placed after the .is-passed rules
+   so it wins the specificity tie (equal specificity, later wins).
+   ═══════════════════════════════════════════════════════════════════ */
+.srv-roll-item:hover .srv-roll-inner {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent) !important;
+  box-shadow: 0 24px 60px -18px color-mix(in srgb, var(--accent) 30%, transparent),
+              0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent) inset !important;
+}
+.srv-roll-item:hover .srv-roll-bgnum {
+  -webkit-text-stroke-color: color-mix(in srgb, var(--accent) 30%, transparent) !important;
+}
+.srv-roll-item:hover .srv-roll-halo {
+  opacity: .55 !important;
+  transform: scale(1) !important;
+  animation: haloShimmer 3.2s ease-in-out infinite;
+}
+.srv-roll-item:hover .srv-roll-orbit {
+  opacity: .5 !important;
+}
+.srv-roll-item:hover .srv-roll-orbit--1 { animation: spin 10s linear infinite; }
+.srv-roll-item:hover .srv-roll-orbit--2 { animation: spin 18s linear infinite reverse; }
+.srv-roll-item:hover .srv-roll-particle {
+  opacity: .85 !important;
+}
+.srv-roll-item:hover .srv-roll-particle--1 { animation: floatY 3.4s ease-in-out infinite; }
+.srv-roll-item:hover .srv-roll-particle--2 { animation: floatY 4.1s ease-in-out infinite .3s; }
+.srv-roll-item:hover .srv-roll-particle--3 { animation: floatY 3.7s ease-in-out infinite .6s; }
+.srv-roll-item:hover .srv-roll-icon {
+  color: #fff !important;
+  background: linear-gradient(155deg, color-mix(in srgb, var(--accent) 85%, transparent) 0%, var(--accent-dim) 130%) !important;
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent) !important;
+}
+.srv-roll-item:hover .srv-roll-index {
+  color: var(--accent, #60A5FA) !important;
+}
+.srv-roll-item:hover .srv-roll-title {
+  color: #fff !important;
+}
+.srv-roll-item:hover .srv-roll-desc,
+.srv-roll-item:hover .srv-roll-features,
+.srv-roll-item:hover .srv-roll-cta {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PROGRESS RAIL
+   ═══════════════════════════════════════════════════════════════════ */
+.srv-rail {
+  position: sticky;
+  top: calc(var(--roll-base) + 6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.srv-rail-dot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.srv-rail-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: rgba(148,163,184,.45);
+  background: rgba(148,163,184,.06);
+  border: 1px solid rgba(148,163,184,.16);
+  transition: color .4s ease, background .4s ease, border-color .4s ease;
+}
+.srv-rail-dot.is-active .srv-rail-num {
+  color: #fff !important;
+  background: linear-gradient(155deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 60%, #000) 130%) !important;
+  border-color: color-mix(in srgb, var(--accent) 70%, transparent) !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent) !important;
+}
+.srv-rail-dot.is-passed .srv-rail-num {
+  color: rgba(148,163,184,.6) !important;
+  background: rgba(148,163,184,.1) !important;
+}
+
+.srv-rail-line {
+  width: 2px;
+  height: 26px;
+  border-radius: 2px;
+  background: rgba(148,163,184,.14);
+  overflow: hidden;
+  position: relative;
+}
+.srv-rail-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform .5s ease;
+}
+.srv-rail-dot.is-active .srv-rail-line::after {
+  transform: scaleY(.6) !important;
+}
+.srv-rail-dot.is-passed .srv-rail-line::after {
+  transform: scaleY(1) !important;
+  background: rgba(148,163,184,.4) !important;
+}
+.srv-rail-dot:last-child .srv-rail-line { display: none; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .srv-rail { display: none; }
+  .srv-roll-wrap { gap: 0; }
+}
+
+@media (max-width: 900px) {
+  .srv-section--home { padding: 64px 0 24px; --roll-base: 72px; }
+  .srv-section--page { padding: 96px 0 40px; --roll-base: 96px; }
+  .srv-header { margin-bottom: 28px; }
+
+  .srv-roll { --roll-step: 78px; }
+
+  .srv-roll-item { min-height: 92vh; }
+  .srv-roll-inner { padding: 30px 24px 32px; border-radius: 20px; }
+  .srv-roll-bgnum { font-size: 92px; top: -10px; }
+
+  .srv-roll-body { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .srv-roll-icon-wrap { order: -1; width: 64px; height: 64px; margin-left: 0; }
+  .srv-roll-icon { width: 64px; height: 64px; border-radius: 16px; }
+  .srv-roll-icon svg { width: 30px; height: 30px; }
+  .srv-roll-title { font-size: clamp(19px, 4.6vw, 27px); }
+  .srv-roll-headrow { gap: 10px; }
+  .srv-roll-desc { font-size: 13.5px; }
+  .srv-roll-features { grid-template-columns: 1fr; max-width: 420px; }
+}
+
+@media (max-width: 600px) {
+  .srv-container { padding: 0 16px; }
+  .srv-title { font-size: 22px; margin: 10px 0 6px; }
+  .srv-desc { font-size: 12px; }
+
+  .srv-roll { --roll-step: 60px; }
+  .srv-section--home { --roll-base: 64px; }
+  .srv-section--page { --roll-base: 84px; }
+
+  .srv-roll-inner { padding: 20px 16px 26px; border-radius: 16px; }
+  .srv-roll-bgnum { font-size: 68px; }
+  .srv-roll-body { gap: 12px; }
+  .srv-roll-icon-wrap { width: 48px; height: 48px; }
+  .srv-roll-icon { width: 48px; height: 48px; border-radius: 12px; }
+  .srv-roll-icon svg { width: 22px; height: 22px; }
+  .srv-roll-index { font-size: 11px; }
+  .srv-roll-title { font-size: 18px; }
+  .srv-roll-desc { font-size: 13px; margin-top: 14px; }
+  .srv-roll-features { margin-top: 16px; gap: 8px; }
+  .srv-roll-feature { font-size: 12.5px; }
+  .srv-roll-cta { margin-top: 20px; padding: 9px 18px; font-size: 12px; }
+}
+
+/* ─── Reduced motion ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .srv-blob,
+  .srv-eyebrow-dot,
+  .srv-roll-halo,
+  .srv-roll-orbit,
+  .srv-roll-particle {
+    animation: none !important;
+  }
+  .srv-roll-index,
+  .srv-roll-title,
+  .srv-roll-desc,
+  .srv-roll-features,
+  .srv-roll-cta,
+  .srv-roll-inner,
+  .srv-roll-icon,
+  .srv-roll-halo,
+  .srv-roll-orbit,
+  .srv-roll-particle,
+  .srv-roll-bgnum {
+    transition-duration: .01ms !important;
+  }
+}

@@ -1,0 +1,104 @@
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg);
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* ── TOP-LEFT PERCENTAGE COUNTER ── */
+.loader-count-tl {
+  position: absolute;
+  top: 48px;
+  left: 48px;
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.loader-number {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  font-size: clamp(90px, 11vw, 170px);
+  color: var(--white);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.loader-percent {
+  font-family: var(--font-heading);
+  font-weight: 300;
+  font-size: clamp(28px, 3vw, 44px);
+  color: var(--white);
+  margin-top: 12px;
+  margin-left: 4px;
+}
+
+/* ── TOP-RIGHT COMPANY NAME ── */
+.loader-brand-tr {
+  position: absolute;
+  top: 56px;
+  right: 48px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(14px, 1.3vw, 18px);
+  letter-spacing: .04em;
+}
+.loader-brand-tr .brand-white { color: var(--white); }
+.loader-brand-tr .brand-blue { color: var(--blue); }
+
+/* ── BOTTOM-LEFT TAGLINE ── */
+.loader-tagline {
+  position: absolute;
+  bottom: 48px;
+  left: 48px;
+  max-width: 480px;
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: clamp(24px, 3vw, 40px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
+
+/* ── CENTERED CROSSFADING IMAGE STAGE ── */
+.loader-image-stage {
+  position: relative;
+  width: clamp(220px, 24vw, 320px);
+  height: clamp(290px, 32vw, 420px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.loader-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  clip-path: inset(50% 0 50% 0); /* collapsed to a center line — "closed" */
+  transition: clip-path .65s cubic-bezier(.65,0,.35,1), opacity .5s ease;
+}
+
+.loader-img.active {
+  opacity: 1;
+  clip-path: inset(0% 0 0% 0); /* fully revealed — "open" */
+  z-index: 2;
+}
+
+@media (max-width: 640px) {
+  .loader-count-tl { top: 28px; left: 24px; }
+  .loader-number { font-size: clamp(56px, 16vw, 90px); }
+  .loader-brand-tr { top: 32px; right: 24px; }
+  .loader-tagline { bottom: 28px; left: 24px; max-width: 280px; font-size: clamp(20px, 6vw, 28px); }
+}

@@ -1,0 +1,36 @@
+/* src/styles/dark.css */
+/* Dark theme — EXACT values from the current live site. Do not alter. */
+
+[data-theme='dark'] {
+  --bg: #010610;
+  --bg-raised: #0A0F24;
+  --border: rgba(255,255,255,0.08);
+  --dim: #888;
+  --white: #fff;
+  --black: #000;
+
+  --blue: #3a9fff;
+  --blue-glow: rgba(58,159,255,0.7);
+  --blue-1: #1e6fe0;
+  --blue-2: #3b9dff;
+  --blue-soft: #5AA8FF;
+  --ice: #eaf2ff;
+  --text-light: #B6C2D9;
+
+  --icon-color: #ffffff;
+
+  --glass-bg: rgba(255,255,255,0.04);
+  --glass-border: rgba(255,255,255,0.08);
+
+  --shadow-color: rgba(0,0,0,0.6);
+  --shadow-elevated: 0 20px 60px rgba(0,0,0,0.55);
+  --shadow-soft: 0 8px 24px rgba(0,0,0,0.4);
+  /* append to src/styles/dark.css, inside the existing [data-theme='dark'] block */
+
+  --nav-bg: rgba(7,12,24,.75);
+  --nav-bg-filled: rgba(1,6,16,0.88);
+  --nav-border: rgba(255,255,255,.08);
+  --nav-text: #dbe8ff;
+  --nav-text-active: #3d8dff;
+  --nav-brand-text: #fff;
+}

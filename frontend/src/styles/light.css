@@ -1,0 +1,42 @@
+/* src/styles/light.css */
+/* Light theme — premium Apple-style white. Brand blue and gradients are
+   intentionally identical to dark.css and must never diverge. */
+
+[data-theme='light'] {
+  --bg: #ffffff;
+  --bg-raised: #ffffff;
+  --border: rgba(0,0,0,0.08);
+  --dim: #6b7280;
+
+  /* NOTE: components reference var(--white) as the primary text/heading
+     color (not literally "white"). We keep the variable NAME unchanged
+     for compatibility and just repoint its VALUE to near-black in light
+     mode, so no component file needs to be touched. */
+  --white: #0a0a0a;
+  --black: #000;
+
+  --blue: #3a9fff;
+  --blue-glow: rgba(58,159,255,0.7);
+  --blue-1: #1e6fe0;
+  --blue-2: #3b9dff;
+  --blue-soft: #5AA8FF;
+  --ice: #eaf2ff;
+  --text-light: #4b5563;
+
+  --icon-color: #333333;
+
+  --glass-bg: rgba(255,255,255,0.7);
+  --glass-border: rgba(0,0,0,0.06);
+
+  --shadow-color: rgba(0,0,0,0.08);
+  --shadow-elevated: 0 20px 60px rgba(0,0,0,0.08);
+  --shadow-soft: 0 4px 16px rgba(0,0,0,0.06);
+  /* append to src/styles/light.css, inside the existing [data-theme='light'] block */
+
+  --nav-bg: rgba(255,255,255,.75);
+  --nav-bg-filled: rgba(255,255,255,.92);
+  --nav-border: rgba(0,0,0,.08);
+  --nav-text: #2a3242;
+  --nav-text-active: #1e6fe0;
+  --nav-brand-text: #0a0a0a;
+}

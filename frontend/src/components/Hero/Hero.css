@@ -1,0 +1,176 @@
+/* ── HERO (split layout: text left / 3D road right) ── */
+#hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  padding-top: 56px; /* account for navbar */
+}
+
+/* LEFT — text column */
+.hero-left {
+  position: relative;
+  z-index: 10;
+  flex: 0 0 56%;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 40px 40px 80px;
+  margin: 0 auto;
+  background: var(--bg);
+  transform: translateY(5%); /* 👈 adjust this value to move lower */
+}
+
+.h-tag {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 14px;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: up .55s .08s forwards;
+}
+
+.h-head {
+  font-weight: 700;
+  font-size: clamp(1.8rem, 2.4vw, 2.5rem);
+  line-height: 1.18;
+  text-transform: uppercase;
+  letter-spacing: -.015em;
+  color: var(--white);
+  min-height: 3.6em;
+  white-space: normal;
+}
+
+.h-head .dim {
+  color: rgba(255,255,255,.42);
+  display: block;
+}
+
+.h-head .accent-line {
+  background: linear-gradient(90deg, var(--blue-2) 0%, var(--ice) 55%, var(--blue-2) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.typed-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  background: var(--blue);
+  animation: blink .8s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.h-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: up .55s .28s forwards;
+}
+
+.btn-w {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 100px;
+  background: var(--white);
+  color: var(--black);
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background .25s, color .25s, box-shadow .25s;
+}
+
+.btn-w:hover {
+  background: var(--blue);
+  color: var(--white);
+  box-shadow: 0 0 28px var(--blue-glow);
+}
+
+.btn-g {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,.18);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  background: transparent;
+  transition: border-color .25s, color .25s;
+}
+
+.btn-g:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* RIGHT — 3D Hyperspeed column */
+.hero-right {
+  position: relative;
+  flex: 1 1 auto;
+  height: 100%;
+  overflow: hidden;
+  background: #05070d;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      var(--bg) 0%,
+      rgba(1,6,16,0.55) 10%,
+      rgba(1,6,16,0.05) 30%,
+      transparent 55%),
+    linear-gradient(to bottom,
+      rgba(1,6,16,0.35) 0%,
+      transparent 22%,
+      transparent 70%,
+      rgba(1,6,16,0.55) 100%);
+  z-index: 20;
+  pointer-events: none;
+}
+
+@keyframes up {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 980px) {
+  #hero {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  .hero-left {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+    padding: 130px 24px 24px;
+    justify-content: flex-start;
+    transform: none; /* reset on mobile if needed */
+  }
+  .hero-right {
+    flex: 1 1 auto;
+    min-height: 50vh;
+    height: auto;
+  }
+}

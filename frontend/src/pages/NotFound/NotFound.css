@@ -1,0 +1,52 @@
+.not-found-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.not-found-content h1 {
+  font-family: var(--font-display);
+  font-size: 120px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--blue), var(--blue-soft));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 20px;
+  line-height: 1;
+}
+
+.not-found-content h2 {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.not-found-content p {
+  color: var(--text-light);
+  margin-bottom: 32px;
+  font-size: 16px;
+}
+
+.back-home-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: rgba(47,128,255,.1);
+  border: 1px solid rgba(47,128,255,.3);
+  color: var(--blue-soft);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.back-home-btn:hover {
+  background: var(--blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(47,128,255,.2);
+}

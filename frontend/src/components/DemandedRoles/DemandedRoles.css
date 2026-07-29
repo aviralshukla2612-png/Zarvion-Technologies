@@ -1,0 +1,316 @@
+/* ============================================================
+   ZARVION TECHNOLOGIES — "Most Demanded IT Roles"
+   High-performance, minimal CSS – no transitions on transforms
+   ============================================================ */
+
+:root {
+  --bg: #050816;
+  --blue: #2F80FF;
+  --blue-soft: #5AA8FF;
+  --white: #FFFFFF;
+  --text-light: #B6C2D9;
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --card-border: rgba(90, 168, 255, 0.12);
+  --card-border-hi: rgba(90, 168, 255, 0.5);
+  --radius-lg: 24px;
+  --font-display: "Sora", "Space Grotesk", -apple-system, sans-serif;
+  --font-heading: "Space Grotesk", "Sora", -apple-system, sans-serif;
+  --font-body: "Inter", -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.roles-section {
+  position: relative;
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  padding-top: 60px;
+  overflow: visible;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.roles-section::before {
+  content: "";
+  position: absolute;
+  top: -15%;
+  right: -10%;
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient(circle, rgba(47, 128, 255, 0.06) 0%, rgba(47, 128, 255, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.roles-intro {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+  text-align: center;
+}
+
+.roles-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: rgba(47, 128, 255, 0.08);
+  border: 1px solid rgba(90, 168, 255, 0.25);
+  color: var(--blue-soft);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.roles-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue-soft);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.roles-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(36px, 4.5vw, 56px);
+  line-height: 1.08;
+  margin: 24px 0 18px;
+  background: linear-gradient(180deg, var(--white) 0%, #DCE7FF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.roles-desc {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-light);
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+/* --- GSAP handles pinning, no CSS sticky --- */
+.pin-track {
+  position: relative;
+  width: 100%;
+  background: transparent;
+}
+
+.pin-viewport {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1;
+}
+
+.card-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  height: 100%;
+  width: max-content;
+  padding: 0 max(24px, calc((100vw - 460px) / 2));
+  will-change: transform;
+}
+
+.role-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: min(36vw, 460px);
+  height: min(54vh, 420px);
+  min-width: 280px;
+  min-height: 320px;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.4);
+  will-change: transform, opacity;
+  /* No transition on transform/opacity – GSAP handles it */
+  transition: border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.role-card.active {
+  border-color: var(--card-border-hi);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.4), 0 0 60px rgba(47, 128, 255, 0.06);
+}
+
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+}
+
+.card-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(4px) saturate(1.05) contrast(1.02) brightness(0.75);
+  transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-image:hover img,
+.card-image:focus-visible img {
+  filter: blur(0) saturate(1.05) contrast(1.02) brightness(0.9);
+}
+
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 8, 22, 0) 35%, rgba(5, 8, 22, 0.75) 100%),
+    linear-gradient(90deg, rgba(47, 128, 255, 0.2) 0%, rgba(47, 128, 255, 0) 60%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.image-glow {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 80px rgba(47, 128, 255, 0.15);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.role-card.active .image-glow {
+  opacity: 1;
+}
+
+.image-hover-veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 22, 0.3);
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-image:hover .image-hover-veil {
+  opacity: 1;
+}
+
+.image-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 0 clamp(28px, 4vw, 56px) clamp(32px, 4vh, 52px);
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4.2vw, 56px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--white);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(24px) scale(0.96);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  margin: 0;
+}
+
+.card-image:hover .image-title,
+.card-image:focus-visible .image-title {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .role-card {
+    width: min(48vw, 420px);
+    height: min(48vh, 380px);
+  }
+  .card-stage {
+    padding: 0 max(20px, calc((100vw - 420px) / 2));
+    gap: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .roles-section {
+    padding-top: 40px;
+  }
+  .pin-track {
+    height: auto !important;
+  }
+  .pin-viewport {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    padding: 0 0 40px;
+  }
+  .card-stage {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    transform: none !important;
+    gap: 24px;
+    padding: 0 20px;
+  }
+  .role-card {
+    width: 100%;
+    max-width: 400px;
+    height: 280px;
+    min-height: 240px;
+    margin: 0 auto;
+    opacity: 1 !important;
+    transform: none !important;
+    z-index: 1 !important;
+  }
+  .image-title {
+    opacity: 1;
+    transform: none;
+    font-size: 28px;
+    padding: 0 24px 20px;
+  }
+  .image-glow {
+    opacity: 1 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+  .card-image img {
+    filter: blur(0) !important;
+  }
+  .image-title {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

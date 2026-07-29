@@ -1,0 +1,21 @@
+/* src/styles/variables.css */
+/* Shared design tokens only — NO color values here. */
+
+:root {
+  /* Typography */
+  --font-base: 16px;
+  --font-display: "Sora", "Space Grotesk", sans-serif;
+  --font-heading: "Space Grotesk", "Sora", sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* Radius */
+  --radius-lg: 22px;
+  --radius-sm: 12px;
+
+  /* Easing */
+  --ease-out: cubic-bezier(.16,1,.3,1);
+
+  /* Theme transition timing (used globally for smooth dark/light swap) */
+  --theme-dur: 300ms;
+  --theme-ease: ease;
+}
