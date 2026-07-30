@@ -3,6 +3,7 @@
   position: relative;
   height: 100vh;
   display: flex;
+  align-items: center;
   overflow: hidden;
   padding-top: 56px;
   /* account for navbar */
@@ -127,35 +128,35 @@
   color: var(--blue);
 }
 
-/* RIGHT — 3D Hyperspeed column */
+/* RIGHT — 3D Hyperspeed BOX (contained card, not full-bleed) */
 /* Always dark, regardless of light/dark theme — the hyperspeed
    scene, fog, and lighting are tuned against a black backdrop,
    so this column does NOT use var(--bg) like the rest of the page. */
 .hero-right {
   position: relative;
-  flex: 1 1 50%;
-  max-width: 50%;
-  height: 100%;
+  flex: 1 1 46%;
+  max-width: 46%;
+  height: 78%;
+  margin: 0 5vw 0 0;
   overflow: hidden;
   background: #010610;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 70px -24px rgba(0, 0, 0, 0.65);
 }
 
 .veil {
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background:
-    /* Horizontal fade for desktop (smooth transition from text) */
-    linear-gradient(90deg,
-      #010610 0%,
-      rgba(1, 6, 16, 0.7) 15%,
-      transparent 35%),
-    /* Vertical fade for top and bottom */
+    /* Soft vertical fade at top/bottom so the road doesn't cut
+       off harshly against the box's rounded edges */
     linear-gradient(to bottom,
-      #010610 0%,
-      rgba(1, 6, 16, 0.4) 15%,
-      transparent 30%,
-      transparent 70%,
-      #010610 100%);
+      rgba(1, 6, 16, 0.55) 0%,
+      transparent 22%,
+      transparent 78%,
+      rgba(1, 6, 16, 0.55) 100%);
   z-index: 20;
   pointer-events: none;
 }
@@ -170,6 +171,7 @@
 @media (max-width: 980px) {
   #hero {
     flex-direction: column;
+    align-items: stretch;
     height: auto;
     min-height: 100vh;
   }
@@ -186,20 +188,20 @@
 
   .hero-right {
     flex: none;
-    height: 50vh;
-    min-height: 400px;
-    width: 100%;
-    max-width: 100%;
+    height: 42vh;
+    min-height: 320px;
+    width: auto;
+    max-width: none;
+    margin: 0 20px 32px;
+    border-radius: 22px;
   }
 
   .veil {
     background:
-      /* Only vertical fade for mobile to blend with text above and footer below */
       linear-gradient(to bottom,
-        #010610 0%,
-        rgba(1, 6, 16, 0.6) 20%,
-        transparent 40%,
-        transparent 70%,
-        #010610 100%);
+        rgba(1, 6, 16, 0.5) 0%,
+        transparent 25%,
+        transparent 75%,
+        rgba(1, 6, 16, 0.5) 100%);
   }
 }
