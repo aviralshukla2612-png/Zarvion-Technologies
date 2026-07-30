@@ -2,6 +2,12 @@
    Services.css — Zarvion Technologies
    Two-layer layout: normal-flow list provides scroll distance,
    sticky stack overlay animates cards in via GSAP ScrollTrigger.
+   Cards always render collapsed; hover is the ONLY thing that
+   reveals a card's body content (desktop hover, mobile tap via
+   the .is-hovered class toggled in Services.jsx).
+   Body content is forced to opacity:0 + pointer-events:none at
+   rest (in addition to the 0fr grid row) so nothing can bleed
+   through mid-transition or due to browser rendering quirks.
    Light / dark mode via [data-theme].
    ================================================================ */
 
@@ -13,9 +19,7 @@
   display: flex;
   justify-content: center;
 }
-/* Match site's dark bg exactly */
 [data-theme="dark"] .srv-section  { background: #010610; }
-/* Match site's light bg — same grey used across other sections */
 [data-theme="light"] .srv-section { background: #eef1f8; }
 
 .srv-section--home { padding: 80px 0 100px; }
@@ -157,7 +161,6 @@
 .srv-pin {
   position: relative;
   width: 100%;
-  /* min-height fallback before JS sets exact height */
   min-height: 420px;
 }
 
@@ -179,7 +182,7 @@
 .srv-card-inner {
   position: relative;
   width: 100%;
-  min-height: 160px;          /* ensures icon is visible in collapsed state */
+  min-height: 160px;
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 18px;
   overflow: hidden;
@@ -225,14 +228,14 @@
   -webkit-text-stroke-color: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
-/* ── Heading strip — BLANK by default, revealed on hover ─────── */
+/* ── Heading strip — BLANK by default, revealed when hovered ── */
 .srv-card-head {
   display: flex;
   align-items: center;
   gap: 14px;
   height: 64px;
   padding: 0 28px;
-  padding-right: 180px;        /* leave room for preview icon on right */
+  padding-right: 180px;
   position: relative;
   z-index: 1;
 }
@@ -249,7 +252,7 @@
   border-radius: 6px;
   flex-shrink: 0;
   white-space: nowrap;
-  opacity: 0;
+  opacity: 0.4;
   transition: opacity .35s ease, color .35s, background .35s, border-color .35s;
 }
 [data-theme="light"] .srv-card-index {
@@ -277,7 +280,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  opacity: 0;
+  opacity: 0.38;
   transition: opacity .35s ease, color .35s;
 }
 [data-theme="light"] .srv-card-title { color: #0f172a; }
@@ -289,7 +292,9 @@
 [data-theme="light"] .srv-card:hover .srv-card-title,
 [data-theme="light"] .srv-card.is-hovered .srv-card-title { color: #0f172a; }
 
-/* Small icon in heading */
+/* Small icon in heading — force fully hidden + no ghosting at rest.
+   visibility:hidden (with a delayed transition on the way back to
+   hidden) prevents any residual paint/click surface when collapsed. */
 .srv-card-icon-sm {
   flex-shrink: 0;
   width: 36px; height: 36px;
@@ -300,12 +305,15 @@
   background: color-mix(in srgb, var(--accent) 18%, transparent);
   color: var(--accent);
   opacity: 0;
-  transition: opacity .35s ease, background .35s, transform .35s, color .35s;
+  visibility: hidden;
+  transition: opacity .35s ease, visibility 0s linear .35s, background .35s, transform .35s, color .35s;
 }
 .srv-card-icon-sm svg { width: 20px; height: 20px; }
 .srv-card:hover .srv-card-icon-sm,
 .srv-card.is-hovered .srv-card-icon-sm {
   opacity: 1;
+  visibility: visible;
+  transition: opacity .35s ease, visibility 0s linear 0s, background .35s, transform .35s, color .35s;
   background: var(--accent);
   color: #fff;
   transform: scale(1.08);
@@ -328,7 +336,7 @@
   transform: rotate(180deg);
 }
 
-/* ── Card body — hidden, revealed on hover ────────────────────── */
+/* ── Card body — hidden, revealed only on hover ────────────── */
 .srv-card-body {
   display: grid;
   grid-template-rows: 0fr;
@@ -339,10 +347,22 @@
 .srv-card.is-hovered .srv-card-body {
   grid-template-rows: 1fr;
 }
-/* Inner wrapper needed for grid row collapse to work */
+/* Inner wrapper needed for grid row collapse to work.
+   Forced to opacity:0 + pointer-events:none at rest so content
+   cannot visually bleed through or be clickable while collapsed,
+   regardless of how the browser handles the 0fr row mid-transition. */
 .srv-card-body > .srv-card-body-inner {
   min-height: 0;
   overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.srv-card:hover .srv-card-body > .srv-card-body-inner,
+.srv-card.is-hovered .srv-card-body > .srv-card-body-inner {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity .3s ease .1s; /* fades in slightly after the row expands */
 }
 
 .srv-card-body-inner {
@@ -420,7 +440,7 @@
 .srv-card-cta svg { transition: transform .3s; }
 .srv-card-cta:hover svg { transform: translateX(4px); }
 
-/* ── Preview icon — always visible in collapsed state ──────────────
+/* ── Preview icon — visible only in collapsed state ──────────────
    Absolutely positioned inside srv-card-inner (not the heading)
    so it sits in the full card height, centered vertically.
    ---------------------------------------------------------------- */
@@ -437,7 +457,6 @@
   pointer-events: none;
   transition: opacity .35s ease, transform .35s ease;
 }
-/* Fade out the preview icon when card is hovered/expanded */
 .srv-card:hover .srv-card-preview-icon,
 .srv-card.is-hovered .srv-card-preview-icon {
   opacity: 0;
@@ -446,8 +465,6 @@
 }
 
 /* ── Large icon — always visible in card head strip ────────────── */
-
-/* Body icon wrap — normal flow inside body */
 .srv-card-icon-wrap {
   position: relative;
   flex-shrink: 0;
@@ -470,7 +487,6 @@
   0%,100% { opacity: .55; }
   50%      { opacity: 1; }
 }
-/* Body icon — full accent color */
 .srv-card-icon {
   position: relative;
   z-index: 1;
@@ -492,7 +508,6 @@
   transform: scale(1.06);
 }
 
-/* Preview icon overrides — must come after base .srv-card-icon */
 .srv-card-preview-icon .srv-card-icon {
   width: 100px; height: 100px;
   border-radius: 20px;
@@ -527,41 +542,13 @@
   .srv-desc { font-size: 12px; }
   .srv-header { margin-bottom: 32px; }
 
-  /* Mobile: plain vertical list — always show content (no hover on touch) */
-  .srv-pin {
-    min-height: unset !important;
-    height: auto !important;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .srv-card {
-    position: static !important;
-    top: auto !important;
-    z-index: auto !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .srv-card-body {
-    grid-template-rows: 1fr !important;
-    overflow: visible !important;
-  }
-  /* On mobile, heading content stays visible since there's no hover */
-  .srv-card-index,
-  .srv-card-title,
-  .srv-card-icon-sm,
-  .srv-card-arrow {
-    opacity: 1 !important;
-  }
-  /* Hide the preview icon on mobile — body icon always visible */
-  .srv-card-preview-icon { display: none; }
+  .srv-card-head { padding: 0 18px; height: 58px; gap: 10px; }
   .srv-card-body-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
     padding: 4px 18px 22px;
   }
-  .srv-card-head { padding: 0 18px; height: 58px; gap: 10px; }
   .srv-card-icon-wrap { width: 60px; height: 60px; }
   .srv-card-icon { width: 60px; height: 60px; border-radius: 14px; }
   .srv-card-icon svg { width: 28px; height: 28px; }
@@ -569,13 +556,18 @@
   .srv-card-title { font-size: 16px; }
   .srv-card-desc { font-size: 13px; }
   .srv-card-cta { padding: 10px 18px; font-size: 13px; }
-  .srv-card-arrow { display: none; }
+
+  .srv-card-preview-icon { width: 72px; height: 72px; right: 18px; }
+  .srv-card-preview-icon .srv-card-icon { width: 72px; height: 72px; border-radius: 16px; }
+  .srv-card-preview-icon .srv-card-icon svg { width: 34px; height: 34px; }
+  .srv-card-head { padding-right: 100px; }
 }
 
 @media (max-width: 480px) {
   .srv-card-icon-sm { display: none; }
-  .srv-card-head { gap: 8px; padding: 0 14px; }
+  .srv-card-head { gap: 8px; padding: 0 14px; padding-right: 90px; }
   .srv-card-index { font-size: 10px; padding: 2px 7px; }
+  .srv-card-arrow { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

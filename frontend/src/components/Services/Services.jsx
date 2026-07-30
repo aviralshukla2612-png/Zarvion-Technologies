@@ -116,10 +116,13 @@ const SERVICES = [
   },
 ];
 
-const STRIP = 64; // px — collapsed heading height
+const STRIP = 64; // px — collapsed heading height (desktop)
 
 const Services = ({ variant = 'home' }) => {
   const { isDark } = useContext(ThemeContext);
+  // `hovered` is the ONLY thing that drives the expanded state.
+  // Cards always render collapsed by default; hovering (or tapping on
+  // touch devices) is what reveals the body content.
   const [hovered, setHovered] = useState(null);
   const sectionRef = useRef(null);
   const pinRef     = useRef(null);   // element that gets pinned
@@ -132,6 +135,11 @@ const Services = ({ variant = 'home' }) => {
     navigate(`/services/${slug}`);
   };
 
+  const handleCardClick = (i) => {
+    // Touch devices have no hover — tapping pins that card open.
+    setHovered(prev => (prev === i ? null : i));
+  };
+
   useLayoutEffect(() => {
     if (ctxRef.current) { ctxRef.current.revert(); ctxRef.current = null; }
 
@@ -140,41 +148,33 @@ const Services = ({ variant = 'home' }) => {
     if (!pin || !cards.length) return;
 
     const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      gsap.set(cards, { clearProps: 'all' });
-      return;
-    }
+    const strip   = isMobile ? 46 : STRIP;
+    const segment = isMobile ? 120 : 180;
+    const total   = SERVICES.length;
 
     const ctx = gsap.context(() => {
-      const total  = SERVICES.length;
       const cardH  = cards[0].offsetHeight;
-      // Stack height: all strips + one full card
-      const stackH = (total - 1) * STRIP + cardH;
+      const stackH = (total - 1) * strip + cardH;
 
-      // Set stack container height
       pin.style.height = `${stackH}px`;
 
-      // Position all cards: card i sits at top = i * STRIP (stacked downward)
-      // But start them off-screen below, then animate in
       cards.forEach((card, i) => {
         gsap.set(card, {
           position: 'absolute',
-          top: `${i * STRIP}px`,
+          top: `${i * strip}px`,
           left: 0,
           width: '100%',
-          y: 80,        // start below
+          y: 80,
           opacity: 0,
-          zIndex: total - i,
+          zIndex: i + 1,
         });
       });
 
-      // Master timeline — pinned scroll
-      // Each card animates in during its own segment of the scroll
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: `+=${total * 180}`,   // 180px scroll per card
+          end: `+=${total * segment}`,
           scrub: 0.8,
           pin: true,
           pinSpacing: true,
@@ -184,7 +184,7 @@ const Services = ({ variant = 'home' }) => {
       });
 
       cards.forEach((card, i) => {
-        const pos = i / total; // timeline position 0..1
+        const pos = i / total;
         tl.to(card, {
           y: 0,
           opacity: 1,
@@ -198,8 +198,6 @@ const Services = ({ variant = 'home' }) => {
     ctxRef.current = ctx;
     return () => { ctxRef.current?.revert(); ctxRef.current = null; };
   }, [isDark]);
-
-  const total = SERVICES.length;
 
   return (
     <section className={`srv-section srv-section--${variant}`} id="services" ref={sectionRef}>
@@ -221,7 +219,6 @@ const Services = ({ variant = 'home' }) => {
           </p>
         </div>
 
-        {/* Pin target — cards stack inside here */}
         <div className="srv-pin" ref={pinRef}>
           {SERVICES.map((service, i) => {
             const cardBg = isDark ? service.cardBgDark : service.cardBgLight;
@@ -229,10 +226,11 @@ const Services = ({ variant = 'home' }) => {
               <div
                 key={service.id}
                 className={`srv-card${hovered === i ? ' is-hovered' : ''}`}
-                style={{ '--accent': service.accent, zIndex: total - i }}
+                style={{ '--accent': service.accent, zIndex: i + 1 }}
                 ref={el => { cardRefs.current[i] = el; }}
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
+                onClick={() => handleCardClick(i)}
               >
                 <div className="srv-card-inner" style={{ background: cardBg }}>
                   <span className="srv-card-bgnum" aria-hidden="true">{service.id}</span>
