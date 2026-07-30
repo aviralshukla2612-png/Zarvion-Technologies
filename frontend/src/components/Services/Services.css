@@ -15,10 +15,10 @@
    rest (in addition to the 0fr grid row) so nothing can bleed
    through mid-transition.
    Mobile expanded content is shrunk and given a max-height +
-   internal scroll as a safety net, since the pinned section is
-   position:fixed during scroll — anything taller than the
-   viewport would otherwise be unreachable (this was the "card
-   data is cutting off" bug on cards 4-6).
+   internal scroll as a safety net. The pinned section's total
+   height also reserves extra buffer space on mobile (see
+   Services.jsx `expandBuffer`) so an expanded card has room to
+   grow without being clipped by the next section.
    Light / dark mode via [data-theme].
    ================================================================ */
 
@@ -597,7 +597,8 @@
   /* Safety net: if an expanded card is still taller than the
      available viewport during the pin (it's position:fixed while
      scrolling), let it scroll internally instead of clipping
-     content out of reach. This is what fixes cards 4-6 cutting off. */
+     content out of reach. Works together with the pin-height
+     buffer in Services.jsx to fully fix the cards 5/6 cutoff. */
   .srv-card-body {
     max-height: calc(100vh - 220px);
   }

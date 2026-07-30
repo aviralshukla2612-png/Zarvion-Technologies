@@ -153,8 +153,6 @@ const Services = ({ variant = 'home' }) => {
     const isMobile = window.innerWidth <= 768;
     // Smaller strip / scroll segment on mobile so the pinned section
     // doesn't take up an excessive amount of scroll distance.
-    // segment bumped slightly (120 -> 150) to give a bit more scroll
-    // room per card now that the mobile expanded layout is denser.
     const strip   = isMobile ? 46 : STRIP;
     const segment = isMobile ? 150 : 180;
     const total   = SERVICES.length;
@@ -163,7 +161,16 @@ const Services = ({ variant = 'home' }) => {
       const cardH  = cards[0].offsetHeight;
       const stackH = (total - 1) * strip + cardH;
 
-      pin.style.height = `${stackH}px`;
+      // On mobile, an expanded card is significantly taller than its
+      // collapsed strip height. The pinned section's total height
+      // (and the pinSpacing placeholder GSAP inserts below it) must
+      // account for that, or the next section starts right at the
+      // COLLAPSED stack height and clips any card that expands past
+      // that point — this was the cards 5/6 cutoff bug. Reserve a
+      // fixed buffer on mobile only (desktop cards don't grow past
+      // the pin area since they expand sideways, not just downward).
+      const expandBuffer = isMobile ? 480 : 0;
+      pin.style.height = `${stackH + expandBuffer}px`;
 
       cards.forEach((card, i) => {
         gsap.set(card, {
