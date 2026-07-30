@@ -14,6 +14,11 @@
    Body content is forced to opacity:0 + pointer-events:none at
    rest (in addition to the 0fr grid row) so nothing can bleed
    through mid-transition.
+   Mobile expanded content is shrunk and given a max-height +
+   internal scroll as a safety net, since the pinned section is
+   position:fixed during scroll — anything taller than the
+   viewport would otherwise be unreachable (this was the "card
+   data is cutting off" bug on cards 4-6).
    Light / dark mode via [data-theme].
    ================================================================ */
 
@@ -587,32 +592,69 @@
   .srv-desc { font-size: 12px; }
   .srv-header { margin-bottom: 32px; }
 
-  .srv-card-head { padding: 0 18px; height: 58px; gap: 10px; }
-  .srv-card-body-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 4px 18px 22px;
-  }
-  .srv-card-icon-wrap { width: 60px; height: 60px; }
-  .srv-card-icon { width: 60px; height: 60px; border-radius: 14px; }
-  .srv-card-icon svg { width: 28px; height: 28px; }
-  .srv-card-features { grid-template-columns: 1fr; gap: 8px; }
-  .srv-card-title { font-size: 16px; }
-  .srv-card-desc { font-size: 13px; }
-  .srv-card-cta { padding: 10px 18px; font-size: 13px; }
+  .srv-card-head { padding: 0 14px; height: 52px; gap: 8px; }
 
-  .srv-card-preview-icon { width: 72px; height: 72px; right: 18px; }
-  .srv-card-preview-icon .srv-card-icon { width: 72px; height: 72px; border-radius: 16px; }
-  .srv-card-preview-icon .srv-card-icon svg { width: 34px; height: 34px; }
-  .srv-card-head { padding-right: 100px; }
+  /* Safety net: if an expanded card is still taller than the
+     available viewport during the pin (it's position:fixed while
+     scrolling), let it scroll internally instead of clipping
+     content out of reach. This is what fixes cards 4-6 cutting off. */
+  .srv-card-body {
+    max-height: calc(100vh - 220px);
+  }
+  .srv-card-body > .srv-card-body-inner {
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .srv-card-body-inner {
+    flex-direction: column-reverse; /* icon first (smaller), text below */
+    align-items: flex-start;
+    gap: 10px;
+    padding: 4px 16px 18px;
+  }
+
+  /* Icon shrunk hard on mobile — it's already shown as the preview
+     icon when collapsed, so the body copy doesn't need to repeat
+     it at full size. */
+  .srv-card-icon-wrap { width: 42px; height: 42px; }
+  .srv-card-icon { width: 42px; height: 42px; border-radius: 10px; }
+  .srv-card-icon svg { width: 20px; height: 20px; }
+  .srv-card-halo { display: none; }
+
+  .srv-card-title { font-size: 15px; }
+  .srv-card-desc  { font-size: 12.5px; line-height: 1.55; margin-bottom: 10px; }
+
+  .srv-card-features {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .srv-card-feature { font-size: 12px; gap: 7px; }
+  .srv-card-feature-icon { width: 16px; height: 16px; }
+  .srv-card-feature-icon svg { width: 8px; height: 8px; }
+
+  .srv-card-cta { padding: 9px 16px; font-size: 12.5px; }
+
+  .srv-card-preview-icon { width: 60px; height: 60px; right: 14px; }
+  .srv-card-preview-icon .srv-card-icon { width: 60px; height: 60px; border-radius: 14px; }
+  .srv-card-preview-icon .srv-card-icon svg { width: 28px; height: 28px; }
+  .srv-card-head { padding-right: 84px; }
 }
 
 @media (max-width: 480px) {
   .srv-card-icon-sm { display: none; }
-  .srv-card-head { gap: 8px; padding: 0 14px; padding-right: 90px; }
-  .srv-card-index { font-size: 10px; padding: 2px 7px; }
+  .srv-card-head { gap: 6px; padding: 0 12px; padding-right: 74px; }
+  .srv-card-index { font-size: 9px; padding: 2px 6px; }
   .srv-card-arrow { display: none; }
+
+  .srv-card-body,
+  .srv-card-body > .srv-card-body-inner {
+    max-height: calc(100vh - 190px);
+  }
+  .srv-card-preview-icon { width: 50px; height: 50px; right: 12px; }
+  .srv-card-preview-icon .srv-card-icon { width: 50px; height: 50px; border-radius: 12px; }
+  .srv-card-preview-icon .srv-card-icon svg { width: 24px; height: 24px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

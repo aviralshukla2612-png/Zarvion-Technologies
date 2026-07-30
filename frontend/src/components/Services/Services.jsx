@@ -151,8 +151,12 @@ const Services = ({ variant = 'home' }) => {
     if (!pin || !cards.length) return;
 
     const isMobile = window.innerWidth <= 768;
+    // Smaller strip / scroll segment on mobile so the pinned section
+    // doesn't take up an excessive amount of scroll distance.
+    // segment bumped slightly (120 -> 150) to give a bit more scroll
+    // room per card now that the mobile expanded layout is denser.
     const strip   = isMobile ? 46 : STRIP;
-    const segment = isMobile ? 120 : 180;
+    const segment = isMobile ? 150 : 180;
     const total   = SERVICES.length;
 
     const ctx = gsap.context(() => {
