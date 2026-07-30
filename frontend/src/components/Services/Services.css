@@ -1,101 +1,27 @@
-/* ═══════════════════════════════════════════════════════════════════
+/* ================================================================
    Services.css — Zarvion Technologies
-   Sticky stacking scroll effect (houseofyellow.nl-style)
-   Rich card visuals: icon illustration, orbit rings, particles,
-   halo/shimmer glow, feature list, CTA, bg number, rail.
+   Two-layer layout: normal-flow list provides scroll distance,
+   sticky stack overlay animates cards in via GSAP ScrollTrigger.
+   Light / dark mode via [data-theme].
+   ================================================================ */
 
-   FIX IN THIS PASS
-   ---------------------------------------------------------
-   The card content (description, feature list, CTA, active icon
-   style, active text color) was not appearing even though the
-   `.is-active` class was correctly applied to the right card (the
-   progress rail confirmed this). That means some other CSS in the
-   host app — a Tailwind reset, a duplicate/global rule, or plain
-   source order — was overriding these opacity/color/background
-   rules despite matching class names being present.
-   Every rule below that depends on `.is-active` / `.is-passed` now
-   carries `!important`, so it can no longer lose to unrelated
-   global styles. Nothing else about the mechanic changed.
-   ═══════════════════════════════════════════════════════════════════ */
-
-/* ─── Section wrapper ────────────────────────────────────────────── */
+/* ── Section ──────────────────────────────────────────────────── */
 .srv-section {
-  /* LIGHT MODE DEFAULTS */
-  --srv-bg: var(--bg);
-  --srv-card-bg: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  --srv-card-border: var(--border);
-  --srv-card-border-passed: rgba(0, 0, 0, 0.05);
-  --srv-card-shadow: rgba(0, 0, 0, 0.08);
-  --srv-text-main: var(--text-h);
-  --srv-text-muted: var(--text);
-  --srv-title-inactive: rgba(0, 0, 0, 0.25);
-  --srv-bgnum-stroke: rgba(0, 0, 0, 0.05);
-  --srv-mini-header-bg: rgba(255, 255, 255, 0.85);
-  --srv-icon-bg: rgba(0, 0, 0, 0.03);
-  --srv-icon-border: rgba(0, 0, 0, 0.08);
-  --srv-icon-color: rgba(0, 0, 0, 0.4);
-  --srv-rail-num-bg: rgba(0, 0, 0, 0.03);
-  --srv-rail-num-border: rgba(0, 0, 0, 0.1);
-  --srv-rail-num-color: rgba(0, 0, 0, 0.4);
-  --srv-rail-num-bg-passed: rgba(0, 0, 0, 0.06);
-  --srv-rail-line: rgba(0, 0, 0, 0.08);
-  --srv-rail-line-passed: rgba(0, 0, 0, 0.2);
-  --srv-active-text: #fff;
-
   position: relative;
-  background: var(--srv-bg);
+  background: var(--bg, #010610);
   overflow: visible;
   display: flex;
   justify-content: center;
 }
+/* Match site's dark bg exactly */
+[data-theme="dark"] .srv-section  { background: #010610; }
+/* Match site's light bg — same grey used across other sections */
+[data-theme="light"] .srv-section { background: #eef1f8; }
 
-[data-theme='dark'] .srv-section {
-  --srv-bg: #010610;
-  --srv-card-bg: linear-gradient(180deg, #050B18 0%, #030913 100%);
-  --srv-card-border: rgba(148,163,184,.12);
-  --srv-card-border-passed: rgba(148,163,184,.08);
-  --srv-card-shadow: rgba(0,0,0,.6);
-  --srv-text-main: #fff;
-  --srv-text-muted: #94A3B8;
-  --srv-title-inactive: rgba(148,163,184,.35);
-  --srv-bgnum-stroke: rgba(148,163,184,.10);
-  --srv-mini-header-bg: rgba(1,6,16,.72);
-  --srv-icon-bg: rgba(148,163,184,.06);
-  --srv-icon-border: rgba(148,163,184,.14);
-  --srv-icon-color: rgba(148,163,184,.55);
-  --srv-rail-num-bg: rgba(148,163,184,.06);
-  --srv-rail-num-border: rgba(148,163,184,.16);
-  --srv-rail-num-color: rgba(148,163,184,.45);
-  --srv-rail-num-bg-passed: rgba(148,163,184,.1);
-  --srv-rail-line: rgba(148,163,184,.14);
-  --srv-rail-line-passed: rgba(148,163,184,.4);
-  --srv-active-text: #fff;
-}
+.srv-section--home { padding: 80px 0 100px; }
+.srv-section--page { padding: 130px 0 100px; }
 
-.srv-section--home {
-  padding: 96px 0 40px;
-  --roll-base: 88px;
-}
-
-.srv-section--page {
-  padding: 130px 0 60px;
-  --roll-base: 122px;
-}
-
-/* ─── Container ──────────────────────────────────────────────────── */
-.srv-container {
-  position: relative;
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 2;
-}
-
-/* ─── Ambient grid ────────────────────────────────────────────────── */
+/* ── Grid bg ──────────────────────────────────────────────────── */
 .srv-grid-bg {
   position: absolute;
   inset: 0;
@@ -106,8 +32,13 @@
   pointer-events: none;
   z-index: 0;
 }
+[data-theme="light"] .srv-grid-bg {
+  background-image:
+    linear-gradient(rgba(59,130,246,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,.07) 1px, transparent 1px);
+}
 
-/* ─── Glow blobs ──────────────────────────────────────────────────── */
+/* ── Blobs ────────────────────────────────────────────────────── */
 .srv-blob {
   position: absolute;
   border-radius: 50%;
@@ -116,34 +47,47 @@
   z-index: 0;
 }
 .srv-blob--a {
-  width: 560px;
-  height: 560px;
+  width: 560px; height: 560px;
   background: radial-gradient(circle, rgba(59,130,246,.14) 0%, transparent 70%);
-  top: -120px;
-  right: -80px;
+  top: -120px; right: -80px;
   animation: blobDrift 14s ease-in-out infinite alternate;
 }
 .srv-blob--b {
-  width: 460px;
-  height: 460px;
+  width: 460px; height: 460px;
   background: radial-gradient(circle, rgba(96,165,250,.10) 0%, transparent 70%);
-  bottom: -100px;
-  left: -60px;
+  bottom: -100px; left: -60px;
   animation: blobDrift 18s ease-in-out infinite alternate-reverse;
 }
+[data-theme="light"] .srv-blob--a {
+  background: radial-gradient(circle, rgba(59,130,246,.12) 0%, transparent 70%);
+}
+[data-theme="light"] .srv-blob--b {
+  background: radial-gradient(circle, rgba(96,165,250,.10) 0%, transparent 70%);
+}
 @keyframes blobDrift {
-  from { transform: translate3d(0,0,0) scale(1);        }
+  from { transform: translate3d(0,0,0) scale(1); }
   to   { transform: translate3d(30px,40px,0) scale(1.1); }
 }
 
-/* ─── Header ──────────────────────────────────────────────────────── */
-.srv-header {
+/* ── Container ────────────────────────────────────────────────── */
+.srv-container {
   position: relative;
-  z-index: 10;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.srv-header {
   text-align: center;
   max-width: 700px;
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 52px;
 }
 .srv-eyebrow {
   display: inline-flex;
@@ -160,660 +104,483 @@
   padding: 5px 16px 5px 12px;
   border-radius: 100px;
 }
+[data-theme="light"] .srv-eyebrow {
+  color: #2563eb;
+  background: rgba(37,99,235,.08);
+  border-color: rgba(37,99,235,.22);
+}
 .srv-eyebrow-dot {
-  width: 6px;
-  height: 6px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: #60A5FA;
   box-shadow: 0 0 12px rgba(96,165,250,.6);
   animation: dotPulse 2s ease-in-out infinite;
 }
+[data-theme="light"] .srv-eyebrow-dot { background: #2563eb; }
 @keyframes dotPulse {
-  0%,100% { opacity:.5; transform:scale(1);    }
+  0%,100% { opacity:.5; transform:scale(1); }
   50%      { opacity:1;  transform:scale(1.35); }
 }
 .srv-title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(28px,4.5vw,48px);
   font-weight: 700;
-  color: var(--srv-text-main);
+  color: #fff;
   letter-spacing: -.025em;
   margin: 14px 0 10px;
   line-height: 1.1;
 }
+[data-theme="light"] .srv-title { color: #0f172a; }
 .srv-title--accent {
   background: linear-gradient(125deg, #3B82F6 10%, #60A5FA 60%, #93C5FD 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+[data-theme="light"] .srv-title--accent {
+  background: linear-gradient(125deg, #1d4ed8 10%, #3b82f6 60%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
 .srv-desc {
   font-size: 14px;
   line-height: 1.6;
-  color: var(--srv-text-muted);
+  color: rgba(148,163,184,.8);
   max-width: 480px;
   margin: 0 auto;
 }
+[data-theme="light"] .srv-desc { color: #475569; }
 
-/* ═══════════════════════════════════════════════════════════════════
-   MINI STICKY HEADER
-   ═══════════════════════════════════════════════════════════════════ */
-.srv-mini-header {
-  position: sticky;
-  top: calc(var(--roll-base) - 24px);
-  z-index: 30;
+/* ================================================================
+   PIN CONTAINER — height set by JS, cards absolutely positioned
+   ================================================================ */
+.srv-pin {
+  position: relative;
+  width: 100%;
+  /* min-height fallback before JS sets exact height */
+  min-height: 420px;
+}
+
+/* ================================================================
+   CARD
+   ================================================================ */
+.srv-card {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  pointer-events: all;
+  cursor: pointer;
+  will-change: transform, opacity;
+  transition: z-index 0s;
+}
+.srv-card.is-hovered { z-index: 100 !important; }
+
+/* ── Card inner ───────────────────────────────────────────── */
+.srv-card-inner {
+  position: relative;
+  width: 100%;
+  min-height: 160px;          /* ensures icon is visible in collapsed state */
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px -12px rgba(0,0,0,0.5);
+  transition: border-color .35s ease, box-shadow .35s ease, transform .35s ease;
+}
+[data-theme="light"] .srv-card-inner {
+  border-color: rgba(0,0,0,0.07);
+  box-shadow: 0 4px 20px -6px rgba(0,0,0,0.1);
+}
+.srv-card:hover .srv-card-inner {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  box-shadow:
+    0 20px 60px -16px color-mix(in srgb, var(--accent) 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent) inset;
+  transform: translateY(-3px);
+}
+[data-theme="light"] .srv-card:hover .srv-card-inner {
+  box-shadow:
+    0 16px 48px -12px color-mix(in srgb, var(--accent) 20%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent) inset;
+}
+
+/* ── Watermark number ─────────────────────────────────────────── */
+.srv-card-bgnum {
+  position: absolute;
+  top: -16px; right: 20px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 160px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.05);
+  pointer-events: none;
+  user-select: none;
+  transition: -webkit-text-stroke-color .4s ease;
+  z-index: 0;
+}
+[data-theme="light"] .srv-card-bgnum {
+  -webkit-text-stroke-color: rgba(0,0,0,0.04);
+}
+.srv-card:hover .srv-card-bgnum {
+  -webkit-text-stroke-color: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+/* ── Heading strip — BLANK by default, revealed on hover ─────── */
+.srv-card-head {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 auto 18px;
-  padding: 8px 18px;
-  border-radius: 100px;
-  background: var(--srv-mini-header-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--srv-icon-border);
-  box-shadow: 0 8px 24px -12px rgba(0,0,0,.15);
+  gap: 14px;
+  height: 64px;
+  padding: 0 28px;
+  padding-right: 180px;        /* leave room for preview icon on right */
+  position: relative;
+  z-index: 1;
 }
-.srv-mini-header-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #60A5FA;
-  box-shadow: 0 0 10px rgba(96,165,250,.6);
-  flex-shrink: 0;
-}
-.srv-mini-header-label {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: .04em;
-  color: var(--srv-text-main);
-  white-space: nowrap;
-}
-.srv-mini-header-count {
+
+.srv-card-index {
   font-family: 'Space Grotesk', monospace;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: .06em;
-  color: #60A5FA;
-  padding-left: 10px;
-  border-left: 1px solid var(--srv-icon-border);
+  letter-spacing: .16em;
+  color: rgba(255,255,255,0.38);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 3px 9px;
+  border-radius: 6px;
+  flex-shrink: 0;
   white-space: nowrap;
+  opacity: 0;
+  transition: opacity .35s ease, color .35s, background .35s, border-color .35s;
+}
+[data-theme="light"] .srv-card-index {
+  color: rgba(15,23,42,0.45);
+  background: rgba(15,23,42,0.05);
+  border-color: rgba(15,23,42,0.12);
+}
+.srv-card:hover .srv-card-index,
+.srv-card.is-hovered .srv-card-index {
+  opacity: 1;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   END-OF-STACK MARKER
-   ═══════════════════════════════════════════════════════════════════ */
-.srv-roll-end {
+.srv-card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(17px, 2vw, 28px);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: rgba(255,255,255,0.88);
+  margin: 0;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity .35s ease, color .35s;
+}
+[data-theme="light"] .srv-card-title { color: #0f172a; }
+.srv-card:hover .srv-card-title,
+.srv-card.is-hovered .srv-card-title {
+  opacity: 1;
+  color: #fff;
+}
+[data-theme="light"] .srv-card:hover .srv-card-title,
+[data-theme="light"] .srv-card.is-hovered .srv-card-title { color: #0f172a; }
+
+/* Small icon in heading */
+.srv-card-icon-sm {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 48px 0 8px;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity .35s ease, background .35s, transform .35s, color .35s;
 }
-.srv-roll-end-line {
-  flex: 1 1 auto;
-  max-width: 120px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--srv-rail-line-passed), transparent);
-}
-.srv-roll-end-label {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--srv-icon-color);
-  white-space: nowrap;
+.srv-card-icon-sm svg { width: 20px; height: 20px; }
+.srv-card:hover .srv-card-icon-sm,
+.srv-card.is-hovered .srv-card-icon-sm {
+  opacity: 1;
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.08);
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   ROLL + RAIL LAYOUT WRAPPER
-   ═══════════════════════════════════════════════════════════════════ */
-.srv-roll-wrap {
-  position: relative;
-  width: 100%;
+/* Chevron */
+.srv-card-arrow {
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.28);
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 32px;
+  align-items: center;
+  opacity: 0;
+  transition: opacity .35s ease, color .35s, transform .35s;
+}
+[data-theme="light"] .srv-card-arrow { color: rgba(15,23,42,0.3); }
+.srv-card:hover .srv-card-arrow,
+.srv-card.is-hovered .srv-card-arrow {
+  opacity: 1;
+  color: var(--accent);
+  transform: rotate(180deg);
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   STICKY STACKING ROLL
-   ═══════════════════════════════════════════════════════════════════ */
-.srv-roll {
-  position: relative;
-  width: 100%;
-  max-width: 1060px;
-  --roll-step: 88px;
-}
-
-.srv-roll-item {
-  position: sticky;
-  top: 88px;
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  padding-top: 4px;
-}
-
-/* ─── Card shell ─────────────────────────────────────────────────── */
-.srv-roll-inner {
-  position: relative;
-  width: 100%;
-  background: var(--srv-card-bg);
-  border: 1px solid var(--srv-card-border);
-  border-radius: 28px;
-  padding: 56px 56px 52px;
+/* ── Card body — hidden, revealed on hover ────────────────────── */
+.srv-card-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .45s cubic-bezier(.4,0,.2,1);
   overflow: hidden;
-  box-shadow: 0 20px 50px -20px var(--srv-card-shadow);
-  transition: border-color .45s ease, box-shadow .45s ease, background .45s ease;
 }
-.srv-roll-item.is-active .srv-roll-inner {
-  border-color: color-mix(in srgb, var(--accent) 45%, transparent) !important;
-  box-shadow: 0 24px 60px -18px color-mix(in srgb, var(--accent) 30%, transparent),
-              0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent) inset !important;
+.srv-card:hover .srv-card-body,
+.srv-card.is-hovered .srv-card-body {
+  grid-template-rows: 1fr;
 }
-
-/* Background number watermark */
-.srv-roll-bgnum {
-  position: absolute;
-  top: -18px;
-  right: 8px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 128px;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--srv-bgnum-stroke);
-  pointer-events: none;
-  user-select: none;
-  transition: -webkit-text-stroke-color .45s ease;
-}
-.srv-roll-item.is-active .srv-roll-bgnum {
-  -webkit-text-stroke-color: color-mix(in srgb, var(--accent) 30%, transparent) !important;
+/* Inner wrapper needed for grid row collapse to work */
+.srv-card-body > .srv-card-body-inner {
+  min-height: 0;
+  overflow: hidden;
 }
 
-/* ─── Body: two columns — text on the left, icon on the right ──────── */
-.srv-roll-body {
-  position: relative;
+.srv-card-body-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-  z-index: 1;
-}
-
-.srv-roll-text {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-/* Icon block: halo + orbit rings + particles + icon */
-.srv-roll-icon-wrap {
-  position: relative;
-  flex-shrink: 0;
-  width: 132px;
-  height: 132px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
-}
-
-.srv-roll-halo {
-  position: absolute;
-  inset: -28px;
-  border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 55%, transparent) 0%, transparent 70%);
-  opacity: 0;
-  transform: scale(.7);
-  transition: opacity .5s ease, transform .5s ease;
-  filter: blur(2px);
-}
-.srv-roll-item.is-active .srv-roll-halo {
-  opacity: .55 !important;
-  transform: scale(1) !important;
-  animation: haloShimmer 3.2s ease-in-out infinite;
-}
-@keyframes haloShimmer {
-  0%,100% { opacity: .45; }
-  50%      { opacity: .75; }
-}
-
-.srv-roll-orbit {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-  opacity: 0;
-  transition: opacity .5s ease;
-}
-.srv-roll-orbit--1 { inset: -20px; }
-.srv-roll-orbit--2 { inset: -42px; border-style: dashed; }
-.srv-roll-item.is-active .srv-roll-orbit {
-  opacity: .5 !important;
-}
-.srv-roll-item.is-active .srv-roll-orbit--1 { animation: spin 10s linear infinite; }
-.srv-roll-item.is-active .srv-roll-orbit--2 { animation: spin 18s linear infinite reverse; }
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-.srv-roll-particle {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  opacity: 0;
-  transition: opacity .5s ease;
-}
-.srv-roll-particle--1 { top: -30px; left: 50%; }
-.srv-roll-particle--2 { bottom: -14px; left: -34px; }
-.srv-roll-particle--3 { bottom: -26px; right: -30px; }
-.srv-roll-item.is-active .srv-roll-particle {
-  opacity: .85 !important;
-}
-.srv-roll-item.is-active .srv-roll-particle--1 { animation: floatY 3.4s ease-in-out infinite; }
-.srv-roll-item.is-active .srv-roll-particle--2 { animation: floatY 4.1s ease-in-out infinite .3s; }
-.srv-roll-item.is-active .srv-roll-particle--3 { animation: floatY 3.7s ease-in-out infinite .6s; }
-@keyframes floatY {
-  0%,100% { transform: translateY(0);   opacity: .5; }
-  50%      { transform: translateY(-6px); opacity: 1;  }
-}
-
-.srv-roll-icon {
+  padding: 4px 28px 32px;
   position: relative;
   z-index: 1;
-  width: 132px;
-  height: 132px;
-  border-radius: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--srv-icon-color);
-  background: var(--srv-icon-bg);
-  border: 1px solid var(--srv-icon-border);
-  transition: color .45s ease, background .45s ease, border-color .45s ease, transform .35s ease;
+  min-height: 0;
 }
-.srv-roll-icon svg { width: 60px; height: 60px; }
-.srv-roll-item.is-active .srv-roll-icon {
-  color: var(--srv-active-text) !important;
-  background: linear-gradient(155deg, color-mix(in srgb, var(--accent) 85%, transparent) 0%, var(--accent-dim) 130%) !important;
-  border-color: color-mix(in srgb, var(--accent) 60%, transparent) !important;
-}
-.srv-roll-item.is-active .srv-roll-text:hover ~ .srv-roll-icon-wrap .srv-roll-icon {
-  transform: scale(1.05);
-}
+.srv-card-text { flex: 1 1 auto; min-width: 0; }
 
-/* ─── Heading row ─────────────────────────────────────────────────── */
-.srv-roll-headrow {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  flex-wrap: wrap;
-  min-width: 0;
+.srv-card-desc {
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(180,200,230,0.82);
+  max-width: 560px;
+  margin: 0 0 18px;
 }
+[data-theme="light"] .srv-card-desc { color: #334155; }
 
-.srv-roll-index {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .18em;
-  color: var(--srv-icon-color);
-  flex-shrink: 0;
-  transition: color .4s ease;
-}
-
-.srv-roll-title {
-  position: relative;
-  display: inline-block;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: clamp(24px, 3.8vw, 42px);
-  line-height: 1.15;
-  letter-spacing: -.02em;
-  color: var(--srv-title-inactive);
-  margin: 0;
-  flex: 1 1 auto;
-  min-width: 160px;
-  cursor: pointer;
-  transition: color .45s ease, letter-spacing .35s ease;
-}
-.srv-roll-item.is-active .srv-roll-title::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 100%;
-  height: 2px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .4s ease;
-}
-.srv-roll-item.is-active .srv-roll-title:hover {
-  color: var(--srv-text-main) !important;
-  letter-spacing: 0;
-}
-.srv-roll-item.is-active .srv-roll-title:hover::after {
-  transform: scaleX(1);
-}
-
-/* ─── Body: only meaningfully visible while the item is active ─── */
-.srv-roll-desc {
-  position: relative;
-  z-index: 1;
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--srv-text-muted);
-  max-width: 620px;
-  margin: 20px 0 0;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity .45s ease, transform .45s ease;
-}
-
-.srv-roll-features {
-  position: relative;
-  z-index: 1;
+.srv-card-features {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, minmax(0,1fr));
   gap: 10px 24px;
-  margin: 22px 0 0;
+  margin: 0 0 22px;
   padding: 0;
-  max-width: 560px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity .5s ease .05s, transform .5s ease .05s;
+  max-width: 500px;
 }
-
-.srv-roll-feature {
+.srv-card-feature {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 13.5px;
+  gap: 9px;
+  font-size: 13px;
   font-weight: 500;
-  color: var(--srv-text-main);
+  color: rgba(220,232,255,0.88);
 }
-
-.srv-roll-feature-icon {
+[data-theme="light"] .srv-card-feature { color: #1e293b; }
+.srv-card-feature-icon {
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: 20px; height: 20px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
 }
-.srv-roll-feature-icon svg { width: 12px; height: 12px; }
+.srv-card-feature-icon svg { width: 10px; height: 10px; }
 
-.srv-roll-cta {
-  position: relative;
-  z-index: 1;
+.srv-card-cta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 26px;
+  gap: 9px;
   padding: 11px 22px;
   border-radius: 100px;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 600;
-  letter-spacing: .01em;
-  color: var(--srv-active-text);
+  color: #fff;
   text-decoration: none;
-  background: linear-gradient(120deg, var(--accent) 0%, var(--accent-dim) 100%);
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity .5s ease .1s, transform .5s ease .1s, filter .3s ease, transform .3s ease;
+  background: var(--accent);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--accent) 38%, transparent);
+  transition: filter .25s, box-shadow .25s, transform .25s;
 }
-.srv-roll-cta:hover {
+.srv-card-cta:hover {
   filter: brightness(1.12);
-  transform: translateY(-1px);
+  box-shadow: 0 6px 26px color-mix(in srgb, var(--accent) 55%, transparent);
+  transform: translateY(-2px);
 }
-.srv-roll-cta svg { transition: transform .3s ease; }
-.srv-roll-cta:hover svg { transform: translateX(3px); }
+.srv-card-cta svg { transition: transform .3s; }
+.srv-card-cta:hover svg { transform: translateX(4px); }
 
-/* ─── Active state ───────────────────────────────────────────────── */
-/* These are the rules that were being silently overridden — hardened
-   with !important so they always win regardless of any conflicting
-   global CSS (Tailwind reset, other stylesheets, source order, etc). */
-.srv-roll-item.is-active .srv-roll-index {
-  color: var(--accent, #60A5FA) !important;
-}
-.srv-roll-item.is-active .srv-roll-title {
-  color: var(--srv-text-main) !important;
-}
-.srv-roll-item.is-active .srv-roll-desc,
-.srv-roll-item.is-active .srv-roll-features,
-.srv-roll-item.is-active .srv-roll-cta {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-/* ─── Passed state (stacked, dimmed, heading-only strip) ───────────── */
-.srv-roll-item.is-passed .srv-roll-index,
-.srv-roll-item.is-passed .srv-roll-title {
-  color: var(--srv-title-inactive) !important;
-}
-.srv-roll-item.is-passed .srv-roll-inner {
-  border-color: var(--srv-card-border-passed) !important;
-  box-shadow: none !important;
-}
-/* A passed card's body must stay hidden too — otherwise, if a global
-   rule ever forces opacity back to 1 on these elements, passed cards
-   would show their (now stale) description/features/CTA underneath
-   the stack instead of just the heading strip. */
-.srv-roll-item.is-passed .srv-roll-desc,
-.srv-roll-item.is-passed .srv-roll-features,
-.srv-roll-item.is-passed .srv-roll-cta {
-  opacity: 0 !important;
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   HOVER REVEAL
-   Hovering any card — active, passed, or not-yet-reached — reveals
-   its full content immediately, on top of (and independent from) the
-   scroll-driven active state above. Placed after the .is-passed rules
-   so it wins the specificity tie (equal specificity, later wins).
-   ═══════════════════════════════════════════════════════════════════ */
-.srv-roll-item:hover .srv-roll-inner {
-  border-color: color-mix(in srgb, var(--accent) 45%, transparent) !important;
-  box-shadow: 0 24px 60px -18px color-mix(in srgb, var(--accent) 30%, transparent),
-              0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent) inset !important;
-}
-.srv-roll-item:hover .srv-roll-bgnum {
-  -webkit-text-stroke-color: color-mix(in srgb, var(--accent) 30%, transparent) !important;
-}
-.srv-roll-item:hover .srv-roll-halo {
-  opacity: .55 !important;
-  transform: scale(1) !important;
-  animation: haloShimmer 3.2s ease-in-out infinite;
-}
-.srv-roll-item:hover .srv-roll-orbit {
-  opacity: .5 !important;
-}
-.srv-roll-item:hover .srv-roll-orbit--1 { animation: spin 10s linear infinite; }
-.srv-roll-item:hover .srv-roll-orbit--2 { animation: spin 18s linear infinite reverse; }
-.srv-roll-item:hover .srv-roll-particle {
-  opacity: .85 !important;
-}
-.srv-roll-item:hover .srv-roll-particle--1 { animation: floatY 3.4s ease-in-out infinite; }
-.srv-roll-item:hover .srv-roll-particle--2 { animation: floatY 4.1s ease-in-out infinite .3s; }
-.srv-roll-item:hover .srv-roll-particle--3 { animation: floatY 3.7s ease-in-out infinite .6s; }
-.srv-roll-item:hover .srv-roll-icon {
-  color: var(--srv-active-text) !important;
-  background: linear-gradient(155deg, color-mix(in srgb, var(--accent) 85%, transparent) 0%, var(--accent-dim) 130%) !important;
-  border-color: color-mix(in srgb, var(--accent) 60%, transparent) !important;
-}
-.srv-roll-item:hover .srv-roll-index {
-  color: var(--accent, #60A5FA) !important;
-}
-.srv-roll-item:hover .srv-roll-title {
-  color: var(--srv-text-main) !important;
-}
-.srv-roll-item:hover .srv-roll-desc,
-.srv-roll-item:hover .srv-roll-features,
-.srv-roll-item:hover .srv-roll-cta {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-/* ═══════════════════════════════════════════════════════════════════
-   PROGRESS RAIL
-   ═══════════════════════════════════════════════════════════════════ */
-.srv-rail {
-  position: sticky;
-  top: calc(var(--roll-base) + 6px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 22px;
-  flex-shrink: 0;
-  padding-top: 4px;
-}
-
-.srv-rail-dot {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.srv-rail-num {
+/* ── Preview icon — always visible in collapsed state ──────────────
+   Absolutely positioned inside srv-card-inner (not the heading)
+   so it sits in the full card height, centered vertically.
+   ---------------------------------------------------------------- */
+.srv-card-preview-icon {
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100px; height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  font-family: 'Space Grotesk', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .04em;
-  color: var(--srv-rail-num-color);
-  background: var(--srv-rail-num-bg);
-  border: 1px solid var(--srv-rail-num-border);
-  transition: color .4s ease, background .4s ease, border-color .4s ease;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity .35s ease, transform .35s ease;
 }
-.srv-rail-dot.is-active .srv-rail-num {
-  color: var(--srv-active-text) !important;
-  background: linear-gradient(155deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 60%, #000) 130%) !important;
-  border-color: color-mix(in srgb, var(--accent) 70%, transparent) !important;
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent) !important;
-}
-.srv-rail-dot.is-passed .srv-rail-num {
-  color: var(--srv-icon-color) !important;
-  background: var(--srv-rail-num-bg-passed) !important;
+/* Fade out the preview icon when card is hovered/expanded */
+.srv-card:hover .srv-card-preview-icon,
+.srv-card.is-hovered .srv-card-preview-icon {
+  opacity: 0;
+  transform: translateY(-50%) scale(0.85);
+  pointer-events: none;
 }
 
-.srv-rail-line {
-  width: 2px;
-  height: 26px;
-  border-radius: 2px;
-  background: var(--srv-rail-line);
-  overflow: hidden;
+/* ── Large icon — always visible in card head strip ────────────── */
+
+/* Body icon wrap — normal flow inside body */
+.srv-card-icon-wrap {
   position: relative;
+  flex-shrink: 0;
+  width: 120px; height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.srv-rail-line::after {
-  content: '';
+
+.srv-card-halo {
   position: absolute;
-  inset: 0;
+  inset: -18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 38%, transparent) 0%, transparent 70%);
+  filter: blur(10px);
+  pointer-events: none;
+  animation: haloShimmer 3.2s ease-in-out infinite;
+}
+@keyframes haloShimmer {
+  0%,100% { opacity: .55; }
+  50%      { opacity: 1; }
+}
+/* Body icon — full accent color */
+.srv-card-icon {
+  position: relative;
+  z-index: 1;
+  width: 120px; height: 120px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
   background: var(--accent);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform .5s ease;
+  border: none;
+  box-shadow: 0 8px 28px -8px color-mix(in srgb, var(--accent) 50%, transparent);
+  transition: box-shadow .4s, transform .3s;
 }
-.srv-rail-dot.is-active .srv-rail-line::after {
-  transform: scaleY(.6) !important;
+.srv-card-icon svg { width: 56px; height: 56px; }
+.srv-card:hover .srv-card-icon,
+.srv-card.is-hovered .srv-card-icon {
+  box-shadow: 0 12px 44px -8px color-mix(in srgb, var(--accent) 68%, transparent);
+  transform: scale(1.06);
 }
-.srv-rail-dot.is-passed .srv-rail-line::after {
-  transform: scaleY(1) !important;
-  background: var(--srv-rail-line-passed) !important;
-}
-.srv-rail-dot:last-child .srv-rail-line { display: none; }
 
-/* ═══════════════════════════════════════════════════════════════════
+/* Preview icon overrides — must come after base .srv-card-icon */
+.srv-card-preview-icon .srv-card-icon {
+  width: 100px; height: 100px;
+  border-radius: 20px;
+  color: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: none;
+  transform: none !important;
+}
+.srv-card-preview-icon .srv-card-icon svg { width: 46px; height: 46px; }
+[data-theme="light"] .srv-card-preview-icon .srv-card-icon {
+  color: rgba(15,23,42,0.3);
+  background: rgba(15,23,42,0.04);
+  border-color: rgba(15,23,42,0.1);
+}
+
+/* ================================================================
    RESPONSIVE
-   ═══════════════════════════════════════════════════════════════════ */
-@media (max-width: 1100px) {
-  .srv-rail { display: none; }
-  .srv-roll-wrap { gap: 0; }
-}
-
+   ================================================================ */
 @media (max-width: 900px) {
-  .srv-section--home { padding: 64px 0 24px; --roll-base: 72px; }
-  .srv-section--page { padding: 96px 0 40px; --roll-base: 96px; }
-  .srv-header { margin-bottom: 28px; }
-
-  .srv-roll { --roll-step: 78px; }
-
-  .srv-roll-item { min-height: 92vh; }
-  .srv-roll-inner { padding: 30px 24px 32px; border-radius: 20px; }
-  .srv-roll-bgnum { font-size: 92px; top: -10px; }
-
-  .srv-roll-body { flex-direction: column; align-items: flex-start; gap: 18px; }
-  .srv-roll-icon-wrap { order: -1; width: 64px; height: 64px; margin-left: 0; }
-  .srv-roll-icon { width: 64px; height: 64px; border-radius: 16px; }
-  .srv-roll-icon svg { width: 30px; height: 30px; }
-  .srv-roll-title { font-size: clamp(19px, 4.6vw, 27px); }
-  .srv-roll-headrow { gap: 10px; }
-  .srv-roll-desc { font-size: 13.5px; }
-  .srv-roll-features { grid-template-columns: 1fr; max-width: 420px; }
+  .srv-card-body-inner { gap: 20px; padding: 4px 22px 26px; }
+  .srv-card-icon-wrap { width: 88px; height: 88px; }
+  .srv-card-icon { width: 88px; height: 88px; border-radius: 20px; }
+  .srv-card-icon svg { width: 42px; height: 42px; }
+  .srv-card-title { font-size: clamp(15px, 2.4vw, 22px); }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .srv-section--home { padding: 60px 0 60px; }
   .srv-container { padding: 0 16px; }
   .srv-title { font-size: 22px; margin: 10px 0 6px; }
   .srv-desc { font-size: 12px; }
+  .srv-header { margin-bottom: 32px; }
 
-  .srv-roll { --roll-step: 60px; }
-  .srv-section--home { --roll-base: 64px; }
-  .srv-section--page { --roll-base: 84px; }
-
-  .srv-roll-inner { padding: 20px 16px 26px; border-radius: 16px; }
-  .srv-roll-bgnum { font-size: 68px; }
-  .srv-roll-body { gap: 12px; }
-  .srv-roll-icon-wrap { width: 48px; height: 48px; }
-  .srv-roll-icon { width: 48px; height: 48px; border-radius: 12px; }
-  .srv-roll-icon svg { width: 22px; height: 22px; }
-  .srv-roll-index { font-size: 11px; }
-  .srv-roll-title { font-size: 18px; }
-  .srv-roll-desc { font-size: 13px; margin-top: 14px; }
-  .srv-roll-features { margin-top: 16px; gap: 8px; }
-  .srv-roll-feature { font-size: 12.5px; }
-  .srv-roll-cta { margin-top: 20px; padding: 9px 18px; font-size: 12px; }
+  /* Mobile: plain vertical list — always show content (no hover on touch) */
+  .srv-pin {
+    min-height: unset !important;
+    height: auto !important;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .srv-card {
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .srv-card-body {
+    grid-template-rows: 1fr !important;
+    overflow: visible !important;
+  }
+  /* On mobile, heading content stays visible since there's no hover */
+  .srv-card-index,
+  .srv-card-title,
+  .srv-card-icon-sm,
+  .srv-card-arrow {
+    opacity: 1 !important;
+  }
+  /* Hide the preview icon on mobile — body icon always visible */
+  .srv-card-preview-icon { display: none; }
+  .srv-card-body-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 4px 18px 22px;
+  }
+  .srv-card-head { padding: 0 18px; height: 58px; gap: 10px; }
+  .srv-card-icon-wrap { width: 60px; height: 60px; }
+  .srv-card-icon { width: 60px; height: 60px; border-radius: 14px; }
+  .srv-card-icon svg { width: 28px; height: 28px; }
+  .srv-card-features { grid-template-columns: 1fr; gap: 8px; }
+  .srv-card-title { font-size: 16px; }
+  .srv-card-desc { font-size: 13px; }
+  .srv-card-cta { padding: 10px 18px; font-size: 13px; }
+  .srv-card-arrow { display: none; }
 }
 
-/* ─── Reduced motion ───────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .srv-card-icon-sm { display: none; }
+  .srv-card-head { gap: 8px; padding: 0 14px; }
+  .srv-card-index { font-size: 10px; padding: 2px 7px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .srv-blob,
-  .srv-eyebrow-dot,
-  .srv-roll-halo,
-  .srv-roll-orbit,
-  .srv-roll-particle {
-    animation: none !important;
-  }
-  .srv-roll-index,
-  .srv-roll-title,
-  .srv-roll-desc,
-  .srv-roll-features,
-  .srv-roll-cta,
-  .srv-roll-inner,
-  .srv-roll-icon,
-  .srv-roll-halo,
-  .srv-roll-orbit,
-  .srv-roll-particle,
-  .srv-roll-bgnum {
-    transition-duration: .01ms !important;
-  }
+  .srv-blob, .srv-eyebrow-dot, .srv-card-halo { animation: none !important; }
+  .srv-card { opacity: 1 !important; transform: none !important; }
+  .srv-card-inner, .srv-card-icon, .srv-card-body, .srv-card-arrow { transition-duration: .01ms !important; }
+  .srv-card-index, .srv-card-title, .srv-card-icon-sm, .srv-card-arrow { opacity: 1 !important; }
 }
