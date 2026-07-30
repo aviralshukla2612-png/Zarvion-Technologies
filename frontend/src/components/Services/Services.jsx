@@ -118,6 +118,48 @@ const SERVICES = [
 
 const STRIP = 64; // px — collapsed heading height (desktop)
 
+/**
+ * Measures how much *extra* height an expanded card needs beyond its
+ * collapsed strip slot, by briefly forcing a card open in normal flow
+ * (position: static, visibility: hidden) and reading its real
+ * offsetHeight. Returns 0 on desktop or if measurement isn't possible.
+ *
+ * IMPORTANT: must run BEFORE cards are set to position:absolute by
+ * the GSAP setup below, otherwise the probe card won't lay out at
+ * its natural document height.
+ */
+function measureExpandBuffer(cards, strip, isMobile) {
+  if (!isMobile || !cards.length) return 0;
+
+  const probe = cards[0];
+  const prevClassName = probe.className;
+  const prevStyleText = probe.style.cssText;
+
+  try {
+    probe.classList.add('is-hovered');
+    probe.style.transition = 'none';
+    probe.style.position = 'static';
+    probe.style.visibility = 'hidden';
+
+    // Force reflow so the measurement reflects the expanded state
+    // rather than a stale pre-change layout.
+    // eslint-disable-next-line no-unused-expressions
+    void probe.offsetHeight;
+
+    const expandedH = probe.offsetHeight;
+    const diff = expandedH - strip;
+    return Math.max(0, diff);
+  } catch {
+    return 0;
+  } finally {
+    // Always restore, even if something above throws.
+    probe.className = prevClassName;
+    probe.style.cssText = prevStyleText;
+    // eslint-disable-next-line no-unused-expressions
+    void probe.offsetHeight;
+  }
+}
+
 const Services = ({ variant = 'home' }) => {
   const { isDark } = useContext(ThemeContext);
   // `hovered` is the ONLY thing that drives the expanded state.
@@ -154,23 +196,31 @@ const Services = ({ variant = 'home' }) => {
     // Smaller strip / scroll segment on mobile so the pinned section
     // doesn't take up an excessive amount of scroll distance.
     const strip   = isMobile ? 46 : STRIP;
-    const segment = isMobile ? 150 : 180;
+    const segment = isMobile ? 110 : 180;
     const total   = SERVICES.length;
 
-    const ctx = gsap.context(() => {
+    // Recalculates pin height using a real measurement of the
+    // expanded card instead of a hardcoded guess. Exposed so it can
+    // be re-run on ScrollTrigger refresh (resize / orientation
+    // change), since the expanded height differs by viewport.
+    const applyPinHeight = () => {
       const cardH  = cards[0].offsetHeight;
       const stackH = (total - 1) * strip + cardH;
 
-      // On mobile, an expanded card is significantly taller than its
-      // collapsed strip height. The pinned section's total height
-      // (and the pinSpacing placeholder GSAP inserts below it) must
-      // account for that, or the next section starts right at the
-      // COLLAPSED stack height and clips any card that expands past
-      // that point — this was the cards 5/6 cutoff bug. Reserve a
-      // fixed buffer on mobile only (desktop cards don't grow past
-      // the pin area since they expand sideways, not just downward).
-      const expandBuffer = isMobile ? 480 : 0;
+      // Must measure BEFORE cards are pinned to position:absolute,
+      // so call this only from places where that hasn't happened
+      // yet (initial setup) or where cards have been reset first.
+      const expandBuffer = measureExpandBuffer(cards, strip, isMobile);
+
       pin.style.height = `${stackH + expandBuffer}px`;
+      return { stackH, expandBuffer };
+    };
+
+    const ctx = gsap.context(() => {
+      // Measure BEFORE the collapse loop below switches cards to
+      // position:absolute — otherwise offsetHeight during probing
+      // won't reflect true in-flow expanded height.
+      applyPinHeight();
 
       cards.forEach((card, i) => {
         gsap.set(card, {
@@ -194,6 +244,20 @@ const Services = ({ variant = 'home' }) => {
           pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          // On refresh (resize/orientation change), the expanded
+          // height can differ. Temporarily restore the probe card
+          // to in-flow so remeasuring is accurate, then re-pin it.
+          refreshInit: () => {
+            const probe = cards[0];
+            const prevStyleText = probe.style.cssText;
+            probe.style.position = 'static';
+
+            const { } = applyPinHeight();
+
+            // Put the probe card back into its absolute, pinned
+            // position (matches the gsap.set above for index 0).
+            probe.style.cssText = prevStyleText;
+          },
         },
       });
 
