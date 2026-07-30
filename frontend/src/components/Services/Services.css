@@ -2,12 +2,18 @@
    Services.css — Zarvion Technologies
    Two-layer layout: normal-flow list provides scroll distance,
    sticky stack overlay animates cards in via GSAP ScrollTrigger.
-   Cards always render collapsed; hover is the ONLY thing that
-   reveals a card's body content (desktop hover, mobile tap via
-   the .is-hovered class toggled in Services.jsx).
+   Cards always render collapsed; expansion is driven by:
+     - Desktop (real pointer): CSS :hover, gated behind
+       (hover: hover) and (pointer: fine) so touch devices never
+       match these rules at all.
+     - Touch: the JS-driven .is-hovered class only (single-select
+       tap state from Services.jsx) — this avoids the mobile
+       "sticky :hover" bug where a stale hover match on one card
+       combines with a tapped-open card on another, producing
+       overlapping/double-exposed content.
    Body content is forced to opacity:0 + pointer-events:none at
    rest (in addition to the 0fr grid row) so nothing can bleed
-   through mid-transition or due to browser rendering quirks.
+   through mid-transition.
    Light / dark mode via [data-theme].
    ================================================================ */
 
@@ -193,18 +199,6 @@
   border-color: rgba(0,0,0,0.07);
   box-shadow: 0 4px 20px -6px rgba(0,0,0,0.1);
 }
-.srv-card:hover .srv-card-inner {
-  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-  box-shadow:
-    0 20px 60px -16px color-mix(in srgb, var(--accent) 28%, transparent),
-    0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent) inset;
-  transform: translateY(-3px);
-}
-[data-theme="light"] .srv-card:hover .srv-card-inner {
-  box-shadow:
-    0 16px 48px -12px color-mix(in srgb, var(--accent) 20%, transparent),
-    0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent) inset;
-}
 
 /* ── Watermark number ─────────────────────────────────────────── */
 .srv-card-bgnum {
@@ -224,11 +218,8 @@
 [data-theme="light"] .srv-card-bgnum {
   -webkit-text-stroke-color: rgba(0,0,0,0.04);
 }
-.srv-card:hover .srv-card-bgnum {
-  -webkit-text-stroke-color: color-mix(in srgb, var(--accent) 18%, transparent);
-}
 
-/* ── Heading strip — BLANK by default, revealed when hovered ── */
+/* ── Heading strip — BLANK by default, revealed when hovered/tapped ── */
 .srv-card-head {
   display: flex;
   align-items: center;
@@ -260,7 +251,6 @@
   background: rgba(15,23,42,0.05);
   border-color: rgba(15,23,42,0.12);
 }
-.srv-card:hover .srv-card-index,
 .srv-card.is-hovered .srv-card-index {
   opacity: 1;
   color: var(--accent);
@@ -284,17 +274,13 @@
   transition: opacity .35s ease, color .35s;
 }
 [data-theme="light"] .srv-card-title { color: #0f172a; }
-.srv-card:hover .srv-card-title,
 .srv-card.is-hovered .srv-card-title {
   opacity: 1;
   color: #fff;
 }
-[data-theme="light"] .srv-card:hover .srv-card-title,
 [data-theme="light"] .srv-card.is-hovered .srv-card-title { color: #0f172a; }
 
-/* Small icon in heading — force fully hidden + no ghosting at rest.
-   visibility:hidden (with a delayed transition on the way back to
-   hidden) prevents any residual paint/click surface when collapsed. */
+/* Small icon in heading — force fully hidden + no ghosting at rest */
 .srv-card-icon-sm {
   flex-shrink: 0;
   width: 36px; height: 36px;
@@ -309,7 +295,6 @@
   transition: opacity .35s ease, visibility 0s linear .35s, background .35s, transform .35s, color .35s;
 }
 .srv-card-icon-sm svg { width: 20px; height: 20px; }
-.srv-card:hover .srv-card-icon-sm,
 .srv-card.is-hovered .srv-card-icon-sm {
   opacity: 1;
   visibility: visible;
@@ -329,28 +314,25 @@
   transition: opacity .35s ease, color .35s, transform .35s;
 }
 [data-theme="light"] .srv-card-arrow { color: rgba(15,23,42,0.3); }
-.srv-card:hover .srv-card-arrow,
 .srv-card.is-hovered .srv-card-arrow {
   opacity: 1;
   color: var(--accent);
   transform: rotate(180deg);
 }
 
-/* ── Card body — hidden, revealed only on hover ────────────── */
+/* ── Card body — hidden, revealed only on hover/tap ────────────── */
 .srv-card-body {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows .45s cubic-bezier(.4,0,.2,1);
   overflow: hidden;
 }
-.srv-card:hover .srv-card-body,
 .srv-card.is-hovered .srv-card-body {
   grid-template-rows: 1fr;
 }
 /* Inner wrapper needed for grid row collapse to work.
    Forced to opacity:0 + pointer-events:none at rest so content
-   cannot visually bleed through or be clickable while collapsed,
-   regardless of how the browser handles the 0fr row mid-transition. */
+   cannot visually bleed through or be clickable while collapsed. */
 .srv-card-body > .srv-card-body-inner {
   min-height: 0;
   overflow: hidden;
@@ -358,11 +340,10 @@
   pointer-events: none;
   transition: opacity .25s ease;
 }
-.srv-card:hover .srv-card-body > .srv-card-body-inner,
 .srv-card.is-hovered .srv-card-body > .srv-card-body-inner {
   opacity: 1;
   pointer-events: auto;
-  transition: opacity .3s ease .1s; /* fades in slightly after the row expands */
+  transition: opacity .3s ease .1s;
 }
 
 .srv-card-body-inner {
@@ -457,7 +438,6 @@
   pointer-events: none;
   transition: opacity .35s ease, transform .35s ease;
 }
-.srv-card:hover .srv-card-preview-icon,
 .srv-card.is-hovered .srv-card-preview-icon {
   opacity: 0;
   transform: translateY(-50%) scale(0.85);
@@ -502,7 +482,6 @@
   transition: box-shadow .4s, transform .3s;
 }
 .srv-card-icon svg { width: 56px; height: 56px; }
-.srv-card:hover .srv-card-icon,
 .srv-card.is-hovered .srv-card-icon {
   box-shadow: 0 12px 44px -8px color-mix(in srgb, var(--accent) 68%, transparent);
   transform: scale(1.06);
@@ -522,6 +501,72 @@
   color: rgba(15,23,42,0.3);
   background: rgba(15,23,42,0.04);
   border-color: rgba(15,23,42,0.1);
+}
+
+/* ================================================================
+   HOVER — real pointer devices only. Touch devices rely solely on
+   the JS-driven .is-hovered class above (single-select tap state)
+   to avoid the mobile "sticky :hover" bug where a stale hover
+   match on one card combines with a tapped-open card on another,
+   producing overlapping/double-exposed content.
+   ================================================================ */
+@media (hover: hover) and (pointer: fine) {
+  .srv-card:hover .srv-card-inner {
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    box-shadow:
+      0 20px 60px -16px color-mix(in srgb, var(--accent) 28%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent) inset;
+    transform: translateY(-3px);
+  }
+  [data-theme="light"] .srv-card:hover .srv-card-inner {
+    box-shadow:
+      0 16px 48px -12px color-mix(in srgb, var(--accent) 20%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent) inset;
+  }
+  .srv-card:hover .srv-card-bgnum {
+    -webkit-text-stroke-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+  .srv-card:hover .srv-card-index {
+    opacity: 1;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+  }
+  .srv-card:hover .srv-card-title {
+    opacity: 1;
+    color: #fff;
+  }
+  [data-theme="light"] .srv-card:hover .srv-card-title { color: #0f172a; }
+  .srv-card:hover .srv-card-icon-sm {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .35s ease, visibility 0s linear 0s, background .35s, transform .35s, color .35s;
+    background: var(--accent);
+    color: #fff;
+    transform: scale(1.08);
+  }
+  .srv-card:hover .srv-card-arrow {
+    opacity: 1;
+    color: var(--accent);
+    transform: rotate(180deg);
+  }
+  .srv-card:hover .srv-card-body {
+    grid-template-rows: 1fr;
+  }
+  .srv-card:hover .srv-card-body > .srv-card-body-inner {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity .3s ease .1s;
+  }
+  .srv-card:hover .srv-card-preview-icon {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.85);
+    pointer-events: none;
+  }
+  .srv-card:hover .srv-card-icon {
+    box-shadow: 0 12px 44px -8px color-mix(in srgb, var(--accent) 68%, transparent);
+    transform: scale(1.06);
+  }
 }
 
 /* ================================================================

@@ -121,8 +121,11 @@ const STRIP = 64; // px — collapsed heading height (desktop)
 const Services = ({ variant = 'home' }) => {
   const { isDark } = useContext(ThemeContext);
   // `hovered` is the ONLY thing that drives the expanded state.
-  // Cards always render collapsed by default; hovering (or tapping on
-  // touch devices) is what reveals the body content.
+  // Cards always render collapsed by default; hovering (desktop) or
+  // tapping (touch, via handleCardClick) is what reveals the body.
+  // On touch devices, CSS :hover is gated off entirely (see CSS file)
+  // so this single state value is the only source of truth — that's
+  // what guarantees exactly one card can ever be expanded at a time.
   const [hovered, setHovered] = useState(null);
   const sectionRef = useRef(null);
   const pinRef     = useRef(null);   // element that gets pinned
