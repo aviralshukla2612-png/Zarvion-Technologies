@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Loader.css';
+import textLogo from '../../assets/images/ZARVION-TECHNOLOGIES-Font.png';
 
 // Placeholder loader imagery — swap these for real shots whenever ready.
 const LOADER_IMAGES = [
@@ -54,7 +55,7 @@ const Loader = ({ onComplete, duration = 4800 }) => {
       </div>
 
       <div className="loader-brand-tr">
-        <span className="brand-white">Zarvion</span> <span className="brand-blue">Technologies</span>
+        <img src={textLogo} alt="Zarvion Technologies" className="loader-text-logo" />
       </div>
 
       <div className="loader-image-stage">
@@ -69,7 +70,7 @@ const Loader = ({ onComplete, duration = 4800 }) => {
         ))}
       </div>
 
-      <h1 className="loader-tagline">Creating experiences beyond expectations...</h1>
+      <h1 className="loader-tagline">Lets connect today and discuss abouth you futurstic growth</h1>
     </div>
   );
 };

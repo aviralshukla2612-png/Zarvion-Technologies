@@ -7,6 +7,7 @@ const About = lazy(() => import('../../components/About/About'));
 const Services = lazy(() => import('../../components/Services/Services'));
 const DemandedRoles = lazy(() => import('../../components/DemandedRoles/DemandedRoles'));
 const Testimonials = lazy(() => import('../../components/Testimonials/Testimonials'));
+const FAQ = lazy(() => import('../../components/FAQ/FAQ'));
 const Contact = lazy(() => import('../../components/Contact/Contact'));
 
 const Home = () => {
@@ -16,8 +17,10 @@ const Home = () => {
         <Hero />
         <About />
         <Services />
+        {/* No itOnly prop — shows the full interleaved IT + non-IT list */}
         <DemandedRoles />
         <Testimonials />
+        <FAQ />
         <Contact />
       </Suspense>
     </>

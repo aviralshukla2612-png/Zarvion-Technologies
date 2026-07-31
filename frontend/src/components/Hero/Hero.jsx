@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { BloomEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
 import './Hero.css';
+import textLogo from '../../assets/images/ZARVION-TECHNOLOGIES-Font.png';
 
 // ============================================
 // CSS Styles (for Hyperspeed container)
@@ -43,8 +44,8 @@ const Hyperspeed = ({ effectOptions = {} }) => {
     // Default Options
     // ============================================
     const DEFAULT_EFFECT_OPTIONS = {
-      onSpeedUp: () => {},
-      onSlowDown: () => {},
+      onSpeedUp: () => { },
+      onSlowDown: () => { },
       distortion: 'turbulentDistortion',
       length: 400,
       roadWidth: 10,
@@ -136,11 +137,11 @@ const Hyperspeed = ({ effectOptions = {} }) => {
           let uAmp = mountainUniforms.uAmp.value;
           let distortion = new THREE.Vector3(
             Math.cos(progress * Math.PI * uFreq.x + time) * uAmp.x -
-              Math.cos(movementProgressFix * Math.PI * uFreq.x + time) * uAmp.x,
+            Math.cos(movementProgressFix * Math.PI * uFreq.x + time) * uAmp.x,
             nsin(progress * Math.PI * uFreq.y + time) * uAmp.y -
-              nsin(movementProgressFix * Math.PI * uFreq.y + time) * uAmp.y,
+            nsin(movementProgressFix * Math.PI * uFreq.y + time) * uAmp.y,
             nsin(progress * Math.PI * uFreq.z + time) * uAmp.z -
-              nsin(movementProgressFix * Math.PI * uFreq.z + time) * uAmp.z
+            nsin(movementProgressFix * Math.PI * uFreq.z + time) * uAmp.z
           );
           let lookAtAmp = new THREE.Vector3(2, 2, 2);
           let lookAtOffset = new THREE.Vector3(0, 0, -5);
@@ -168,9 +169,9 @@ const Hyperspeed = ({ effectOptions = {} }) => {
           let uAmp = xyUniforms.uAmp.value;
           let distortion = new THREE.Vector3(
             Math.cos(progress * Math.PI * uFreq.x + time) * uAmp.x -
-              Math.cos(movementProgressFix * Math.PI * uFreq.x + time) * uAmp.x,
+            Math.cos(movementProgressFix * Math.PI * uFreq.x + time) * uAmp.x,
             Math.sin(progress * Math.PI * uFreq.y + time + Math.PI / 2) * uAmp.y -
-              Math.sin(movementProgressFix * Math.PI * uFreq.y + time + Math.PI / 2) * uAmp.y,
+            Math.sin(movementProgressFix * Math.PI * uFreq.y + time + Math.PI / 2) * uAmp.y,
             0
           );
           let lookAtAmp = new THREE.Vector3(2, 0.4, 1);
@@ -199,9 +200,9 @@ const Hyperspeed = ({ effectOptions = {} }) => {
           let uAmp = LongRaceUniforms.uAmp.value;
           let distortion = new THREE.Vector3(
             Math.sin(progress * Math.PI * uFreq.x + time) * uAmp.x -
-              Math.sin(camProgress * Math.PI * uFreq.x + time) * uAmp.x,
+            Math.sin(camProgress * Math.PI * uFreq.x + time) * uAmp.x,
             Math.sin(progress * Math.PI * uFreq.y + time) * uAmp.y -
-              Math.sin(camProgress * Math.PI * uFreq.y + time) * uAmp.y,
+            Math.sin(camProgress * Math.PI * uFreq.y + time) * uAmp.y,
             0
           );
           let lookAtAmp = new THREE.Vector3(1, 1, 0);
@@ -1197,8 +1198,8 @@ const Hyperspeed = ({ effectOptions = {} }) => {
 // ============================================
 const hyperspeedPresets = {
   one: {
-    onSpeedUp: () => {},
-    onSlowDown: () => {},
+    onSpeedUp: () => { },
+    onSlowDown: () => { },
     distortion: 'turbulentDistortion',
     length: 400,
     roadWidth: 10,
@@ -1234,8 +1235,8 @@ const hyperspeedPresets = {
     }
   },
   two: {
-    onSpeedUp: () => {},
-    onSlowDown: () => {},
+    onSpeedUp: () => { },
+    onSlowDown: () => { },
     distortion: 'mountainDistortion',
     length: 400,
     roadWidth: 9,
@@ -1271,8 +1272,8 @@ const hyperspeedPresets = {
     }
   },
   three: {
-    onSpeedUp: () => {},
-    onSlowDown: () => {},
+    onSpeedUp: () => { },
+    onSlowDown: () => { },
     distortion: 'xyDistortion',
     length: 400,
     roadWidth: 9,
@@ -1308,8 +1309,8 @@ const hyperspeedPresets = {
     }
   },
   four: {
-    onSpeedUp: () => {},
-    onSlowDown: () => {},
+    onSpeedUp: () => { },
+    onSlowDown: () => { },
     distortion: 'LongRaceDistortion',
     length: 400,
     roadWidth: 10,
@@ -1345,8 +1346,8 @@ const hyperspeedPresets = {
     }
   },
   five: {
-    onSpeedUp: () => {},
-    onSlowDown: () => {},
+    onSpeedUp: () => { },
+    onSlowDown: () => { },
     distortion: 'turbulentDistortion',
     length: 400,
     roadWidth: 9,
@@ -1382,8 +1383,8 @@ const hyperspeedPresets = {
     }
   },
   six: {
-    onSpeedUp: () => {},
-    onSlowDown: () => {},
+    onSpeedUp: () => { },
+    onSlowDown: () => { },
     distortion: 'deepDistortion',
     length: 400,
     roadWidth: 18,
@@ -1423,78 +1424,65 @@ const hyperspeedPresets = {
 // ============================================
 // Hero Component
 // ============================================
+const HERO_DESCRIPTION =
+  "At Z+ Strategies, we don't just help you find a job—we prepare you for a successful career. Through industry-focused training, personalized mentorship, and real-world experience, we equip you with the skills, confidence, and opportunities needed to thrive in today's competitive job market.";
+
 const Hero = () => {
   const typedHeadRef = useRef(null);
   const cursorRef = useRef(null);
 
-  // Typing effect
+  // Typing effect — runs ONCE on mount, then leaves the headline
+  // in place (steady white / gradient), no looping, no re-typing.
   useEffect(() => {
     const el = typedHeadRef.current;
     const cursor = cursorRef.current;
     if (!el || !cursor) return;
 
-    const line1 = 'EMPOWERING AMBITIOUS PROFESSIONALS WITH';
-    const phrases = [
-      'GLOBAL JOB PLACEMENTS.',
-      'TOP IT CAREER SOLUTIONS.',
-      'PREMIUM RECRUITMENT SERVICES.',
-      'CAREER GROWTH WITHOUT LIMITS.',
-      'YOUR DREAM JOB STARTS HERE.',
-      'CONNECTING TALENT GLOBALLY.',
-      'FUTURE-READY CAREERS.',
-      'HIGH-PAYING IT OPPORTUNITIES.',
-      'BUILD YOUR GLOBAL CAREER.'
-    ];
+    const line1 = 'AVIATION OF YOUR CAREER WITH';
+    const accent = 'Z+ STRATEGIES.';
 
     const CHAR_DELAY = 28;
-    const DELETE_DELAY = 18;
-    const HOLD_TIME = 1600;
-    const GAP_TIME = 300;
     const START_DELAY = 500;
+    const LINE_GAP = 200;
 
     let c1 = 0;
-    let pIdx = 0;
     let c2 = 0;
-    let deleting = false;
     let timeoutId;
 
-    const renderText = (line1Part, line2Part) => {
-      el.innerHTML = line1Part + (line1Part ? '<br>' : '') + '<span class="accent-line">' + line2Part + '</span>';
+    const renderTyping = (line1Part, accentPart) => {
+      el.innerHTML =
+        '<span class="h-head-line1">' + line1Part + '</span>' +
+        (line1Part ? '<br>' : '') +
+        '<span class="accent-line">' + accentPart + '</span>';
       el.appendChild(cursor);
+    };
+
+    const finalizeText = () => {
+      cursor.style.display = 'none';
+      el.innerHTML =
+        '<span class="h-head-line1">' + line1 + '</span>' +
+        '<br>' +
+        '<span class="accent-line">' + accent + '</span>';
+    };
+
+    const typeLine2 = () => {
+      if (c2 <= accent.length) {
+        renderTyping(line1, accent.slice(0, c2));
+        c2++;
+        timeoutId = setTimeout(typeLine2, CHAR_DELAY);
+      } else {
+        timeoutId = setTimeout(finalizeText, 400);
+      }
     };
 
     const typeLine1 = () => {
       if (c1 <= line1.length) {
-        renderText(line1.slice(0, c1), '');
+        cursor.style.display = 'inline-block';
+        renderTyping(line1.slice(0, c1), '');
         c1++;
         timeoutId = setTimeout(typeLine1, CHAR_DELAY);
       } else {
-        timeoutId = setTimeout(loopStep, GAP_TIME);
-      }
-    };
-
-    const loopStep = () => {
-      const phrase = phrases[pIdx];
-
-      if (!deleting) {
-        c2++;
-        renderText(line1, phrase.slice(0, c2));
-        if (c2 === phrase.length) {
-          deleting = true;
-          timeoutId = setTimeout(loopStep, HOLD_TIME);
-        } else {
-          timeoutId = setTimeout(loopStep, CHAR_DELAY);
-        }
-      } else {
-        c2--;
-        renderText(line1, phrase.slice(0, c2));
-        if (c2 === 0) {
-          deleting = false;
-          pIdx = (pIdx + 1) % phrases.length;
-          timeoutId = setTimeout(loopStep, GAP_TIME);
-        } else {
-          timeoutId = setTimeout(loopStep, DELETE_DELAY);
-        }
+        timeoutId = setTimeout(typeLine2, LINE_GAP);
       }
     };
 
@@ -1505,18 +1493,36 @@ const Hero = () => {
 
   return (
     <section id="hero">
+      {/* Full-bleed animation layer — rendered first so it sits
+          underneath the text via z-index, spanning the entire
+          hero section with no inner column edge to cut off against */}
+      <div className="hero-right">
+        <Hyperspeed effectOptions={hyperspeedPresets.one} />
+        <div className="veil"></div>
+      </div>
+
       <div className="hero-left">
-        <p className="h-tag">⭐ TECHNOLOGIES</p>
+        <p className="h-tag">
+          ⭐ <img src={textLogo} alt="Zarvion Technologies" className="hero-text-logo" />
+        </p>
         <h1
           className="h-head"
           ref={typedHeadRef}
-          aria-label="Empowering ambitious professionals with world-class career opportunities."
+          aria-label="Aviation of your career with Z+ Strategies."
         ></h1>
         <span ref={cursorRef} className="typed-cursor" style={{ display: 'none' }}></span>
 
+        <p className="hero-desc">
+          {HERO_DESCRIPTION.split(' ').map((word, i) => (
+            <span className="hero-desc-word" key={i}>
+              {word}{' '}
+            </span>
+          ))}
+        </p>
+
         <div className="h-btns">
-          <a href="#demanded" className="btn-w" id="hero-explore">
-            Get Started
+          <a href="#contact" className="btn-w" id="hero-explore">
+            Contact Us
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path
                 d="M7 17 17 7M9 7h8v8"
@@ -1531,11 +1537,6 @@ const Hero = () => {
             Our Services
           </a>
         </div>
-      </div>
-
-      <div className="hero-right">
-        <Hyperspeed effectOptions={hyperspeedPresets.one} />
-        <div className="veil"></div>
       </div>
     </section>
   );

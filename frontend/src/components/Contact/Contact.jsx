@@ -1,8 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Contact.css';
 
+const COUNTRIES = [
+  { code: '+91', iso: 'in' },
+  { code: '+1', iso: 'us' },
+  { code: '+44', iso: 'gb' },
+  { code: '+61', iso: 'au' },
+  { code: '+81', iso: 'jp' },
+  { code: '+971', iso: 'ae' },
+];
+
 const OFFICE_ADDRESS = 'Plot No.71, 4th Floor, Silicon Avenue, Hitech City, Madhapur, Hyderabad, Telangana 500081, India';
 const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(OFFICE_ADDRESS)}`;
+const APPLE_MAP_URL = `http://maps.apple.com/?q=${encodeURIComponent(OFFICE_ADDRESS)}`;
 const PHONE_DISPLAY = '+91 7890012345';
 const PHONE_HREF = 'tel:+917890012345';
 const EMAIL_DISPLAY = 'hello@zarviontechnologies.com';
@@ -19,6 +29,19 @@ const ArrowUpRight = (
 const Contact = () => {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Left column: fade/slide the info items in whenever the section scrolls
   // into view (and re-arms if you scroll away and back).
@@ -101,14 +124,10 @@ const Contact = () => {
                 </div>
               </a>
 
-              {/* Office Address – link to Google Maps */}
-              <a
+              {/* Office Address – link to Google and Apple Maps */}
+              <div
                 className="contact-item contact-item-link reveal-item"
                 style={{ transitionDelay: '0.64s' }}
-                href={MAP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Open office address in Google Maps"
               >
                 <div className="contact-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -116,12 +135,16 @@ const Contact = () => {
                 <div className="contact-item-body">
                   <h4>Office</h4>
                   <p>{OFFICE_ADDRESS}</p>
-                  <span className="contact-item-cta">
-                    Open in Google Maps
-                    {ArrowUpRight}
+                  <span className="contact-item-cta" style={{ display: 'flex', gap: '16px' }}>
+                    <a href={MAP_URL} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      Google Maps {ArrowUpRight}
+                    </a>
+                    <a href={APPLE_MAP_URL} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      Apple Maps {ArrowUpRight}
+                    </a>
                   </span>
                 </div>
-              </a>
+              </div>
             </div>
           </div>
 
@@ -172,23 +195,58 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="form-row">
-                  <div className="form-group reveal-field" style={{ transitionDelay: '0.2s' }}>
-                    <label htmlFor="company">Company Name</label>
-                    <input type="text" id="company" placeholder="Your Company" />
-                  </div>
-                  <div className="form-group reveal-field" style={{ transitionDelay: '0.25s' }}>
-                    <label htmlFor="phone">Phone</label>
-                    <input type="tel" id="phone" placeholder="+91 98765 43210" />
+                <div 
+                  className="form-group reveal-field" 
+                  style={{ transitionDelay: '0.25s', position: 'relative', zIndex: isDropdownOpen ? 100 : 1 }}
+                >
+                  <label htmlFor="phone">Phone</label>
+                  <div className="phone-input-group">
+                    <div className="custom-country-select" ref={dropdownRef}>
+                      <div 
+                        className="country-select-trigger" 
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      >
+                        <img src={`https://flagcdn.com/w20/${selectedCountry.iso}.png`} alt={selectedCountry.iso} />
+                        <span>{selectedCountry.code}</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`chevron ${isDropdownOpen ? 'open' : ''}`}><path d="m6 9 6 6 6-6"/></svg>
+                      </div>
+                      
+                      {isDropdownOpen && (
+                        <div className="country-select-dropdown">
+                          {COUNTRIES.map(c => (
+                            <div 
+                              key={c.code} 
+                              className="country-option"
+                              onClick={() => {
+                                setSelectedCountry(c);
+                                setIsDropdownOpen(false);
+                              }}
+                            >
+                              <img src={`https://flagcdn.com/w20/${c.iso}.png`} alt={c.iso} />
+                              <span>{c.code}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <input 
+                      type="tel" 
+                      id="phone" 
+                      placeholder="98765 43210"
+                      maxLength="10"
+                      onInput={(e) => {
+                        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                      }}
+                    />
                   </div>
                 </div>
 
                 <div className="form-group reveal-field" style={{ transitionDelay: '0.3s' }}>
-                  <label htmlFor="project">Project Details</label>
+                  <label htmlFor="message">Your Message</label>
                   <textarea
-                    id="project"
-                    rows="3"
-                    placeholder="Tell us about your project, goals, timeline, and any specific requirements…"
+                    id="message"
+                    rows="6"
+                    placeholder="Tell us about how we can help you..."
                     required
                   ></textarea>
                 </div>

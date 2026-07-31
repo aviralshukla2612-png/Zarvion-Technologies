@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './Testimonials.css';
 
 const testimonials = [
@@ -59,23 +59,32 @@ const Testimonials = () => {
   const startX = useRef(0);
   const draggingRef = useRef(false);
 
-  const goNext = () => {
+  const goNext = useCallback(() => {
     setOrder(prev => {
       const next = [...prev];
       next.push(next.shift());
       return next;
     });
     setDragX(0);
-  };
+  }, []);
 
-  const goPrev = () => {
+  const goPrev = useCallback(() => {
     setOrder(prev => {
       const next = [...prev];
       next.unshift(next.pop());
       return next;
     });
     setDragX(0);
-  };
+  }, []);
+
+  // Auto-scroll every 3 seconds, paused when the user is actively dragging
+  useEffect(() => {
+    if (dragging) return;
+    const timer = setInterval(() => {
+      goNext();
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [dragging, goNext]);
 
   const onPointerDown = (e) => {
     draggingRef.current = true;
@@ -125,10 +134,6 @@ const Testimonials = () => {
           <h2 className="testimonials-heading">
             What <em>our clients</em> say?
           </h2>
-          <div className="testimonials-rating">
-            <span className="rating-score">4.8</span>
-            <span className="rating-count">Total Reviews</span>
-          </div>
         </div>
 
         <div className="stack-wrap">

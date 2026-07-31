@@ -37,6 +37,10 @@
   justify-self: center;
 }
 
+.nav-links > li {
+  position: relative;
+}
+
 .nav-links a {
   position: relative;
   color: #ffffff !important;
@@ -70,6 +74,136 @@
 .nav-links a:hover::after,
 .nav-links a.active::after {
   transform: scaleX(1);
+}
+
+/* ---------- Career Roles dropdown (desktop) ---------- */
+.nav-dropdown {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  padding-bottom: 6px;
+  cursor: pointer;
+  transition: color .35s;
+  outline: none;
+}
+
+.dropdown-trigger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue-2) 40%, #bfe0ff 100%);
+  box-shadow: 0 0 10px 1px rgba(59, 157, 255, 0.8);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+.dropdown-trigger:hover,
+.dropdown-trigger.active,
+.dropdown-trigger.open {
+  color: var(--blue-soft);
+}
+
+.dropdown-trigger:hover::after,
+.dropdown-trigger.active::after,
+.dropdown-trigger.open::after {
+  transform: scaleX(1);
+}
+
+.dropdown-caret {
+  width: 14px;
+  height: 14px;
+  transition: transform .3s var(--ease-out, ease);
+}
+
+.dropdown-trigger.open .dropdown-caret {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  min-width: 240px;
+  list-style: none;
+  background: #0a0a0a;
+  border: 1px solid rgba(90, 168, 255, 0.18);
+  border-radius: 16px;
+  padding: 10px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .55);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+  z-index: 1000;
+}
+
+.dropdown-menu.open,
+.nav-dropdown:hover .dropdown-menu,
+.nav-dropdown:focus-within .dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* small bridge so moving the cursor from trigger to menu doesn't
+   trip .nav-dropdown:hover losing state on the gap */
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: 0;
+  width: 100%;
+  height: 18px;
+}
+
+.dropdown-menu li + li {
+  margin-top: 4px;
+}
+
+.dropdown-menu a {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #ffffff !important;
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease;
+}
+
+.dropdown-menu a::after { display: none; }
+
+.dropdown-menu a:hover {
+  background: rgba(47, 128, 255, 0.12);
+  color: var(--blue-soft) !important;
+}
+
+.dropdown-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.dropdown-menu a:hover .dropdown-sub {
+  color: rgba(191, 224, 255, 0.75);
 }
 
 /* ---------- Right side ---------- */
@@ -153,7 +287,7 @@
   .brand {
     justify-self: start;
   }
-  
+
   .brand img {
     height: 65px;
   }
@@ -186,9 +320,10 @@
   }
 
   .mobile-menu.open {
-    max-height: 420px;
+    max-height: 560px;
     opacity: 1;
     padding: 20px;
+    overflow-y: auto;
   }
 
   .mobile-menu ul {
@@ -210,6 +345,58 @@
     color: var(--blue-soft) !important;
   }
 
+  /* ---- mobile Career Roles dropdown ---- */
+  .mobile-dropdown-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .mobile-dropdown-trigger.active,
+  .mobile-dropdown-trigger.open {
+    color: var(--blue-soft);
+  }
+
+  .mobile-dropdown-trigger .dropdown-caret {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mobile-dropdown-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding-left: 14px;
+    margin-top: 0;
+    border-left: 2px solid rgba(90, 168, 255, 0.25);
+    transition: max-height .3s ease, opacity .3s ease, margin-top .3s ease;
+  }
+
+  .mobile-dropdown-menu.open {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 14px;
+  }
+
+  .mobile-dropdown-menu a {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
   .mobile-menu-footer {
     display: flex;
     align-items: center;
@@ -223,5 +410,21 @@
   .mobile-menu .nav-btn {
     flex: 1;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 16px;
+  }
+  .brand img {
+    height: 50px;
+  }
+  .hamburger {
+    width: 36px;
+    height: 36px;
+  }
+  .mobile-menu {
+    top: 70px;
   }
 }

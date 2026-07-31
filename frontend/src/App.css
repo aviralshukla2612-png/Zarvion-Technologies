@@ -151,6 +151,14 @@
       box-sizing: border-box;
     }
   }
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+    li {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+  }
 }
 
 #spacer {

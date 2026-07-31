@@ -5,8 +5,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getServiceBySlug } from '../../data/services';
 import './ServiceDetails.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ServiceDetails = () => {
   const { slug } = useParams();
@@ -18,7 +22,26 @@ const ServiceDetails = () => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  // Scroll animations using Intersection Observer
+  const handleTestimonialsMouseMove = (e) => {
+    const cards = e.currentTarget.querySelectorAll('.testimonials-card');
+    cards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+      
+      // Calculate mouse parallax center offset
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
+      card.style.setProperty('--rotate-x', `${rotateX}deg`);
+      card.style.setProperty('--rotate-y', `${rotateY}deg`);
+    });
+  };
+
+  // Scroll animations using Intersection Observer for generic page elements
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -36,7 +59,37 @@ const ServiceDetails = () => {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [slug]);
+
+  // GSAP Smooth Scroll Animation
+  React.useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      const items = gsap.utils.toArray('.process-item');
+      items.forEach((item, i) => {
+        const isOdd = i % 2 === 0;
+        // On mobile, they all come from the left
+        const isMobile = window.innerWidth <= 600;
+        const xOffset = isMobile ? -50 : (isOdd ? -150 : 150);
+
+        gsap.fromTo(item, 
+          { x: xOffset, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: item,
+              start: 'top 90%',
+              end: 'center 50%',
+              scrub: 1, // Smooth scrub effect
+            }
+          }
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, [service]);
 
   // Stats counter animation
   useEffect(() => {
@@ -76,9 +129,7 @@ const ServiceDetails = () => {
     return () => observer.disconnect();
   }, []);
 
-  const handleGetStarted = () => {
-    navigate('/get-started');
-  };
+  // Removed handleGetStarted
 
   if (!service) {
     return (
@@ -136,15 +187,7 @@ const ServiceDetails = () => {
             <p className="service-hero-desc">{service.description}</p>
 
             <div className="service-hero-ctas">
-              <button 
-                onClick={handleGetStarted}
-                className="service-hero-cta service-hero-cta--primary"
-              >
-                Get Started
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </button>
+              {/* Get Started button removed */}
             </div>
 
             <div className="service-hero-stats">
@@ -172,24 +215,6 @@ const ServiceDetails = () => {
           <span className="section-badge">Overview</span>
           <h2 className="section-title">What You'll Get</h2>
           <p className="section-desc">{service.overview}</p>
-        </div>
-      </section>
-
-      {/* ============================================================
-           STATISTICS SECTION
-           ============================================================ */}
-      <section className="stats-section">
-        <div className="stats-grid">
-          {service.stats.map((stat, i) => (
-            <div key={i} className="stats-item animate-on-scroll" style={{ transitionDelay: `${i * 0.15}s` }}>
-              <div className="stats-number">
-                <span className="stat-number" data-target={parseInt(stat.value)} data-suffix={stat.value.includes('%') ? '%' : '+'}>
-                  0
-                </span>
-              </div>
-              <div className="stats-label">{stat.label}</div>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -242,8 +267,8 @@ const ServiceDetails = () => {
 
         <div className="process-timeline">
           {service.process.map((item, i) => (
-            <div key={i} className="process-item animate-on-scroll" style={{ transitionDelay: `${i * 0.1}s` }}>
-              <div className="process-item-dot">{i + 1}</div>
+            <div key={i} className="process-item">
+              <div className="process-item-dot"></div>
               <div className="process-item-content">
                 <h3 className="process-item-title">{item.step}</h3>
                 <p className="process-item-desc">{item.desc}</p>
@@ -255,9 +280,27 @@ const ServiceDetails = () => {
       </section>
 
       {/* ============================================================
+           STATISTICS SECTION
+           ============================================================ */}
+      <section className="stats-section">
+        <div className="stats-grid">
+          {service.stats.map((stat, i) => (
+            <div key={i} className="stats-item animate-on-scroll" style={{ transitionDelay: `${i * 0.15}s` }}>
+              <div className="stats-number">
+                <span className="stat-number" data-target={parseInt(stat.value)} data-suffix={stat.value.includes('%') ? '%' : '+'}>
+                  0
+                </span>
+              </div>
+              <div className="stats-label">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ============================================================
            TESTIMONIALS
            ============================================================ */}
-      <section className="testimonials-section">
+      <section className="testimonials-section" onMouseMove={handleTestimonialsMouseMove}>
         <div className="section-header">
           <span className="section-badge">Testimonials</span>
           <h2 className="section-title">Real <span className="section-title-accent">Results</span></h2>
@@ -308,12 +351,22 @@ const ServiceDetails = () => {
         <div className="cta-content animate-on-scroll">
           <h2 className="cta-title">{service.cta.title}</h2>
           <p className="cta-desc">{service.cta.subtitle}</p>
-          <button onClick={handleGetStarted} className="cta-btn">
-            {service.cta.buttonText}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M13 6l6 6-6 6" />
-            </svg>
-          </button>
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginTop: '32px' }}>
+            <Link to="/contact" className="cta-btn">
+              Contact Us
+            </Link>
+            <a 
+              href="tel:+917890012345" 
+              className="cta-btn" 
+              style={{ 
+                background: 'rgba(255, 255, 255, 0.05)', 
+                border: '1px solid color-mix(in srgb, var(--accent) 30%, transparent)',
+                boxShadow: 'none'
+              }}
+            >
+              Call Us
+            </a>
+          </div>
         </div>
       </section>
 

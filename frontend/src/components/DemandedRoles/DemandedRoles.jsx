@@ -7,8 +7,14 @@ import './DemandedRoles.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const DemandedRoles = () => {
+// filter: 'all' (Home – mixed IT + non-IT), 'it' (IT Roles page), 'non-it' (Non-IT Roles page)
+const DemandedRoles = ({ filter = 'all' }) => {
   const navigate = useNavigate();
+
+  const roles =
+    filter === 'it' ? ROLES.filter((r) => r.type === 'it') :
+      filter === 'non-it' ? ROLES.filter((r) => r.type === 'non-it') :
+        ROLES;
 
   // DOM refs
   const sectionRef = useRef(null);
@@ -17,22 +23,18 @@ const DemandedRoles = () => {
   const stageRef = useRef(null);
   const cardRefs = useRef([]);
 
-  // React state – only for initial render, not animation
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [activeIndex, setActiveIndex] = useState(0); // only used for display, not animation
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  // Animation refs – no React state during scroll
   const ctxRef = useRef(null);
   const activeIndexRef = useRef(0);
   const isMobileRef = useRef(isMobile);
-  const quickSettersRef = useRef([]); // store quickSetters for each card
+  const quickSettersRef = useRef([]);
 
-  // Update mobile ref
   useEffect(() => {
     isMobileRef.current = isMobile;
   }, [isMobile]);
 
-  // Resize handler with debounce
   useEffect(() => {
     let timer;
     const handleResize = () => {
@@ -54,13 +56,12 @@ const DemandedRoles = () => {
     navigate(`/roles/${slug}`);
   }, [navigate]);
 
-  // Main animation setup
   useLayoutEffect(() => {
-    // Clean up previous animation
     if (ctxRef.current) {
       ctxRef.current.revert();
       ctxRef.current = null;
     }
+    cardRefs.current = cardRefs.current.slice(0, roles.length);
 
     const track = trackRef.current;
     const viewport = viewportRef.current;
@@ -71,7 +72,9 @@ const DemandedRoles = () => {
       return;
     }
 
-    // Mobile: stack vertically, no animation
+    activeIndexRef.current = 0;
+    setActiveIndex(0);
+
     if (isMobileRef.current) {
       track.style.height = 'auto';
       stage.style.transform = 'none';
@@ -83,27 +86,15 @@ const DemandedRoles = () => {
       return;
     }
 
-    // --- Desktop: create GSAP context ---
     const ctx = gsap.context(() => {
-      // Measure once
       const cardWidth = cards[0].offsetWidth || 400;
       const gap = 32;
       const step = cardWidth + gap;
-      const totalCards = ROLES.length;
+      const totalCards = roles.length;
       const totalWidth = step * (totalCards - 1);
 
-      // IMPORTANT: don't set an explicit track height here. Track's
-      // natural height already equals the viewport (its child
-      // .pin-viewport is 100vh). ScrollTrigger's pin (with
-      // pinSpacing enabled by default) automatically reserves the
-      // extra `totalWidth` of scroll distance on top of that for us.
-      // Manually adding totalWidth to the track height on top of that
-      // double-counts the scroll distance, producing a long "dead"
-      // stretch of scrolling that feels laggy/jittery. So: leave the
-      // track's height alone and let GSAP own the math.
       track.style.height = '';
 
-      // --- Create quickSetters for each card ---
       const setters = cards.map((card) => ({
         scale: gsap.quickSetter(card, 'scale'),
         opacity: gsap.quickSetter(card, 'opacity'),
@@ -111,7 +102,6 @@ const DemandedRoles = () => {
       }));
       quickSettersRef.current = setters;
 
-      // --- Initial card states ---
       cards.forEach((card, i) => {
         const isActive = i === 0;
         gsap.set(card, {
@@ -123,7 +113,6 @@ const DemandedRoles = () => {
         card.classList.toggle('active', isActive);
       });
 
-      // --- Master timeline ---
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: track,
@@ -135,29 +124,17 @@ const DemandedRoles = () => {
           anticipatePin: 1,
           fastScrollEnd: true,
           onUpdate: () => {
-            // Use the TIMELINE's own (scrubbed/eased) progress here,
-            // not the ScrollTrigger's raw scroll progress. The stage's
-            // x-position is driven by this same timeline, so deriving
-            // scale/opacity/zIndex from tl.progress() keeps every card
-            // property perfectly in sync with where it actually is on
-            // screen — no more desync between the (smoothed) horizontal
-            // slide and the (previously instant) scale/opacity, which
-            // was the real source of the jitter.
             const progress = tl.progress();
             const rawIndex = progress * (totalCards - 1);
             const roundedIndex = Math.round(rawIndex);
 
-            // Update active class and React state only when changed
             if (roundedIndex !== activeIndexRef.current) {
-              // Remove active class from old card
               cards[activeIndexRef.current]?.classList.remove('active');
-              // Add active class to new card
               cards[roundedIndex]?.classList.add('active');
               activeIndexRef.current = roundedIndex;
-              setActiveIndex(roundedIndex); // only if you display it elsewhere
+              setActiveIndex(roundedIndex);
             }
 
-            // Update card properties using quickSetters – super fast
             const setters = quickSettersRef.current;
             for (let i = 0; i < cards.length; i++) {
               const distance = Math.abs(i - rawIndex);
@@ -184,7 +161,6 @@ const DemandedRoles = () => {
         },
       });
 
-      // --- Horizontal slide ---
       tl.fromTo(
         stage,
         { x: 0 },
@@ -196,7 +172,6 @@ const DemandedRoles = () => {
         0
       );
 
-      // --- Hover effects (Apple-style) ---
       cards.forEach((card) => {
         const image = card.querySelector('.card-image');
         if (!image) return;
@@ -244,7 +219,6 @@ const DemandedRoles = () => {
         };
       });
 
-      // Refresh ScrollTrigger
       ScrollTrigger.refresh();
     }, sectionRef);
 
@@ -255,7 +229,6 @@ const DemandedRoles = () => {
         ctxRef.current.revert();
         ctxRef.current = null;
       }
-      // Cleanup hover listeners
       cards.forEach((card) => {
         if (card._cleanupHover) {
           card._cleanupHover();
@@ -264,28 +237,35 @@ const DemandedRoles = () => {
       });
       quickSettersRef.current = [];
     };
-  }, [isMobile]);
+  }, [isMobile, filter, roles.length]);
+
+  const heading =
+    filter === 'it' ? <>Most Demanded <span className="roles-highlight">IT Roles</span></> :
+      filter === 'non-it' ? <>Most Demanded <span className="roles-highlight">Non-IT Roles</span></> :
+        <>Most Demanded <span className="roles-highlight">Career Roles</span></>;
+
+  const description =
+    filter === 'it'
+      ? "Explore today's fastest-growing technology careers and discover the skills, opportunities, and career paths that leading companies are actively hiring for."
+      : filter === 'non-it'
+        ? "Explore high-growth business, marketing, and operations careers and discover the skills, opportunities, and career paths that leading companies are actively hiring for."
+        : "Explore today's fastest-growing careers across technology and business, and discover the skills, opportunities, and career paths that leading companies are actively hiring for.";
 
   return (
-    <section className="roles-section" ref={sectionRef}>
+    <section className="roles-section" ref={sectionRef} id={filter === 'all' ? 'demanded' : `${filter}-roles`}>
       <header className="roles-intro">
         <span className="roles-badge">
           <span className="roles-badge-dot" aria-hidden="true"></span>
           HOT CAREER OPPORTUNITIES
         </span>
-        <h2 className="roles-heading">
-          Most Demanded IT <span className="roles-highlight">Roles</span>
-        </h2>
-        <p className="roles-desc">
-          Explore today's fastest-growing technology careers and discover the skills,
-          opportunities, and career paths that leading companies are actively hiring for.
-        </p>
+        <h2 className="roles-heading">{heading}</h2>
+        <p className="roles-desc">{description}</p>
       </header>
 
       <div className="pin-track" ref={trackRef}>
         <div className="pin-viewport" ref={viewportRef}>
           <div className="card-stage" ref={stageRef}>
-            {ROLES.map((role, index) => (
+            {roles.map((role, index) => (
               <article
                 key={role.slug}
                 ref={(el) => (cardRefs.current[index] = el)}
@@ -310,6 +290,13 @@ const DemandedRoles = () => {
                     alt={role.title}
                     loading="eager"
                     decoding="sync"
+                    onError={(e) => {
+                      const fallback =
+                        "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'%3E%3Crect width='100%25' height='100%25' fill='%230a0e1a'/%3E%3C/svg%3E";
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
+                    }}
                   />
                   <div className="image-overlay" />
                   <div className="image-glow" />

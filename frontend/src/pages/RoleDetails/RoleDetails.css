@@ -181,3 +181,13 @@
   .detail-body{ width:100%; padding:36px 28px; }
   .detail-meta{ gap:24px; }
 }
+
+@media (max-width:480px){
+  .detail-page{ padding:80px 16px; }
+  .detail-image{ min-height:200px; }
+  .detail-body{ padding:24px 16px; }
+  .detail-title{ font-size: 26px; margin: 12px 0 16px; }
+  .detail-desc{ font-size: 14px; margin: 0 0 20px; }
+  .detail-meta{ gap: 16px; flex-direction: column; }
+  .meta-value{ font-size: 14px; }
+}

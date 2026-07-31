@@ -1,7 +1,7 @@
 /* src/styles/dark.css */
 /* Dark theme — EXACT values from the current live site. Do not alter. */
 
-[data-theme='dark'] {
+:root {
   --bg: #010610;
   --bg-raised: #0A0F24;
   --border: rgba(255,255,255,0.08);

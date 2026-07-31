@@ -244,9 +244,9 @@
 }
 
 @media (max-width: 480px) {
-  .testimonials-section { padding: 60px 20px; }
+  .testimonials-section { padding: 60px 16px; }
   .stack-wrap { height: 380px; }
-  .stack-cards { height: 100%; }
+  .stack-cards { height: 100%; max-width: calc(100vw - 32px); }
   .card-quote { font-size: 40px; }
   .card-text { font-size: 16px; }
   .stack-nav.prev { left: -12px; }

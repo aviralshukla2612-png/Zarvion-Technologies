@@ -313,3 +313,26 @@
     transform: none !important;
   }
 }
+
+@media (max-width: 480px) {
+  .roles-section {
+    padding-top: 80px;
+  }
+  .roles-heading {
+    font-size: 28px;
+  }
+  .roles-desc {
+    font-size: 14px;
+    padding: 0 16px;
+  }
+  .card-stage {
+    padding: 0 16px;
+  }
+  .role-card {
+    height: 240px;
+  }
+  .image-title {
+    font-size: 22px;
+    padding: 0 16px 16px;
+  }
+}

@@ -1,4 +1,4 @@
-/* ── HERO (split layout: text left / 3D road right) ── */
+/* ── HERO (full-bleed 3D animation background, text overlaid) ── */
 #hero {
   position: relative;
   height: 100vh;
@@ -9,7 +9,7 @@
   /* account for navbar */
 }
 
-/* LEFT — text column */
+/* LEFT — text column, floats above the full-bleed animation */
 .hero-left {
   position: relative;
   z-index: 10;
@@ -19,33 +19,37 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 60px 40px 40px 8vw;
+  padding: 0 40px 0 8vw;
   margin: 0;
-  background: var(--bg);
-  transform: translateY(-8%);
-  /* shifted up to reduce gap */
+  background: transparent;
 }
 
 .h-tag {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .18em;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #2F80FF;
+  margin-bottom: 24px;
   text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 14px;
-  opacity: 0;
-  transform: translateY(12px);
-  animation: up .55s .08s forwards;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-text-logo {
+  height: 18px;
+  width: auto;
+  object-fit: contain;
 }
 
 .h-head {
   font-weight: 700;
-  font-size: clamp(1.8rem, 2.4vw, 2.5rem);
-  line-height: 1.18;
+  font-size: clamp(1.5rem, 2vw, 2.15rem);
+  line-height: 1.22;
   text-transform: uppercase;
   letter-spacing: -.015em;
   color: var(--white);
-  min-height: 3.6em;
+  min-height: 2.6em;
   white-space: normal;
 }
 
@@ -59,6 +63,36 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Keep "AVIATION OF YOUR CAREER WITH" on a single line on desktop.
+   Falls back to normal wrapping on small screens (see mobile query). */
+.h-head .h-head-line1 {
+  display: inline-block;
+  white-space: nowrap;
+  color: var(--white);
+}
+
+/* Description paragraph under the headline */
+.hero-desc {
+  max-width: 480px;
+  margin-top: 4px;
+  font-size: 15px;
+  line-height: 1.75;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: up .55s .18s forwards;
+}
+
+.hero-desc-word {
+  color: rgba(255, 255, 255, .55);
+  transition: color .2s ease;
+  cursor: default;
+}
+
+.hero-desc-word:hover {
+  color: var(--white);
 }
 
 .typed-cursor {
@@ -128,37 +162,40 @@
   color: var(--blue);
 }
 
-/* RIGHT — 3D Hyperspeed BOX (contained card, not full-bleed) */
-/* Always dark, regardless of light/dark theme — the hyperspeed
-   scene, fog, and lighting are tuned against a black backdrop,
-   so this column does NOT use var(--bg) like the rest of the page. */
+/* ANIMATION — full-bleed, sits behind everything as the entire
+   hero's background layer. Every earlier attempt (background-color
+   matching, mask-image radial fades) was still fighting the fact
+   that the animation lived inside a SIZED column with
+   overflow:hidden — the canvas had to stop dead at that column's
+   edge no matter what, and that stop is what read as a "box".
+   This removes the column entirely: position:absolute + inset:0
+   makes the animation span the full hero section, so there is no
+   inner boundary left for it to cut off against. */
 .hero-right {
-  position: relative;
-  flex: 1 1 46%;
-  max-width: 46%;
-  height: 78%;
-  margin: 0 5vw 0 0;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background: #010610;
-  border-radius: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 24px 70px -24px rgba(0, 0, 0, 0.65);
+  background: transparent;
 }
 
+/* Readability veil — darkens the left side (behind the text) and
+   fades out toward the right so the animation stays fully visible
+   over there. Purely a readability aid, not a box edge. */
 .veil {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background:
-    /* Soft vertical fade at top/bottom so the road doesn't cut
-       off harshly against the box's rounded edges */
-    linear-gradient(to bottom,
-      rgba(1, 6, 16, 0.55) 0%,
-      transparent 22%,
-      transparent 78%,
-      rgba(1, 6, 16, 0.55) 100%);
-  z-index: 20;
+  z-index: 1;
   pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.45) 30%,
+    rgba(0, 0, 0, 0.15) 55%,
+    transparent 75%
+  );
 }
 
 @keyframes up {
@@ -177,31 +214,52 @@
   }
 
   .hero-left {
+    position: relative;
+    z-index: 10;
     flex: none;
     max-width: 100%;
     width: 100%;
-    padding: 130px 24px 24px;
+    padding: 130px 24px 40px;
     justify-content: flex-start;
-    transform: none;
-    /* reset on mobile if needed */
   }
 
   .hero-right {
-    flex: none;
-    height: 42vh;
-    min-height: 320px;
-    width: auto;
-    max-width: none;
-    margin: 0 20px 32px;
-    border-radius: 22px;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .veil {
-    background:
-      linear-gradient(to bottom,
-        rgba(1, 6, 16, 0.5) 0%,
-        transparent 25%,
-        transparent 75%,
-        rgba(1, 6, 16, 0.5) 100%);
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.75) 45%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
+  }
+
+  .h-head .h-head-line1 {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-left {
+    padding: 100px 16px 40px;
+  }
+  .h-head {
+    font-size: 1.25rem;
+  }
+  .hero-desc {
+    font-size: 14px;
+  }
+  .h-btns {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-w, .btn-g {
+    width: 100%;
+    justify-content: center;
   }
 }

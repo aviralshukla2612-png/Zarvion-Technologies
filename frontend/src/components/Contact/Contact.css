@@ -458,6 +458,7 @@
 }
 
 .form-group input,
+.form-group select,
 .form-group textarea {
   width: 100%;
   background: rgba(0, 0, 0, 0.3);
@@ -477,9 +478,106 @@
 }
 
 .form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--blue-soft);
   box-shadow: 0 0 0 3px rgba(47, 128, 255, 0.15);
+}
+
+.form-group select option {
+  background: #111;
+  color: #fff;
+}
+
+.phone-input-group {
+  display: flex;
+  gap: 12px;
+}
+
+.custom-country-select {
+  position: relative;
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.country-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 12px 10px;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  height: 46px; /* matching input height */
+}
+
+.country-select-trigger:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.country-select-trigger img {
+  width: 20px;
+  border-radius: 2px;
+}
+
+.country-select-trigger span {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: 500;
+}
+
+.country-select-trigger .chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.country-select-trigger .chevron.open {
+  transform: rotate(180deg);
+}
+
+.country-select-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 120px;
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  z-index: 20;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.country-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 13px;
+}
+
+.country-option:hover {
+  background: rgba(47, 128, 255, 0.15);
+}
+
+.country-option img {
+  width: 20px;
+  border-radius: 2px;
+}
+
+.phone-input-group input {
+  flex: 1;
+  height: 46px;
 }
 
 .submit-btn {
@@ -559,6 +657,18 @@
 
   .contact-cta-btn {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .contact-section {
+    padding: 80px 16px 40px;
+  }
+  .cta-face {
+    padding: 24px 16px;
   }
 }
 

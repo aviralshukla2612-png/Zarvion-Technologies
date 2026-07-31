@@ -4,7 +4,6 @@
 
 @import './variables.css';
 @import './dark.css';
-@import './light.css';
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -49,4 +48,14 @@ html.theme-transition *::after {
     box-shadow var(--theme-dur) var(--theme-ease),
     fill var(--theme-dur) var(--theme-ease),
     stroke var(--theme-dur) var(--theme-ease) !important;
+}
+
+/* Spacer to push top-level standalone pages down below the fixed navbar */
+.page-spacer {
+  padding-top: 114px;
+}
+@media (max-width: 860px) {
+  .page-spacer {
+    padding-top: 89px;
+  }
 }

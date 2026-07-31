@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiTwitter, FiLinkedin, FiGithub, FiInstagram, FiYoutube, FiSend } from 'react-icons/fi';
+import { FiTwitter, FiLinkedin, FiInstagram } from 'react-icons/fi';
 import logo from '../../assets/images/logo.jpeg';
+import textLogo from '../../assets/images/ZARVION-TECHNOLOGIES-Font.png';
 import './Footer.css';
 
 const Footer = () => {
@@ -33,22 +34,20 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="footer-brand">
             <Link to="/" className="footer-logo">
-              <img src={logo} alt="Zarvion Technologies" />
-              <span className="brand-name">Zarvion<span>Technologies</span></span>
+              <img src={logo} alt="Zarvion Logo" className="logo-icon" />
+              <img src={textLogo} alt="Zarvion Technologies" className="logo-text" />
             </Link>
 
             <p className="footer-tagline">Empowering Careers. Connecting Futures.</p>
 
             <p className="footer-desc">
-              Empowering ambitious professionals with world-class career opportunities and cutting-edge IT solutions.
+              Get started today and meet with Empowering ambitious professionals with world-class career opportunities and cutting-edge IT solutions.
             </p>
 
             <div className="social-links">
-              <a href="#" aria-label="Twitter"><FiTwitter /></a>
+              <a href="#" aria-label="X (Twitter)"><FiTwitter /></a>
               <a href="#" aria-label="LinkedIn"><FiLinkedin /></a>
-              <a href="#" aria-label="GitHub"><FiGithub /></a>
               <a href="#" aria-label="Instagram"><FiInstagram /></a>
-              <a href="#" aria-label="YouTube"><FiYoutube /></a>
             </div>
           </div>
 
@@ -68,53 +67,17 @@ const Footer = () => {
             <h4>Resources</h4>
             <ul>
               <li><a href="#">Blog</a></li>
-              <li><a href="#">Case Studies</a></li>
               <li><a href="#">Documentation</a></li>
-              <li><a href="#">Help Center</a></li>
             </ul>
           </div>
 
-          {/* Newsletter with Rotating Cube */}
-          <div className="footer-newsletter">
-            <div className="newsletter-heading-wrapper">
-              <span className="heading-prefix">Stay</span>
-              <div className="cube-container">
-                <div className="cube">
-                  <div className="cube-face front">Updated</div>
-                  <div className="cube-face back">Informed</div>
-                  <div className="cube-face left">Ahead</div>
-                  <div className="cube-face right">Connected</div>
-                  <div className="cube-face top">Engaged</div>
-                  <div className="cube-face bottom">Inspired</div>
-                </div>
-              </div>
-            </div>
 
-            <p className="newsletter-desc">
-              Subscribe to our newsletter for the latest insights and opportunities.
-            </p>
-
-            <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
-              <input type="email" placeholder="Enter your email" required />
-              <button type="submit">
-                <FiSend />
-              </button>
-            </form>
-
-            <div className="footer-legal">
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms of Service</a>
-            </div>
-          </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="footer-bottom">
           <p>&copy; {new Date().getFullYear()} Zarvion Technologies. All rights reserved.</p>
           <div className="footer-bottom-links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Cookies</a>
           </div>
         </div>
       </div>

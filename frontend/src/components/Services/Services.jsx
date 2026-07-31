@@ -1,11 +1,6 @@
-import React, { useRef, useState, useLayoutEffect, useContext } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ThemeContext } from '../../context/ThemeContext';
 import './Services.css';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const IconResume = (
   <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -32,20 +27,26 @@ const IconGlobal = (
     <path d="M6 24h36M24 6c5 5 8 11.5 8 18s-3 13-8 18c-5-5-8-11.5-8-18s3-13 8-18Z" />
   </svg>
 );
-const IconRoadmap = (
-  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M6 38 18 10l6 12 6-9 12 25" />
-    <circle cx="18" cy="10" r="2.4" fill="currentColor" stroke="none" />
-    <circle cx="24" cy="22" r="2.4" fill="currentColor" stroke="none" />
-    <circle cx="30" cy="13" r="2.4" fill="currentColor" stroke="none" />
-    <circle cx="42" cy="38" r="2.4" fill="currentColor" stroke="none" />
-  </svg>
-);
-const IconVisa = (
+const IconImmigration = (
   <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect x="8" y="8" width="32" height="32" rx="4" />
     <circle cx="19" cy="20" r="5" />
     <path d="M11 34c1.5-5 5.5-8 8-8s6.5 3 8 8" /><path d="M30 17h8M30 23h8M30 29h8" />
+  </svg>
+);
+const IconTechTraining = (
+  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="6" y="10" width="36" height="24" rx="3" />
+    <path d="M4 40h40" />
+    <path d="M18 18l-6 6 6 6M30 18l6 6-6 6" />
+  </svg>
+);
+const IconPostPlacement = (
+  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M10 28v-4a14 14 0 0 1 28 0v4" />
+    <rect x="4" y="26" width="9" height="12" rx="3" />
+    <rect x="35" y="26" width="9" height="12" rx="3" />
+    <path d="M35 38a6 6 0 0 1-6 6h-5" />
   </svg>
 );
 const CheckIcon = (
@@ -58,24 +59,25 @@ const ArrowIcon = (
     <path d="M5 12h14M13 6l6 6-6 6" />
   </svg>
 );
+const ChevronIcon = (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 6l6 6-6 6" />
+  </svg>
+);
 
 const SERVICES = [
   {
-    id: '01', slug: 'resume-building', title: 'Resume Building',
+    id: '01', slug: 'resume-building', title: 'Resume Building & In-Depth Understanding',
     desc: 'Craft recruiter-ready resumes engineered to pass ATS filters and land interview calls at Fortune 500 companies.',
-    features: ['ATS Friendly', 'HR Approved', 'Modern Templates', 'Keyword Optimisation'],
+    features: ['ATS Friendly', 'HR Approved', 'Modern Templates', 'Keyword Optimisation', 'In-Depth Understanding'],
     accent: '#3B82F6',
-    cardBgDark: 'linear-gradient(135deg, #060f28 0%, #0a1535 100%)',
-    cardBgLight: 'linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%)',
     icon: IconResume,
   },
   {
-    id: '02', slug: 'linkedin-optimization', title: 'LinkedIn Optimisation',
+    id: '02', slug: 'linkedin-optimization', title: 'LinkedIn Optimisation & Application Boost',
     desc: 'SEO-optimised professional branding with compelling About sections and strategic keyword density.',
-    features: ['SEO Optimised', 'Professional Branding', 'Featured Section', 'Network Growth'],
+    features: ['SEO Optimised', 'Professional Branding', 'Featured Section', 'Network Growth', 'Application Boost'],
     accent: '#A855F7',
-    cardBgDark: 'linear-gradient(135deg, #0f0620 0%, #160a2e 100%)',
-    cardBgLight: 'linear-gradient(135deg, #f3e8ff 0%, #faf5ff 100%)',
     icon: IconLinkedIn,
   },
   {
@@ -83,8 +85,6 @@ const SERVICES = [
     desc: 'Live mock interviews with senior industry coaches, real-time feedback loops, STAR method mastery.',
     features: ['Mock Interviews', 'STAR Method', 'Real-time Feedback', 'Confidence Building'],
     accent: '#06B6D4',
-    cardBgDark: 'linear-gradient(135deg, #021520 0%, #041e2c 100%)',
-    cardBgLight: 'linear-gradient(135deg, #cffafe 0%, #ecfeff 100%)',
     icon: IconInterview,
   },
   {
@@ -92,193 +92,107 @@ const SERVICES = [
     desc: 'Access our curated global network of 500+ hiring partners across UK, Canada, Germany, and UAE.',
     features: ['Global Network', 'Top Employers', 'Cross-border Roles', 'Relocation Support'],
     accent: '#F59E0B',
-    cardBgDark: 'linear-gradient(135deg, #1a0f02 0%, #221504 100%)',
-    cardBgLight: 'linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%)',
     icon: IconGlobal,
   },
   {
-    id: '05', slug: 'career-roadmap', title: 'Career Roadmap',
-    desc: 'Personalised 90-day and 12-month career blueprints with skill gap analysis and milestone tracking.',
-    features: ['Personalised Plan', 'Skill Mapping', 'Milestone Tracking', 'Growth Monitoring'],
-    accent: '#10B981',
-    cardBgDark: 'linear-gradient(135deg, #021510 0%, #041e16 100%)',
-    cardBgLight: 'linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%)',
-    icon: IconRoadmap,
-  },
-  {
-    id: '06', slug: 'visa-documentation', title: 'Visa & Documentation',
-    desc: 'End-to-end support for work permits, skilled worker visas, document authentication, and legal compliance.',
+    id: '05', slug: 'immigration-advisory', title: 'Immigration Advisory',
+    desc: 'Expert guidance for work permits, skilled-worker visas, document authentication, and cross-border legal compliance.',
     features: ['Work Permits', 'Visa Guidance', 'Document Prep', 'Legal Support'],
     accent: '#F43F5E',
-    cardBgDark: 'linear-gradient(135deg, #1a0208 0%, #22040e 100%)',
-    cardBgLight: 'linear-gradient(135deg, #ffe4e6 0%, #fff1f2 100%)',
-    icon: IconVisa,
+    icon: IconImmigration,
+  },
+  {
+    id: '06', slug: 'technical-training', title: 'Technical Training',
+    desc: 'Hands-on upskilling in the tools, frameworks, and technical interviews your target role actually demands.',
+    features: ['Hands-on Labs', 'Industry Tools', 'Mock Assessments', 'Mentor-Led Sessions'],
+    accent: '#8B5CF6',
+    icon: IconTechTraining,
+  },
+  {
+    id: '07', slug: 'post-placement-support', title: 'Post Placement Support',
+    desc: 'Continued support after you join — onboarding guidance, 90-day check-ins, and coaching to help you settle in and thrive.',
+    features: ['90-Day Check-ins', 'Onboarding Guidance', 'Performance Coaching', 'Ongoing Mentorship'],
+    accent: '#14B8A6',
+    icon: IconPostPlacement,
   },
 ];
 
-const STRIP = 64; // px — collapsed heading height (desktop)
-
-/**
- * Measures how much *extra* height an expanded card needs beyond its
- * collapsed strip slot, by briefly forcing a card open in normal flow
- * (position: static, visibility: hidden) and reading its real
- * offsetHeight. Returns 0 on desktop or if measurement isn't possible.
- *
- * IMPORTANT: must run BEFORE cards are set to position:absolute by
- * the GSAP setup below, otherwise the probe card won't lay out at
- * its natural document height.
- */
-function measureExpandBuffer(cards, strip, isMobile) {
-  if (!isMobile || !cards.length) return 0;
-
-  const probe = cards[0];
-  const prevClassName = probe.className;
-  const prevStyleText = probe.style.cssText;
-
-  try {
-    probe.classList.add('is-hovered');
-    probe.style.transition = 'none';
-    probe.style.position = 'static';
-    probe.style.visibility = 'hidden';
-
-    // Force reflow so the measurement reflects the expanded state
-    // rather than a stale pre-change layout.
-    // eslint-disable-next-line no-unused-expressions
-    void probe.offsetHeight;
-
-    const expandedH = probe.offsetHeight;
-    const diff = expandedH - strip;
-    return Math.max(0, diff);
-  } catch {
-    return 0;
-  } finally {
-    // Always restore, even if something above throws.
-    probe.className = prevClassName;
-    probe.style.cssText = prevStyleText;
-    // eslint-disable-next-line no-unused-expressions
-    void probe.offsetHeight;
-  }
-}
+const ServicePanelContent = ({ service, onLearnMore }) => (
+  <div className="srv-panel-inner" style={{ '--accent': service.accent }}>
+    <div className="srv-panel-top">
+      <span className="srv-panel-index">[ {service.id} ]</span>
+      <div className="srv-panel-icon-wrap">
+        <span className="srv-panel-halo" aria-hidden="true" />
+        <span className="srv-panel-icon">{service.icon}</span>
+      </div>
+    </div>
+    <h3 className="srv-panel-title">{service.title}</h3>
+    <p className="srv-panel-desc">{service.desc}</p>
+    <ul className="srv-panel-features">
+      {service.features.map((f, fi) => (
+        <li className="srv-panel-feature" key={fi}>
+          <span className="srv-panel-feature-icon">{CheckIcon}</span>
+          <span>{f}</span>
+        </li>
+      ))}
+    </ul>
+    
+     <a  href={`/services/${service.slug}`}
+      className="srv-panel-cta"
+      onClick={(e) => onLearnMore(service.slug, e)}
+    >
+      <span>Learn More</span>{ArrowIcon}
+    </a>
+  </div>
+);
 
 const Services = ({ variant = 'home' }) => {
-  const { isDark } = useContext(ThemeContext);
-  // `hovered` is the ONLY thing that drives the expanded state.
-  // Cards always render collapsed by default; hovering (desktop) or
-  // tapping (touch, via handleCardClick) is what reveals the body.
-  // On touch devices, CSS :hover is gated off entirely (see CSS file)
-  // so this single state value is the only source of truth — that's
-  // what guarantees exactly one card can ever be expanded at a time.
-  const [hovered, setHovered] = useState(null);
-  const sectionRef = useRef(null);
-  const pinRef     = useRef(null);   // element that gets pinned
-  const cardRefs   = useRef([]);
-  const ctxRef     = useRef(null);
-  const navigate   = useNavigate();
+  const [active, setActive] = useState(0);
+  const rowRefs = useRef([]);
+  const mobilePanelRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleLearnMore = (slug, e) => {
-    e.preventDefault(); e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
     navigate(`/services/${slug}`);
   };
 
-  const handleCardClick = (i) => {
-    // Touch devices have no hover — tapping pins that card open.
-    setHovered(prev => (prev === i ? null : i));
+  const handleRowClick = (i) => {
+    setActive(i);
+    if (window.innerWidth <= 900 && mobilePanelRef.current) {
+      requestAnimationFrame(() => {
+        mobilePanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
   };
 
-  useLayoutEffect(() => {
-    if (ctxRef.current) { ctxRef.current.revert(); ctxRef.current = null; }
+  // Scroll-driven activation — as the list scrolls through the
+  // viewport, whichever row crosses the vertical center becomes the
+  // active service, so the highlight animates and the right-hand
+  // panel updates as you scroll, not only on hover/tap.
+  useEffect(() => {
+    const rows = rowRefs.current.filter(Boolean);
+    if (!rows.length) return;
 
-    const pin   = pinRef.current;
-    const cards = cardRefs.current.filter(Boolean);
-    if (!pin || !cards.length) return;
-
-    const isMobile = window.innerWidth <= 768;
-    // Smaller strip / scroll segment on mobile so the pinned section
-    // doesn't take up an excessive amount of scroll distance.
-    const strip   = isMobile ? 46 : STRIP;
-    const segment = isMobile ? 110 : 180;
-    const total   = SERVICES.length;
-
-    // Recalculates pin height using a real measurement of the
-    // expanded card instead of a hardcoded guess. Exposed so it can
-    // be re-run on ScrollTrigger refresh (resize / orientation
-    // change), since the expanded height differs by viewport.
-    const applyPinHeight = () => {
-      const cardH  = cards[0].offsetHeight;
-      const stackH = (total - 1) * strip + cardH;
-
-      // Must measure BEFORE cards are pinned to position:absolute,
-      // so call this only from places where that hasn't happened
-      // yet (initial setup) or where cards have been reset first.
-      const expandBuffer = measureExpandBuffer(cards, strip, isMobile);
-
-      pin.style.height = `${stackH + expandBuffer}px`;
-      return { stackH, expandBuffer };
-    };
-
-    const ctx = gsap.context(() => {
-      // Measure BEFORE the collapse loop below switches cards to
-      // position:absolute — otherwise offsetHeight during probing
-      // won't reflect true in-flow expanded height.
-      applyPinHeight();
-
-      cards.forEach((card, i) => {
-        gsap.set(card, {
-          position: 'absolute',
-          top: `${i * strip}px`,
-          left: 0,
-          width: '100%',
-          y: 80,
-          opacity: 0,
-          zIndex: i + 1,
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = rows.indexOf(entry.target);
+            if (idx !== -1) setActive(idx);
+          }
         });
-      });
+      },
+      { rootMargin: '-42% 0px -42% 0px', threshold: 0 }
+    );
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: `+=${total * segment}`,
-          scrub: 0.8,
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          // On refresh (resize/orientation change), the expanded
-          // height can differ. Temporarily restore the probe card
-          // to in-flow so remeasuring is accurate, then re-pin it.
-          refreshInit: () => {
-            const probe = cards[0];
-            const prevStyleText = probe.style.cssText;
-            probe.style.position = 'static';
-
-            const { } = applyPinHeight();
-
-            // Put the probe card back into its absolute, pinned
-            // position (matches the gsap.set above for index 0).
-            probe.style.cssText = prevStyleText;
-          },
-        },
-      });
-
-      cards.forEach((card, i) => {
-        const pos = i / total;
-        tl.to(card, {
-          y: 0,
-          opacity: 1,
-          duration: 1 / total,
-          ease: 'power2.out',
-        }, pos);
-      });
-
-    }, sectionRef);
-
-    ctxRef.current = ctx;
-    return () => { ctxRef.current?.revert(); ctxRef.current = null; };
-  }, [isDark]);
+    rows.forEach((r) => observer.observe(r));
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className={`srv-section srv-section--${variant}`} id="services" ref={sectionRef}>
+    <section className={`srv-section srv-section--${variant}`} id="services">
       <div className="srv-grid-bg" />
       <div className="srv-blob srv-blob--a" />
       <div className="srv-blob srv-blob--b" />
@@ -297,66 +211,44 @@ const Services = ({ variant = 'home' }) => {
           </p>
         </div>
 
-        <div className="srv-pin" ref={pinRef}>
-          {SERVICES.map((service, i) => {
-            const cardBg = isDark ? service.cardBgDark : service.cardBgLight;
-            return (
-              <div
+        <div className="srv-layout">
+          {/* LEFT — plain list; active row highlight animates on scroll/hover */}
+          <div className="srv-stack">
+            {SERVICES.map((service, i) => (
+              <button
+                type="button"
                 key={service.id}
-                className={`srv-card${hovered === i ? ' is-hovered' : ''}`}
-                style={{ '--accent': service.accent, zIndex: i + 1 }}
-                ref={el => { cardRefs.current[i] = el; }}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
-                onClick={() => handleCardClick(i)}
+                className={`srv-stack-card${active === i ? ' is-active' : ''}`}
+                style={{ '--accent': service.accent, '--index': i }}
+                ref={(el) => { rowRefs.current[i] = el; }}
+                onMouseEnter={() => setActive(i)}
+                onClick={() => handleRowClick(i)}
               >
-                <div className="srv-card-inner" style={{ background: cardBg }}>
-                  <span className="srv-card-bgnum" aria-hidden="true">{service.id}</span>
+                <span className="srv-stack-index">[ {service.id} ]</span>
+                <span className="srv-stack-icon">{service.icon}</span>
+                <span className="srv-stack-title">{service.title}</span>
+                <span className="srv-stack-chevron" aria-hidden="true">{ChevronIcon}</span>
+              </button>
+            ))}
+          </div>
 
-                  {/* Always-visible icon in collapsed state — positioned right side of card */}
-                  <div className="srv-card-preview-icon" aria-hidden="true">
-                    <span className="srv-card-halo" />
-                    <span className="srv-card-icon">{service.icon}</span>
-                  </div>
+          {/* RIGHT — sticky panel, flows in from the right on change */}
+          <div className="srv-panel-desktop">
+            <ServicePanelContent
+              key={active}
+              service={SERVICES[active]}
+              onLearnMore={handleLearnMore}
+            />
+          </div>
+        </div>
 
-                  <div className="srv-card-head">
-                    <span className="srv-card-index">[ {service.id} ]</span>
-                    <h3 className="srv-card-title">{service.title}</h3>
-                    <span className="srv-card-icon-sm">{service.icon}</span>
-                    <span className="srv-card-arrow" aria-hidden="true">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M6 9l6 6 6-6" />
-                      </svg>
-                    </span>
-                  </div>
-
-                  <div className="srv-card-body">
-                    <div className="srv-card-body-inner">
-                      <div className="srv-card-text">
-                        <p className="srv-card-desc">{service.desc}</p>
-                        <ul className="srv-card-features">
-                          {service.features.map((f, fi) => (
-                            <li className="srv-card-feature" key={fi}>
-                              <span className="srv-card-feature-icon">{CheckIcon}</span>
-                              <span>{f}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        <a href={`/services/${service.slug}`} className="srv-card-cta"
-                          onClick={e => handleLearnMore(service.slug, e)}>
-                          <span>Learn More</span>{ArrowIcon}
-                        </a>
-                      </div>
-                      <div className="srv-card-icon-wrap">
-                        <span className="srv-card-halo" />
-                        <span className="srv-card-icon">{service.icon}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* Mobile — panel appears below the tapped card */}
+        <div className="srv-panel-mobile" ref={mobilePanelRef}>
+          <ServicePanelContent
+            key={`m-${active}`}
+            service={SERVICES[active]}
+            onLearnMore={handleLearnMore}
+          />
         </div>
       </div>
     </section>
