@@ -178,7 +178,7 @@ const Services = ({ variant = 'home' }) => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && window.innerWidth > 900) {
             const idx = rows.indexOf(entry.target);
             if (idx !== -1) setActive(idx);
           }
