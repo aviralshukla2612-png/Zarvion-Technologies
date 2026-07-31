@@ -159,6 +159,7 @@
 .footer-logo .logo-text {
   height: 24px;
   width: auto;
+  max-width: calc(100% - 52px);
   object-fit: contain;
   margin-top: 2px;
 }

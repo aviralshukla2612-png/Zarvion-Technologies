@@ -48,6 +48,10 @@
   filter: invert(1) brightness(2);
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   margin: 0;
   overflow-x: hidden;

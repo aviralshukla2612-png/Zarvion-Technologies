@@ -95,13 +95,12 @@ const FAQ = () => {
                     </svg>
                   </span>
                 </button>
-                <div 
-                  className="faq-answer-wrapper"
-                  style={{ height: isActive ? 'auto' : '0px', opacity: isActive ? 1 : 0 }}
-                >
-                  <p className="faq-answer">
-                    {faq.answer}
-                  </p>
+                <div className="faq-answer-wrapper">
+                  <div className="faq-answer-inner">
+                    <p className="faq-answer">
+                      {faq.answer}
+                    </p>
+                  </div>
                 </div>
               </div>
             );

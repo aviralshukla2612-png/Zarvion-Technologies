@@ -784,18 +784,21 @@
 }
 
 .faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.4s ease;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
   padding: 0 24px;
 }
 
 .faq-item.open .faq-answer {
-  max-height: 200px;
+  grid-template-rows: 1fr;
   padding: 0 24px 20px;
+  opacity: 1;
 }
 
 .faq-answer p {
+  overflow: hidden;
   font-size: 15px;
   color: var(--text-secondary);
   line-height: 1.7;
