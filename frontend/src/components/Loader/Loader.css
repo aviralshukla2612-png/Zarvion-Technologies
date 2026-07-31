@@ -115,11 +115,11 @@
 }
 
 @media (max-width: 480px) {
-  .loader-count-tl { top: 24px; left: 24px; }
-  .loader-number { font-size: clamp(36px, 10vw, 50px); }
+  .loader-count-tl { top: 24px; left: 24px; right: auto; }
+  .loader-number { font-size: 40px; }
   .loader-percent { font-size: 16px; margin-top: 8px; }
-  .loader-brand-tr { top: 28px; right: 24px; font-size: 12px; }
-  .loader-tagline { bottom: 24px; left: 24px; right: 24px; max-width: calc(100% - 48px); font-size: 14px; }
+  .loader-brand-tr { top: 76px; left: 24px; right: auto; font-size: 11px; }
+  .loader-tagline { bottom: 32px; left: 24px; right: 24px; max-width: calc(100% - 48px); font-size: 14px; }
   .loader-image-stage {
     width: clamp(160px, 50vw, 220px);
     height: clamp(220px, 70vw, 280px);

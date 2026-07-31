@@ -138,19 +138,15 @@
 }
 
 .faq-answer-wrapper {
-  display: grid;
-  grid-template-rows: 0fr;
+  max-height: 0;
+  overflow: hidden;
   opacity: 0;
-  transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .faq-item.active .faq-answer-wrapper {
-  grid-template-rows: 1fr;
+  max-height: 500px;
   opacity: 1;
-}
-
-.faq-answer-inner {
-  overflow: hidden;
 }
 
 .faq-answer {

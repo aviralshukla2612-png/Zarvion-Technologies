@@ -96,11 +96,9 @@ const FAQ = () => {
                   </span>
                 </button>
                 <div className="faq-answer-wrapper">
-                  <div className="faq-answer-inner">
-                    <p className="faq-answer">
-                      {faq.answer}
-                    </p>
-                  </div>
+                  <p className="faq-answer">
+                    {faq.answer}
+                  </p>
                 </div>
               </div>
             );
