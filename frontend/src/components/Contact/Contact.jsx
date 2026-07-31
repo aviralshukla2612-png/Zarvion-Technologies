@@ -80,7 +80,7 @@ const Contact = () => {
               <span>Future Together</span>
             </h2>
             <p className="contact-desc reveal-item" style={{ transitionDelay: '0.28s' }}>
-              Have a project in mind or want to explore how we can help transform your ideas into reality? We'd love to hear from you.
+              Let's connect today and discuss about your futuristic growth.
             </p>
 
             <div className="contact-details">
