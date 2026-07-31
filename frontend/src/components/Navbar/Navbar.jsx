@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo.jpeg';
 import './Navbar.css';
 
@@ -10,6 +10,8 @@ const Navbar = () => {
   const [rolesOpen, setRolesOpen] = useState(false); // mobile dropdown toggle
   const closeTimer = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.pathname;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,9 +74,9 @@ const Navbar = () => {
         </Link>
 
         <ul className="nav-links">
-          <li><Link to="/" className={!activeSection ? 'active' : ''}>Home</Link></li>
-          <li><a href="/about" className={activeSection === 'about' ? 'active' : ''}>About</a></li>
-          <li><a href="/service" className={activeSection === 'services' ? 'active' : ''}>Services</a></li>
+          <li><Link to="/" className={(path === '/' && !activeSection) ? 'active' : ''}>Home</Link></li>
+          <li><Link to="/about" className={(path === '/about' || (path === '/' && activeSection === 'about')) ? 'active' : ''}>About</Link></li>
+          <li><Link to="/service" className={(path.startsWith('/service') || (path === '/' && activeSection === 'services')) ? 'active' : ''}>Services</Link></li>
 
           <li
             className="nav-dropdown"
@@ -82,7 +84,7 @@ const Navbar = () => {
             onMouseLeave={closeRolesDesktop}
           >
             <span
-              className={`dropdown-trigger ${activeSection === 'demanded' ? 'active' : ''} ${rolesOpen ? 'open' : ''}`}
+              className={`dropdown-trigger ${(path === '/it-roles' || path === '/non-it-roles' || (path === '/' && activeSection === 'demanded')) ? 'active' : ''} ${rolesOpen ? 'open' : ''}`}
               tabIndex={0}
               onFocus={openRolesDesktop}
               onBlur={closeRolesDesktop}
@@ -109,7 +111,7 @@ const Navbar = () => {
             </ul>
           </li>
 
-          <li><Link to="/blog">Blog</Link></li>
+          <li><Link to="/blog" className={path.startsWith('/blog') ? 'active' : ''}>Blog</Link></li>
         </ul>
 
         <div className="nav-right">
@@ -134,14 +136,14 @@ const Navbar = () => {
 
       <div id="mobile-menu" className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
         <ul>
-          <li><Link to="/" className={!activeSection ? 'active' : ''} onClick={closeMenu}>Home</Link></li>
-          <li><a href="/about" className={activeSection === 'about' ? 'active' : ''} onClick={closeMenu}>About</a></li>
-          <li><a href="/service" className={activeSection === 'services' ? 'active' : ''} onClick={closeMenu}>Services</a></li>
+          <li><Link to="/" className={(path === '/' && !activeSection) ? 'active' : ''} onClick={closeMenu}>Home</Link></li>
+          <li><Link to="/about" className={(path === '/about' || (path === '/' && activeSection === 'about')) ? 'active' : ''} onClick={closeMenu}>About</Link></li>
+          <li><Link to="/service" className={(path.startsWith('/service') || (path === '/' && activeSection === 'services')) ? 'active' : ''} onClick={closeMenu}>Services</Link></li>
 
           <li className="mobile-dropdown">
             <button
               type="button"
-              className={`mobile-dropdown-trigger ${activeSection === 'demanded' ? 'active' : ''} ${rolesOpen ? 'open' : ''}`}
+              className={`mobile-dropdown-trigger ${(path === '/it-roles' || path === '/non-it-roles' || (path === '/' && activeSection === 'demanded')) ? 'active' : ''} ${rolesOpen ? 'open' : ''}`}
               onClick={() => setRolesOpen((prev) => !prev)}
               aria-expanded={rolesOpen}
             >
@@ -156,7 +158,7 @@ const Navbar = () => {
             </ul>
           </li>
 
-          <li><Link to="/blog" onClick={closeMenu}>Blog</Link></li>
+          <li><Link to="/blog" className={path.startsWith('/blog') ? 'active' : ''} onClick={closeMenu}>Blog</Link></li>
         </ul>
 
         <div className="mobile-menu-footer">
