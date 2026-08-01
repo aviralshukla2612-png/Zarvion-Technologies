@@ -460,6 +460,7 @@ const ServiceDetails = () => {
           spaceBetween={30}
           slidesPerView={1}
           centeredSlides={true}
+          loop={true}
           autoplay={{ delay: 2000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           className="testimonials-swiper"
