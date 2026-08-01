@@ -62,12 +62,28 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Services Links */}
+          <div className="footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><a href="/service">Executive Recruitment</a></li>
+              <li><a href="/service">Talent Sourcing</a></li>
+              <li><a href="/service">Career Development</a></li>
+              <li><a href="/service">Resume Enhancement</a></li>
+              <li><a href="/service">Interview Preparation</a></li>
+              <li><a href="/service">Staffing Solutions</a></li>
+            </ul>
+          </div>
+
           {/* Resources Links */}
           <div className="footer-links">
             <h4>Resources</h4>
             <ul>
-              <li><a href="#">Blog</a></li>
+              <li><Link to="/blog">Blog</Link></li>
+              <li><a href="/#faq">FAQs</a></li>
               <li><a href="#">Documentation</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms & Conditions</a></li>
             </ul>
           </div>
 

@@ -1,18 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Loader.css';
 import textLogo from '../../assets/images/ZARVION-TECHNOLOGIES-Font.png';
+import img1 from '../../assets/images/loader/loader1.png';
+import img2 from '../../assets/images/loader/loader2.png';
+import img3 from '../../assets/images/loader/loader3.png';
+import img4 from '../../assets/images/loader/loader4.png';
+import img5 from '../../assets/images/loader/loader5.png';
+import img6 from '../../assets/images/loader/loader6.png';
 
 // Placeholder loader imagery — swap these for real shots whenever ready.
 const LOADER_IMAGES = [
-  'https://loremflickr.com/500/650/coding,computer?lock=101',
-  'https://loremflickr.com/500/650/server,datacenter?lock=102',
-  'https://loremflickr.com/500/650/cybersecurity,network?lock=103',
-  'https://loremflickr.com/500/650/office,meeting?lock=104',
+  img1,
+  img2,
+  img3,
+  img4,
+  img5,
+  img6,
 ];
 
 const IMAGE_INTERVAL = 950; // ms between image crossfades — leaves room for the .65s clip-path reveal to finish
 
-const Loader = ({ onComplete, duration = 4800 }) => {
+const Loader = ({ onComplete, duration = 6000 }) => {
   const [percent, setPercent] = useState(0);
   const [imgIndex, setImgIndex] = useState(0);
   const rafRef = useRef(null);
@@ -70,7 +78,7 @@ const Loader = ({ onComplete, duration = 4800 }) => {
         ))}
       </div>
 
-      <h1 className="loader-tagline">Lets connect today and discuss abouth you futurstic growth</h1>
+      <h1 className="loader-tagline">Let's connect today and discuss your futuristic growth</h1>
     </div>
   );
 };

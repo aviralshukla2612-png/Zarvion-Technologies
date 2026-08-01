@@ -58,7 +58,7 @@ const FAQ = () => {
   };
 
   return (
-    <section className={`faq-section ${isVisible ? 'is-visible' : ''}`} ref={sectionRef}>
+    <section id="faq" className={`faq-section ${isVisible ? 'is-visible' : ''}`} ref={sectionRef}>
       <div className="faq-wrap">
         <div className="faq-header reveal-item">
           <span className="faq-badge">
