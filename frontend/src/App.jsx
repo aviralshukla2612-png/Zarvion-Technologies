@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import MainLayout from './layouts/MainLayout/MainLayout';
 import Home from './pages/Home/Home';
 import RoleDetails from './pages/RoleDetails/RoleDetails';
@@ -14,8 +18,44 @@ import NonITRoles from './pages/NonITRoles/NonITRoles';
 import Blog from './pages/Blog/Blog';
 import Loader from './components/Loader/Loader';
 
+gsap.registerPlugin(ScrollTrigger);
+
+// ScrollToTop component to reset scroll on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 function App() {
   const [isAppLoading, setIsAppLoading] = useState(true);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.5,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+      smooth: true,
+      smoothTouch: true,
+      touchMultiplier: 2,
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove((time) => {
+        lenis.raf(time * 1000);
+      });
+      lenis.destroy();
+    };
+  }, []);
 
   return (
     <>
@@ -23,6 +63,7 @@ function App() {
         <Loader onComplete={() => setIsAppLoading(false)} duration={4800} />
       )}
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />

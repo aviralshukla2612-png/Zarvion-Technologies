@@ -3,11 +3,19 @@
 // Dynamic service details page
 // ============================================================
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import { getServiceBySlug } from '../../data/services';
+import * as FaIcons from 'react-icons/fa';
+import { FiX } from 'react-icons/fi';
+import BenefitsParticles from './BenefitsParticles';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Parallax, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import './ServiceDetails.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -17,6 +25,12 @@ const ServiceDetails = () => {
   const navigate = useNavigate();
   const service = getServiceBySlug(slug);
   const [openFaq, setOpenFaq] = useState(null);
+  const [selectedFeature, setSelectedFeature] = useState(null);
+  const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
+  
+  const orbitSectionRef = useRef(null);
+  const orbitContainerRef = useRef(null);
+  const orbitItemsRef = useRef([]);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -61,9 +75,10 @@ const ServiceDetails = () => {
     return () => observer.disconnect();
   }, [slug]);
 
-  // GSAP Smooth Scroll Animation
+  // GSAP Smooth Scroll Animation & Orbit
   React.useLayoutEffect(() => {
     let ctx = gsap.context(() => {
+      // 1. Process Timeline Smooth Scroll
       const items = gsap.utils.toArray('.process-item');
       items.forEach((item, i) => {
         const isOdd = i % 2 === 0;
@@ -86,9 +101,95 @@ const ServiceDetails = () => {
           }
         );
       });
+
+      // 2. Orbit Animation
+      if (orbitContainerRef.current && orbitItemsRef.current.length > 0) {
+        const oItems = orbitItemsRef.current.filter(Boolean);
+        const isMobile = window.innerWidth <= 768;
+        // On smaller screens we might use a slightly smaller radius if we weren't scaling it, but we are using CSS transform: scale().
+        const radius = 210; 
+        
+        // Position items in a circle
+        oItems.forEach((item, i) => {
+          const angle = (i / oItems.length) * Math.PI * 2;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+          gsap.set(item, { x, y });
+        });
+
+        // Rotate container
+        const orbitTween = gsap.to(orbitContainerRef.current, {
+          rotation: 360,
+          duration: 40,
+          repeat: -1,
+          ease: "none"
+        });
+
+        // Counter-rotate items to keep them upright
+        const counterTween = gsap.to(oItems, {
+          rotation: -360,
+          duration: 40,
+          repeat: -1,
+          ease: "none"
+        });
+
+        // Slow down orbit on scroll
+        let scrollTimeout;
+        ScrollTrigger.create({
+          trigger: orbitSectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          onUpdate: (self) => {
+            const velocity = Math.abs(self.getVelocity());
+            const targetScale = Math.max(0.15, 1 - velocity / 1500);
+            
+            gsap.to([orbitTween, counterTween], {
+              timeScale: targetScale,
+              duration: 0.2,
+              overwrite: "auto"
+            });
+            
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+              gsap.to([orbitTween, counterTween], {
+                timeScale: 1,
+                duration: 0.8,
+                overwrite: "auto"
+              });
+            }, 100);
+          }
+        });
+
+        // Pause on hover
+        const pauseOrbit = () => {
+          gsap.to([orbitTween, counterTween], { timeScale: 0, duration: 0.5, overwrite: "auto" });
+        };
+        const resumeOrbit = () => {
+          gsap.to([orbitTween, counterTween], { timeScale: 1, duration: 0.5, overwrite: "auto" });
+        };
+
+        oItems.forEach(item => {
+          item.addEventListener('mouseenter', pauseOrbit);
+          item.addEventListener('mouseleave', resumeOrbit);
+        });
+
+        // Store cleanup directly on elements if needed, but ctx.revert() handles GSAP. 
+        // We do need to remove event listeners though.
+        orbitContainerRef.current._cleanup = () => {
+          oItems.forEach(item => {
+            item.removeEventListener('mouseenter', pauseOrbit);
+            item.removeEventListener('mouseleave', resumeOrbit);
+          });
+        };
+      }
     });
 
-    return () => ctx.revert();
+    return () => {
+      if (orbitContainerRef.current && orbitContainerRef.current._cleanup) {
+        orbitContainerRef.current._cleanup();
+      }
+      ctx.revert();
+    };
   }, [service]);
 
   // Stats counter animation
@@ -221,17 +322,26 @@ const ServiceDetails = () => {
       {/* ============================================================
            BENEFITS SECTION
            ============================================================ */}
-      <section className="benefits-section">
+      <section className="benefits-section" style={{ position: 'relative' }}>
+        <BenefitsParticles hoveredCardIndex={hoveredCardIndex} accentColor={service.accent} />
         <div className="section-header">
-          <span className="section-badge">Benefits</span>
+          <span className="section-badge">BENEFITS</span>
           <h2 className="section-title">Why Choose <span className="section-title-accent">Zarvion</span></h2>
         </div>
-
+        
         <div className="benefits-grid">
           {service.benefits.map((benefit, i) => (
-            <div key={i} className="benefits-card animate-on-scroll" style={{ transitionDelay: `${i * 0.08}s` }}>
-              <div className="benefits-card-icon">✦</div>
-              <p className="benefits-card-text">{benefit}</p>
+            <div 
+              key={i} 
+              className="benefits-card animate-on-scroll" 
+              style={{ transitionDelay: `${i * 0.08}s` }}
+              onMouseEnter={() => setHoveredCardIndex(i)}
+              onMouseLeave={() => setHoveredCardIndex(null)}
+            >
+              <div className="benefits-card-icon particle-target">✦</div>
+              <p className="benefits-card-text">
+                {benefit}
+              </p>
             </div>
           ))}
         </div>
@@ -240,19 +350,57 @@ const ServiceDetails = () => {
       {/* ============================================================
            FEATURES SECTION
            ============================================================ */}
-      <section className="features-section">
+      <section className="features-section" ref={orbitSectionRef}>
         <div className="section-header">
           <span className="section-badge">Features</span>
           <h2 className="section-title">What's <span className="section-title-accent">Included</span></h2>
         </div>
 
-        <div className="features-grid">
-          {service.features.map((feature, i) => (
-            <div key={i} className="features-card animate-on-scroll" style={{ transitionDelay: `${i * 0.1}s` }}>
-              <div className="features-card-icon">✓</div>
-              <p className="features-card-text">{feature}</p>
+        <div className={`features-layout-container ${selectedFeature ? 'has-selection' : ''}`}>
+          <div className="features-orbit-wrapper">
+            <div className="orbit-center-sphere">
+              {service.heroImage}
             </div>
-          ))}
+            
+            <div className="features-orbit-container" ref={orbitContainerRef}>
+              {service.features.map((feature, i) => {
+                const Icon = FaIcons[feature.iconType] || FaIcons.FaCheckCircle;
+                return (
+                  <div 
+                    key={i} 
+                    className="features-orbit-item"
+                    ref={el => orbitItemsRef.current[i] = el}
+                    onClick={() => setSelectedFeature(feature)}
+                  >
+                    <div className="features-card" style={{ '--card-accent': feature.color }}>
+                      <div className="features-card-icon">
+                        <Icon />
+                      </div>
+                      <p className="features-card-text">{feature.title}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className={`feature-details-panel ${selectedFeature ? 'visible' : ''}`}>
+            {selectedFeature && (
+              <div 
+                className="feature-drawer" 
+                style={{ borderTopColor: selectedFeature.color }}
+              >
+                <button className="feature-drawer-close" onClick={() => setSelectedFeature(null)}>
+                  <FiX />
+                </button>
+                <div className="feature-drawer-icon" style={{ color: selectedFeature.color }}>
+                  {React.createElement(FaIcons[selectedFeature.iconType] || FaIcons.FaCheckCircle)}
+                </div>
+                <h3 className="feature-drawer-title">{selectedFeature.title}</h3>
+                <p className="feature-drawer-desc">{selectedFeature.details}</p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -300,24 +448,51 @@ const ServiceDetails = () => {
       {/* ============================================================
            TESTIMONIALS
            ============================================================ */}
-      <section className="testimonials-section" onMouseMove={handleTestimonialsMouseMove}>
+      <section className="testimonials-section">
         <div className="section-header">
           <span className="section-badge">Testimonials</span>
           <h2 className="section-title">Real <span className="section-title-accent">Results</span></h2>
         </div>
 
-        <div className="testimonials-grid">
+        <Swiper
+          modules={[Parallax, Pagination, Autoplay]}
+          parallax={true}
+          spaceBetween={30}
+          slidesPerView={1}
+          centeredSlides={true}
+          autoplay={{ delay: 2000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          className="testimonials-swiper"
+        >
           {service.testimonials.map((testimonial, i) => (
-            <div key={i} className="testimonials-card animate-on-scroll" style={{ transitionDelay: `${i * 0.15}s` }}>
-              <div className="testimonials-quote">❝</div>
-              <p className="testimonials-text">{testimonial.quote}</p>
-              <div className="testimonials-author">
-                <div className="testimonials-author-name">{testimonial.name}</div>
-                <div className="testimonials-author-role">{testimonial.role}</div>
+            <SwiperSlide key={i} className="testimonials-slide">
+              <div className="testimonials-card parallax-bg">
+                <div 
+                  className="testimonials-quote"
+                  data-swiper-parallax="-200"
+                >
+                  ❝
+                </div>
+                <p 
+                  className="testimonials-text"
+                  data-swiper-parallax="-100"
+                >
+                  {testimonial.quote}
+                </p>
+                <div 
+                  className="testimonials-author"
+                  data-swiper-parallax="-150"
+                >
+                  <img src={testimonial.image} alt={testimonial.name} className="testimonials-author-image" />
+                  <div>
+                    <div className="testimonials-author-name">{testimonial.name}</div>
+                    <div className="testimonials-author-role">{testimonial.role}</div>
+                  </div>
+                </div>
               </div>
-            </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </section>
 
       {/* ============================================================

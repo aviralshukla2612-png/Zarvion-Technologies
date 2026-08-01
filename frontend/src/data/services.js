@@ -27,12 +27,43 @@ export const services = [
       'Industry-specific keyword research',
     ],
     features: [
-      'Custom resume writing from scratch',
-      'ATS compatibility testing and optimisation',
-      'Unlimited revisions until you\'re satisfied',
-      'Multiple format delivery (PDF, Word, plain text)',
-      'Cover letter and LinkedIn summary included',
-      '1-on-1 consultation with a professional writer',
+
+      {
+        title: 'Custom resume writing from scratch',
+        iconType: 'FaPenNib',
+        color: '#3B82F6',
+        details: 'Our professional writers craft your resume from scratch, ensuring a compelling narrative that highlights your unique achievements and value proposition.'
+      },
+      {
+        title: 'ATS compatibility testing and optimisation',
+        iconType: 'FaRobot',
+        color: '#10B981',
+        details: 'We test your resume against real ATS systems to ensure 100% compatibility, making sure no important keywords or sections are dropped by the algorithm.'
+      },
+      {
+        title: 'Unlimited revisions until you\'re satisfied',
+        iconType: 'FaSyncAlt',
+        color: '#F59E0B',
+        details: 'Your satisfaction is our priority. We offer unlimited revisions until you are completely confident in the final document.'
+      },
+      {
+        title: 'Multiple format delivery (PDF, Word, plain text)',
+        iconType: 'FaFileExport',
+        color: '#6366F1',
+        details: 'Receive your polished resume in multiple formats including ATS-friendly PDF, editable Word document, and plain text for easy copying.'
+      },
+      {
+        title: 'Cover letter and LinkedIn summary included',
+        iconType: 'FaLinkedin',
+        color: '#EC4899',
+        details: 'Beyond the resume, we provide a tailored cover letter and an optimized LinkedIn summary to ensure a cohesive personal brand.'
+      },
+      {
+        title: '1-on-1 consultation with a professional writer',
+        iconType: 'FaUserFriends',
+        color: '#8B5CF6',
+        details: 'Discuss your career goals, target roles, and past experiences in a dedicated 1-on-1 session with your assigned writer.'
+      },
     ],
     process: [
       { step: 'Consultation', desc: 'We understand your career goals and target roles.' },
@@ -49,8 +80,10 @@ export const services = [
       { question: 'Is my resume ATS-friendly?', answer: 'Yes, all our resumes are optimised for ATS systems.' },
     ],
     testimonials: [
-      { name: 'Sarah Johnson', role: 'Software Engineer at Google', quote: 'This resume got me interviews at 5 FAANG companies in one week.' },
-      { name: 'Michael Chen', role: 'Product Manager at Microsoft', quote: 'The ATS optimisation made all the difference. I finally got callbacks.' },
+      { name: 'Sarah Johnson', role: 'Software Engineer', image: 'https://i.pravatar.cc/150?u=sarah0', quote: 'This service exceeded my expectations. The attention to detail and professional approach made all the difference.' },
+      { name: 'Michael Chen', role: 'Product Manager', image: 'https://i.pravatar.cc/150?u=michael0', quote: 'Absolutely fantastic experience. The team was highly responsive and delivered outstanding results ahead of schedule.' },
+      { name: 'Emily Rodriguez', role: 'UX Designer', image: 'https://i.pravatar.cc/150?u=emily0', quote: 'I highly recommend their expertise. They truly understand the industry and provided invaluable guidance throughout.' },
+      { name: 'David Kim', role: 'Data Scientist', image: 'https://i.pravatar.cc/150?u=david0', quote: 'A game-changer for my career. The insights and strategies provided were exactly what I needed to succeed.' }
     ],
     cta: {
       title: 'Ready to Land Your Dream Job?',
@@ -81,12 +114,43 @@ export const services = [
       'Network growth strategies to expand your reach',
     ],
     features: [
-      'Complete profile audit and analysis',
-      'Custom About section writing',
-      'Experience section optimisation',
-      'Skills and endorsements strategy',
-      'Featured content curation',
-      'Keyword research and implementation',
+
+      {
+        title: 'Complete profile audit and analysis',
+        iconType: 'FaSearch',
+        color: '#22D3EE',
+        details: 'We conduct a deep dive into your current profile, identifying gaps and opportunities for improvement compared to industry benchmarks.'
+      },
+      {
+        title: 'Custom About section writing',
+        iconType: 'FaPenFancy',
+        color: '#8B5CF6',
+        details: 'We rewrite your About section to tell a compelling professional story that captures attention and showcases your unique value.'
+      },
+      {
+        title: 'Experience section optimisation',
+        iconType: 'FaBriefcase',
+        color: '#F59E0B',
+        details: 'Your experience section is restructured to focus on quantifiable achievements rather than just listing responsibilities.'
+      },
+      {
+        title: 'Skills and endorsements strategy',
+        iconType: 'FaStar',
+        color: '#10B981',
+        details: 'We optimize your skills and endorsements, ensuring they align with what recruiters are actively searching for in your field.'
+      },
+      {
+        title: 'Featured content curation',
+        iconType: 'FaImages',
+        color: '#3B82F6',
+        details: 'We help curate and upload rich media (documents, links, videos) to your Featured section to create a visually engaging portfolio.'
+      },
+      {
+        title: 'Keyword research and implementation',
+        iconType: 'FaHashtag',
+        color: '#EC4899',
+        details: 'We identify and naturally integrate high-value keywords throughout your profile to significantly boost your search visibility.'
+      },
     ],
     process: [
       { step: 'Consultation', desc: 'We assess your current LinkedIn presence and goals.' },
@@ -102,8 +166,10 @@ export const services = [
       { question: 'Will my profile be SEO-optimised?', answer: 'Absolutely, we ensure your profile appears in recruiter searches.' },
     ],
     testimonials: [
-      { name: 'Emily Rodriguez', role: 'UX Designer at Airbnb', quote: 'My LinkedIn views went from 50 to 500 per week after optimisation.' },
-      { name: 'David Kim', role: 'Data Scientist at Amazon', quote: 'Recruiters started reaching out daily. This was a game-changer.' },
+      { name: 'Sarah Johnson', role: 'Software Engineer', image: 'https://i.pravatar.cc/150?u=sarah1', quote: 'This service exceeded my expectations. The attention to detail and professional approach made all the difference.' },
+      { name: 'Michael Chen', role: 'Product Manager', image: 'https://i.pravatar.cc/150?u=michael1', quote: 'Absolutely fantastic experience. The team was highly responsive and delivered outstanding results ahead of schedule.' },
+      { name: 'Emily Rodriguez', role: 'UX Designer', image: 'https://i.pravatar.cc/150?u=emily1', quote: 'I highly recommend their expertise. They truly understand the industry and provided invaluable guidance throughout.' },
+      { name: 'David Kim', role: 'Data Scientist', image: 'https://i.pravatar.cc/150?u=david1', quote: 'A game-changer for my career. The insights and strategies provided were exactly what I needed to succeed.' }
     ],
     cta: {
       title: 'Ready to Become a Recruiter Magnet?',
@@ -134,12 +200,43 @@ export const services = [
       'Technical interview preparation for engineering roles',
     ],
     features: [
-      '3 mock interview sessions with senior coaches',
-      'Detailed feedback reports after each session',
-      'Behavioural and technical question preparation',
-      'Company research and question prediction',
-      'Answer structuring and delivery coaching',
-      'Post-interview debrief and improvement plan',
+
+      {
+        title: '3 mock interview sessions with senior coaches',
+        iconType: 'FaMicrophone',
+        color: '#F59E0B',
+        details: 'Engage in highly realistic mock interviews tailored to your target role, conducted by experienced coaches from top companies.'
+      },
+      {
+        title: 'Detailed feedback reports after each session',
+        iconType: 'FaClipboardCheck',
+        color: '#EC4899',
+        details: 'Receive comprehensive, actionable feedback reports after each session, pinpointing exactly where you need to improve.'
+      },
+      {
+        title: 'Behavioural and technical question preparation',
+        iconType: 'FaComments',
+        color: '#3B82F6',
+        details: 'Master the STAR (Situation, Task, Action, Result) method to confidently answer complex behavioural questions.'
+      },
+      {
+        title: 'Company research and question prediction',
+        iconType: 'FaBuilding',
+        color: '#10B981',
+        details: 'We research your target company’s culture and specific interview processes to predict the questions they are most likely to ask.'
+      },
+      {
+        title: 'Answer structuring and delivery coaching',
+        iconType: 'FaChalkboardTeacher',
+        color: '#8B5CF6',
+        details: 'Learn how to structure your answers effectively and deliver them with confidence, body language, and the right tone.'
+      },
+      {
+        title: 'Post-interview debrief and improvement plan',
+        iconType: 'FaChartLine',
+        color: '#22D3EE',
+        details: 'After a real interview, we sit down to debrief, analyze what went well, and refine your strategy for the next round.'
+      },
     ],
     process: [
       { step: 'Consultation', desc: 'We understand your target roles and interview challenges.' },
@@ -155,8 +252,10 @@ export const services = [
       { question: 'Do you offer technical interview prep?', answer: 'Yes, we have specialised coaches for technical roles.' },
     ],
     testimonials: [
-      { name: 'James Wilson', role: 'Senior Engineer at Stripe', quote: 'The mock interviews were incredibly realistic. I was fully prepared.' },
-      { name: 'Lisa Park', role: 'Product Lead at Figma', quote: 'The STAR method training helped me structure my answers perfectly.' },
+      { name: 'Sarah Johnson', role: 'Software Engineer', image: 'https://i.pravatar.cc/150?u=sarah2', quote: 'This service exceeded my expectations. The attention to detail and professional approach made all the difference.' },
+      { name: 'Michael Chen', role: 'Product Manager', image: 'https://i.pravatar.cc/150?u=michael2', quote: 'Absolutely fantastic experience. The team was highly responsive and delivered outstanding results ahead of schedule.' },
+      { name: 'Emily Rodriguez', role: 'UX Designer', image: 'https://i.pravatar.cc/150?u=emily2', quote: 'I highly recommend their expertise. They truly understand the industry and provided invaluable guidance throughout.' },
+      { name: 'David Kim', role: 'Data Scientist', image: 'https://i.pravatar.cc/150?u=david2', quote: 'A game-changer for my career. The insights and strategies provided were exactly what I needed to succeed.' }
     ],
     cta: {
       title: 'Ready to Ace Your Next Interview?',
@@ -187,12 +286,43 @@ export const services = [
       'Post-placement support and career guidance',
     ],
     features: [
-      'Personalised job matching algorithm',
-      'Interview scheduling and coordination',
-      'Offer negotiation and contract review',
-      'Visa and relocation assistance',
-      'Post-placement check-ins and support',
-      'Access to exclusive job listings not publicly available',
+
+      {
+        title: 'Personalised job matching algorithm',
+        iconType: 'FaCogs',
+        color: '#818CF8',
+        details: 'Our proprietary algorithm analyzes your profile, skills, and preferences to match you with ideal roles across our global network.'
+      },
+      {
+        title: 'Interview scheduling and coordination',
+        iconType: 'FaCalendarCheck',
+        color: '#10B981',
+        details: 'We take the hassle out of coordination by handling all interview scheduling directly with the employers across different time zones.'
+      },
+      {
+        title: 'Offer negotiation and contract review',
+        iconType: 'FaHandshake',
+        color: '#F59E0B',
+        details: 'Our experts negotiate on your behalf to ensure you receive the most competitive compensation and benefits package possible.'
+      },
+      {
+        title: 'Visa and relocation assistance',
+        iconType: 'FaGlobe',
+        color: '#EC4899',
+        details: 'We provide comprehensive assistance with visa applications, documentation, and logistical planning for your international move.'
+      },
+      {
+        title: 'Post-placement check-ins and support',
+        iconType: 'FaUserCheck',
+        color: '#3B82F6',
+        details: 'Our support does not end when you sign the offer. We check in regularly during your first months to ensure a smooth transition.'
+      },
+      {
+        title: 'Access to exclusive job listings not publicly available',
+        iconType: 'FaLock',
+        color: '#8B5CF6',
+        details: 'Gain access to the hidden job market with exclusive opportunities from our partners that are not advertised on public job boards.'
+      },
     ],
     process: [
       { step: 'Consultation', desc: 'We understand your career goals and ideal locations.' },
@@ -208,8 +338,10 @@ export const services = [
       { question: 'How long does placement take?', answer: 'On average, 4-8 weeks depending on your profile.' },
     ],
     testimonials: [
-      { name: 'Priya Sharma', role: 'Marketing Director at Unilever UAE', quote: 'They found me a role that perfectly matched my skills and career goals.' },
-      { name: 'Thomas Mueller', role: 'Software Architect at SAP Germany', quote: 'The relocation support made the transition seamless.' },
+      { name: 'Sarah Johnson', role: 'Software Engineer', image: 'https://i.pravatar.cc/150?u=sarah3', quote: 'This service exceeded my expectations. The attention to detail and professional approach made all the difference.' },
+      { name: 'Michael Chen', role: 'Product Manager', image: 'https://i.pravatar.cc/150?u=michael3', quote: 'Absolutely fantastic experience. The team was highly responsive and delivered outstanding results ahead of schedule.' },
+      { name: 'Emily Rodriguez', role: 'UX Designer', image: 'https://i.pravatar.cc/150?u=emily3', quote: 'I highly recommend their expertise. They truly understand the industry and provided invaluable guidance throughout.' },
+      { name: 'David Kim', role: 'Data Scientist', image: 'https://i.pravatar.cc/150?u=david3', quote: 'A game-changer for my career. The insights and strategies provided were exactly what I needed to succeed.' }
     ],
     cta: {
       title: 'Ready to Go Global?',
@@ -240,13 +372,44 @@ export const services = [
     'Ongoing access to updated materials as tech evolves',
   ],
   features: [
-    'Role-specific technical curriculum',
-    'Live, hands-on lab sessions',
-    'Mock technical assessments with feedback',
-    'Mentor-led 1-on-1 sessions',
-    'Portfolio-ready project work',
-    'Certification exam preparation',
-  ],
+
+      {
+        title: 'Role-specific technical curriculum',
+        iconType: 'FaBookOpen',
+        color: '#8B5CF6',
+        details: 'A curriculum designed specifically for your target role, focusing only on the technologies and concepts you actually need to know.'
+      },
+      {
+        title: 'Live, hands-on lab sessions',
+        iconType: 'FaLaptopCode',
+        color: '#22D3EE',
+        details: 'Learn by doing. Engage in interactive, hands-on lab sessions that simulate real-world engineering environments and challenges.'
+      },
+      {
+        title: 'Mock technical assessments with feedback',
+        iconType: 'FaVial',
+        color: '#EC4899',
+        details: 'Test your readiness with rigorous mock technical assessments that mirror the coding rounds of top tech companies.'
+      },
+      {
+        title: 'Mentor-led 1-on-1 sessions',
+        iconType: 'FaUserTie',
+        color: '#10B981',
+        details: 'Get unstuck quickly and learn industry best practices through 1-on-1 sessions with working engineering mentors.'
+      },
+      {
+        title: 'Portfolio-ready project work',
+        iconType: 'FaFolderOpen',
+        color: '#F59E0B',
+        details: 'Build and deploy portfolio-ready projects that demonstrate your ability to solve complex problems to potential employers.'
+      },
+      {
+        title: 'Certification exam preparation',
+        iconType: 'FaCertificate',
+        color: '#3B82F6',
+        details: 'If your target role requires specific certifications, we provide the study materials and practice exams to help you pass.'
+      },
+    ],
   process: [
     { step: 'Consultation', desc: 'We assess your current skill level and target role.' },
     { step: 'Research', desc: 'We map the exact technical skills your target role needs.' },
@@ -261,9 +424,11 @@ export const services = [
     { question: 'Do I get a certificate?', answer: 'Yes, and we help you prepare for relevant industry certification exams.' },
   ],
   testimonials: [
-    { name: 'Ravi Menon', role: 'Backend Developer at Razorpay', quote: 'The hands-on labs got me interview-ready faster than any course I\'d tried before.' },
-    { name: 'Grace Adeyemi', role: 'Cloud Engineer at AWS', quote: 'The mentor sessions were the difference between knowing the theory and actually being able to do the job.' },
-  ],
+      { name: 'Sarah Johnson', role: 'Software Engineer', image: 'https://i.pravatar.cc/150?u=sarah4', quote: 'This service exceeded my expectations. The attention to detail and professional approach made all the difference.' },
+      { name: 'Michael Chen', role: 'Product Manager', image: 'https://i.pravatar.cc/150?u=michael4', quote: 'Absolutely fantastic experience. The team was highly responsive and delivered outstanding results ahead of schedule.' },
+      { name: 'Emily Rodriguez', role: 'UX Designer', image: 'https://i.pravatar.cc/150?u=emily4', quote: 'I highly recommend their expertise. They truly understand the industry and provided invaluable guidance throughout.' },
+      { name: 'David Kim', role: 'Data Scientist', image: 'https://i.pravatar.cc/150?u=david4', quote: 'A game-changer for my career. The insights and strategies provided were exactly what I needed to succeed.' }
+    ],
   cta: {
     title: 'Ready to Build In-Demand Skills?',
     subtitle: 'Get hands-on training mapped to the role you actually want.',
@@ -293,13 +458,44 @@ export const services = [
     'A safety net if something isn\'t working out',
   ],
   features: [
-    'Personalised onboarding roadmap',
-    '30 / 60 / 90-day check-in calls',
-    'Performance and feedback coaching',
-    'Access to an ongoing mentor',
-    'Workplace navigation guidance',
-    'Priority support if issues arise',
-  ],
+
+      {
+        title: 'Personalised onboarding roadmap',
+        iconType: 'FaMapSigns',
+        color: '#14B8A6',
+        details: 'A personalized roadmap for your first 30, 60, and 90 days to ensure you hit the ground running and make an immediate impact.'
+      },
+      {
+        title: '30 / 60 / 90-day check-in calls',
+        iconType: 'FaPhoneVolume',
+        color: '#3B82F6',
+        details: 'Regular check-in calls to discuss your progress, address early challenges, and align your expectations with your manager’s.'
+      },
+      {
+        title: 'Performance and feedback coaching',
+        iconType: 'FaTrophy',
+        color: '#F59E0B',
+        details: 'Coaching on how to gather feedback effectively, demonstrate your value, and establish a strong reputation early on.'
+      },
+      {
+        title: 'Access to an ongoing mentor',
+        iconType: 'FaHandsHelping',
+        color: '#8B5CF6',
+        details: 'Continuous access to a mentor who can offer objective advice on workplace situations and career progression.'
+      },
+      {
+        title: 'Workplace navigation guidance',
+        iconType: 'FaCompass',
+        color: '#EC4899',
+        details: 'Guidance on how to navigate complex team dynamics, understand company culture, and build critical internal relationships.'
+      },
+      {
+        title: 'Priority support if issues arise',
+        iconType: 'FaLifeRing',
+        color: '#22D3EE',
+        details: 'If issues arise or the role is not what was promised, you have priority support to help resolve the situation or find alternatives.'
+      },
+    ],
   process: [
     { step: 'Consultation', desc: 'We understand your new role and any early concerns.' },
     { step: 'Research', desc: 'We review your onboarding plan and company context.' },
@@ -314,9 +510,11 @@ export const services = [
     { question: 'Is this available for every placement?', answer: 'Yes, it\'s included for anyone placed through our Global Job Placement service.' },
   ],
   testimonials: [
-    { name: 'Noah Bennett', role: 'Data Analyst at Deloitte', quote: 'The 90-day check-ins caught a misunderstanding with my manager early — it made a huge difference.' },
-    { name: 'Fatima Al-Sayed', role: 'Project Coordinator at Emirates NBD', quote: 'Having someone to talk through onboarding nerves with made the transition so much smoother.' },
-  ],
+      { name: 'Sarah Johnson', role: 'Software Engineer', image: 'https://i.pravatar.cc/150?u=sarah5', quote: 'This service exceeded my expectations. The attention to detail and professional approach made all the difference.' },
+      { name: 'Michael Chen', role: 'Product Manager', image: 'https://i.pravatar.cc/150?u=michael5', quote: 'Absolutely fantastic experience. The team was highly responsive and delivered outstanding results ahead of schedule.' },
+      { name: 'Emily Rodriguez', role: 'UX Designer', image: 'https://i.pravatar.cc/150?u=emily5', quote: 'I highly recommend their expertise. They truly understand the industry and provided invaluable guidance throughout.' },
+      { name: 'David Kim', role: 'Data Scientist', image: 'https://i.pravatar.cc/150?u=david5', quote: 'A game-changer for my career. The insights and strategies provided were exactly what I needed to succeed.' }
+    ],
   cta: {
     title: 'Ready for a Strong Start?',
     subtitle: 'Get support that continues well after you sign the offer.',
@@ -346,13 +544,44 @@ export const services = [
     'Post-arrival support and settling-in guidance',
   ],
   features: [
-    'Visa eligibility assessment',
-    'Document preparation and authentication',
-    'Application submission and tracking',
-    'Interview preparation for visa interviews',
-    'Appointment scheduling and follow-up',
-    'Post-arrival support and guidance',
-  ],
+
+      {
+        title: 'Visa eligibility assessment',
+        iconType: 'FaPassport',
+        color: '#F43F5E',
+        details: 'A thorough assessment of your profile to determine the most viable visa options and immigration pathways for your target country.'
+      },
+      {
+        title: 'Document preparation and authentication',
+        iconType: 'FaFileSignature',
+        color: '#10B981',
+        details: 'Expert assistance in compiling, translating, and authenticating all necessary documentation to meet strict government requirements.'
+      },
+      {
+        title: 'Application submission and tracking',
+        iconType: 'FaPaperPlane',
+        color: '#3B82F6',
+        details: 'We handle the complex submission process and provide real-time tracking so you always know the status of your application.'
+      },
+      {
+        title: 'Interview preparation for visa interviews',
+        iconType: 'FaUserTie',
+        color: '#8B5CF6',
+        details: 'Rigorous preparation and mock sessions for visa interviews to ensure you answer confidently and accurately.'
+      },
+      {
+        title: 'Appointment scheduling and follow-up',
+        iconType: 'FaCalendarAlt',
+        color: '#F59E0B',
+        details: 'We manage all appointment scheduling with embassies or application centers, ensuring deadlines are met.'
+      },
+      {
+        title: 'Post-arrival support and guidance',
+        iconType: 'FaHome',
+        color: '#22D3EE',
+        details: 'Guidance on post-arrival requirements such as registering with local authorities, opening bank accounts, and finding housing.'
+      },
+    ],
   process: [
     { step: 'Consultation', desc: 'We assess your immigration requirements and eligibility.' },
     { step: 'Research', desc: 'We identify the best pathway for your situation.' },
@@ -367,9 +596,11 @@ export const services = [
     { question: 'How long does processing take?', answer: 'Processing times vary by country, typically 4-12 weeks.' },
   ],
   testimonials: [
-    { name: 'Sophia Kim', role: 'UX Designer at Shopify Canada', quote: 'The immigration process was stress-free. They handled everything.' },
-    { name: 'Oliver Schmidt', role: 'Software Engineer at BMW Germany', quote: 'Their advisors were incredibly knowledgeable and helpful.' },
-  ],
+      { name: 'Sarah Johnson', role: 'Software Engineer', image: 'https://i.pravatar.cc/150?u=sarah6', quote: 'This service exceeded my expectations. The attention to detail and professional approach made all the difference.' },
+      { name: 'Michael Chen', role: 'Product Manager', image: 'https://i.pravatar.cc/150?u=michael6', quote: 'Absolutely fantastic experience. The team was highly responsive and delivered outstanding results ahead of schedule.' },
+      { name: 'Emily Rodriguez', role: 'UX Designer', image: 'https://i.pravatar.cc/150?u=emily6', quote: 'I highly recommend their expertise. They truly understand the industry and provided invaluable guidance throughout.' },
+      { name: 'David Kim', role: 'Data Scientist', image: 'https://i.pravatar.cc/150?u=david6', quote: 'A game-changer for my career. The insights and strategies provided were exactly what I needed to succeed.' }
+    ],
   cta: {
     title: 'Ready to Make the Move?',
     subtitle: 'Get expert immigration and documentation support for a stress-free relocation.',

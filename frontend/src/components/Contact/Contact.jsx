@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Contact.css';
 
 const COUNTRIES = [
@@ -27,10 +28,12 @@ const ArrowUpRight = (
 );
 
 const Contact = () => {
+  const navigate = useNavigate();
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -179,7 +182,29 @@ const Contact = () => {
 
             {/* Back face — the actual form */}
             <div className="cta-face cta-back">
-              <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
+              {showSuccess ? (
+                <div className="contact-success">
+                  <div className="contact-success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                  </div>
+                  <h4>Message Sent!</h4>
+                  <p>We've received your request. Our team will get back to you shortly.</p>
+                  <button 
+                    className="contact-success-btn" 
+                    onClick={() => navigate('/')}
+                  >
+                    Return to Home Page
+                  </button>
+                </div>
+              ) : (
+              <form className="contact-form" onSubmit={(e) => {
+                e.preventDefault();
+                setShowSuccess(true);
+                e.target.reset();
+              }}>
                 <h3 className="reveal-field" style={{ transitionDelay: '0.05s' }}>
                   Let's Build Together
                 </h3>
@@ -256,6 +281,7 @@ const Contact = () => {
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
                 </button>
               </form>
+              )}
             </div>
           </div>
         </div>

@@ -237,8 +237,7 @@
   outline: none;
 }
 
-.contact-cta-panel:hover,
-.contact-cta-panel:focus-within {
+.contact-cta-panel:hover {
   transform: rotateX(2deg) rotateY(-2deg) translateY(-6px);
   box-shadow: 0 55px 120px rgba(47, 128, 255, 0.22), 0 20px 60px rgba(0, 0, 0, 0.4);
 }
@@ -261,8 +260,7 @@
   z-index: 3;
 }
 
-.contact-cta-panel:hover .contact-cta-border,
-.contact-cta-panel:focus-within .contact-cta-border {
+.contact-cta-panel:hover .contact-cta-border {
   opacity: 1;
   animation-play-state: running;
 }
@@ -283,8 +281,7 @@
   transition: border-color 0.4s ease;
 }
 
-.contact-cta-panel:hover::before,
-.contact-cta-panel:focus-within::before {
+.contact-cta-panel:hover::before {
   border-color: transparent;
 }
 
@@ -312,13 +309,11 @@
   opacity: 0;
 }
 
-.contact-cta-panel:hover .contact-cta-glow,
-.contact-cta-panel:focus-within .contact-cta-glow {
+.contact-cta-panel:hover .contact-cta-glow {
   transform: scale(1.25);
 }
 
-.contact-cta-panel:hover .contact-cta-glow-2,
-.contact-cta-panel:focus-within .contact-cta-glow-2 {
+.contact-cta-panel:hover .contact-cta-glow-2 {
   opacity: 1;
   transform: scale(1.15);
 }
@@ -342,8 +337,7 @@
   transform: translateY(0) rotateX(0deg);
 }
 
-.contact-cta-panel:hover .cta-front,
-.contact-cta-panel:focus-within .cta-front {
+.contact-cta-panel:hover .cta-front {
   opacity: 0;
   transform: translateY(-22px) rotateX(8deg);
   pointer-events: none;
@@ -356,8 +350,7 @@
   overflow-y: auto;
 }
 
-.contact-cta-panel:hover .cta-back,
-.contact-cta-panel:focus-within .cta-back {
+.contact-cta-panel:hover .cta-back {
   opacity: 1;
   transform: translateY(0) rotateX(0deg);
   pointer-events: auto;
@@ -425,8 +418,7 @@
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.contact-cta-panel:hover .reveal-field,
-.contact-cta-panel:focus-within .reveal-field {
+.contact-cta-panel:hover .reveal-field {
   opacity: 1;
   transform: translateY(0);
 }
@@ -606,7 +598,87 @@
 
 .submit-btn:focus-visible {
   outline: 2px solid var(--blue-soft);
-  outline-offset: 2px;
+  outline-offset: 4px;
+}
+
+/* ============================================================
+   SUCCESS STATE (Back face overlay)
+   ============================================================ */
+.contact-success {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--bg-raised);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  z-index: 10;
+  animation: success-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes success-fade-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.contact-success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(47, 128, 255, 0.12);
+  border: 1px solid rgba(47, 128, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-soft);
+  margin-bottom: 24px;
+  box-shadow: 0 0 30px rgba(47, 128, 255, 0.2);
+}
+
+.contact-success-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.contact-success h4 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.contact-success p {
+  font-size: 15px;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 280px;
+}
+
+.contact-success-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--blue-soft);
+  border: 1px solid rgba(47, 128, 255, 0.4);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.contact-success-btn:hover {
+  background: rgba(47, 128, 255, 0.1);
+  border-color: var(--blue-soft);
+  transform: translateY(-2px);
 }
 
 .submit-btn svg {
