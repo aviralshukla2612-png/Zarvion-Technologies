@@ -181,6 +181,8 @@ const Services = ({ variant = 'home' }) => {
   const rowRefs = useRef([]);
   const mobilePanelRef = useRef(null);
   const sectionRef = useRef(null);
+  const isScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef(null);
   const navigate = useNavigate();
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
 
@@ -199,8 +201,13 @@ const Services = ({ variant = 'home' }) => {
   const handleRowClick = (i) => {
     setActive(i);
     if (window.innerWidth <= 1024 && mobilePanelRef.current) {
+      isScrollingRef.current = true;
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       requestAnimationFrame(() => {
         mobilePanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        scrollTimeoutRef.current = setTimeout(() => {
+          isScrollingRef.current = false;
+        }, 1000);
       });
     } else if (isDesktop && sectionRef.current) {
       // Calculate where to scroll to make this card active
@@ -219,6 +226,7 @@ const Services = ({ variant = 'home' }) => {
 
       const observer = new IntersectionObserver(
         (entries) => {
+          if (isScrollingRef.current) return;
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const idx = rows.indexOf(entry.target);
