@@ -369,6 +369,10 @@
 
 @media (max-width: 1024px) {
   .srv-layout { grid-template-columns: 1fr; }
+  .srv-stack {
+    max-height: none;
+    overflow: visible;
+  }
   .srv-panel-desktop { display: none; }
   .srv-panel-mobile { display: block; margin-top: 24px; scroll-margin-top: 100px; }
   .srv-panel-mobile .srv-panel-inner { animation: panelFadeUp .35s ease; }
