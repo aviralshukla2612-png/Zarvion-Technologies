@@ -214,10 +214,21 @@
   box-shadow: 0 8px 25px rgba(47, 128, 255, 0.3);
 }
 
-.social-links a:nth-child(2):hover { background: #0A66C2; border-color: #0A66C2; }
-.social-links a:nth-child(3):hover { background: #171515; border-color: #333; }
-.social-links a:nth-child(4):hover { background: #E4405F; border-color: #E4405F; }
-.social-links a:nth-child(5):hover { background: #FF0000; border-color: #FF0000; }
+.social-links a:nth-child(1):hover { 
+  background: #14171A; 
+  border-color: #333; 
+  box-shadow: 0 8px 25px rgba(255,255,255,0.1); 
+}
+.social-links a:nth-child(2):hover { 
+  background: #0A66C2; 
+  border-color: #0A66C2; 
+  box-shadow: 0 8px 25px rgba(10, 102, 194, 0.3); 
+}
+.social-links a:nth-child(3):hover { 
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+  border-color: transparent; 
+  box-shadow: 0 8px 25px rgba(220, 39, 67, 0.3); 
+}
 
 /* ============================================================
    LINK COLUMNS

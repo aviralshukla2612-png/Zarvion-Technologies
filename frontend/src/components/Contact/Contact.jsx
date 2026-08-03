@@ -167,21 +167,8 @@ const Contact = () => {
             <div className="contact-cta-glow" aria-hidden="true" />
             <div className="contact-cta-glow contact-cta-glow-2" aria-hidden="true" />
 
-            {/* Front face */}
-            <div className="cta-face cta-front">
-              <span className="contact-cta-eyebrow">Start a project</span>
-              <h3 className="contact-cta-title">Let's Build Together</h3>
-              <p className="contact-cta-desc">
-                Tell us about your goals, timeline, and requirements — we'll get back to you within one business day.
-              </p>
-              <span className="contact-cta-btn">
-                Hover to open the form
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-              </span>
-            </div>
-
-            {/* Back face — the actual form */}
-            <div className="cta-face cta-back">
+            {/* The form container */}
+            <div className="cta-face">
               {showSuccess ? (
                 <div className="contact-success">
                   <div className="contact-success-icon">

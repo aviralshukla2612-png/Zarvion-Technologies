@@ -20,6 +20,22 @@
 .srv-section--home { padding: clamp(50px, 8vw, 80px) 0 clamp(60px, 8vw, 100px); }
 .srv-section--page { padding: clamp(90px, 10vw, 130px) 0 clamp(60px, 8vw, 100px); }
 
+.srv-section.is-pinned {
+  height: 300vh; /* 7 cards -> 300vh scroll space */
+  padding: 0;
+  display: block;
+}
+
+.srv-sticky-wrapper {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
 .srv-grid-bg {
   position: absolute;
   inset: 0;
@@ -131,7 +147,13 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding-bottom: 10vh;
+  padding-bottom: 2vh;
+  max-height: 60vh;
+  overflow: hidden;
+}
+
+.srv-stack::-webkit-scrollbar {
+  display: none;
 }
 
 .srv-stack-card {
@@ -227,11 +249,11 @@
   }
 }
 
-/* ── RIGHT: sticky panel that flows in from the right ────────── */
+/* ── RIGHT: panel ────────── */
 .srv-panel-desktop {
-  position: sticky;
-  top: 180px;
   overflow: hidden; /* clips the slide-in animation */
+  display: flex;
+  align-items: center;
 }
 
 .srv-panel-mobile { display: none; }
@@ -241,7 +263,13 @@
   border-radius: 20px;
   border: 1px solid color-mix(in srgb, var(--accent) 22%, rgba(255,255,255,0.08));
   background: linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  padding: clamp(28px, 3vw, 40px);
+  padding: clamp(40px, 4vw, 56px);
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 50px;
   box-shadow: 0 20px 60px -20px color-mix(in srgb, var(--accent) 25%, transparent);
   animation: panelFlowIn .45s cubic-bezier(.22,1,.36,1);
 }
@@ -260,6 +288,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   margin-bottom: 18px;
 }
 .srv-panel-index {
@@ -338,7 +367,7 @@
   .srv-layout { grid-template-columns: minmax(240px, 320px) 1fr; }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .srv-layout { grid-template-columns: 1fr; }
   .srv-panel-desktop { display: none; }
   .srv-panel-mobile { display: block; margin-top: 24px; scroll-margin-top: 100px; }

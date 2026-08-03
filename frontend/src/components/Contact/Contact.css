@@ -242,7 +242,7 @@
   box-shadow: 0 55px 120px rgba(47, 128, 255, 0.22), 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* Animated rotating-gradient border, revealed on hover */
+/* Animated rotating-gradient border */
 .contact-cta-border {
   position: absolute;
   inset: 0;
@@ -252,37 +252,16 @@
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  opacity: 0;
+  opacity: 1;
   animation: cta-border-spin 6s linear infinite;
-  animation-play-state: paused;
+  animation-play-state: running;
   transition: opacity 0.4s ease;
   pointer-events: none;
   z-index: 3;
 }
 
-.contact-cta-panel:hover .contact-cta-border {
-  opacity: 1;
-  animation-play-state: running;
-}
-
 @keyframes cta-border-spin {
   to { transform: rotate(360deg); }
-}
-
-/* Fallback border for when the animated one is hidden */
-.contact-cta-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border);
-  z-index: 2;
-  pointer-events: none;
-  transition: border-color 0.4s ease;
-}
-
-.contact-cta-panel:hover::before {
-  border-color: transparent;
 }
 
 .contact-cta-glow {
@@ -296,29 +275,25 @@
   pointer-events: none;
   transition: opacity 0.5s ease, transform 0.6s ease;
   z-index: 0;
+  transform: scale(1.25);
 }
 
 .contact-cta-glow-2 {
+  position: absolute;
   top: auto;
   right: auto;
   bottom: -100px;
   left: -100px;
   width: 300px;
   height: 300px;
+  border-radius: 50%;
   background: radial-gradient(circle, rgba(90, 168, 255, 0.14), transparent 70%);
-  opacity: 0;
-}
-
-.contact-cta-panel:hover .contact-cta-glow {
-  transform: scale(1.25);
-}
-
-.contact-cta-panel:hover .contact-cta-glow-2 {
   opacity: 1;
+  pointer-events: none;
+  z-index: 0;
   transform: scale(1.15);
 }
 
-/* Front + back faces, cross-faded */
 .cta-face {
   position: absolute;
   inset: 0;
@@ -328,32 +303,7 @@
   align-items: flex-start;
   gap: 14px;
   z-index: 1;
-  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(.22,1,.36,1);
-}
-
-.cta-front {
-  justify-content: center;
-  opacity: 1;
-  transform: translateY(0) rotateX(0deg);
-}
-
-.contact-cta-panel:hover .cta-front {
-  opacity: 0;
-  transform: translateY(-22px) rotateX(8deg);
-  pointer-events: none;
-}
-
-.cta-back {
-  opacity: 0;
-  transform: translateY(22px) rotateX(-8deg);
-  pointer-events: none;
   overflow-y: auto;
-}
-
-.contact-cta-panel:hover .cta-back {
-  opacity: 1;
-  transform: translateY(0) rotateX(0deg);
-  pointer-events: auto;
 }
 
 .contact-cta-eyebrow {
@@ -412,15 +362,10 @@
 /* ============================================================
    FORM (back face) — staggered field reveal on hover/focus-within
    ============================================================ */
-.reveal-field {
-  opacity: 0;
-  transform: translateY(-14px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.contact-cta-panel:hover .reveal-field {
+.contact-cta-panel .reveal-field {
   opacity: 1;
   transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .contact-form h3 {

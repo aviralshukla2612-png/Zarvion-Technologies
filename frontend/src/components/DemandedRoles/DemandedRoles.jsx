@@ -93,23 +93,8 @@ const DemandedRoles = ({ filter = 'all' }) => {
       const totalCards = roles.length;
       const totalWidth = step * (totalCards - 1);
 
-      track.style.height = '';
-
-      const setters = cards.map((card) => ({
-        scale: gsap.quickSetter(card, 'scale'),
-        opacity: gsap.quickSetter(card, 'opacity'),
-        zIndex: gsap.quickSetter(card, 'zIndex'),
-      }));
-      quickSettersRef.current = setters;
-
       cards.forEach((card, i) => {
         const isActive = i === 0;
-        gsap.set(card, {
-          scale: isActive ? 1 : 0.8,
-          opacity: isActive ? 1 : 0.25,
-          zIndex: isActive ? 3 : 1,
-          force3D: true,
-        });
         card.classList.toggle('active', isActive);
       });
 
@@ -123,6 +108,11 @@ const DemandedRoles = ({ filter = 'all' }) => {
           invalidateOnRefresh: true,
           anticipatePin: 1,
           fastScrollEnd: true,
+          snap: {
+            snapTo: 1 / (totalCards - 1),
+            duration: { min: 0.2, max: 0.6 },
+            ease: "power1.inOut"
+          },
           onUpdate: () => {
             const progress = tl.progress();
             const rawIndex = progress * (totalCards - 1);
@@ -133,29 +123,6 @@ const DemandedRoles = ({ filter = 'all' }) => {
               cards[roundedIndex]?.classList.add('active');
               activeIndexRef.current = roundedIndex;
               setActiveIndex(roundedIndex);
-            }
-
-            const setters = quickSettersRef.current;
-            for (let i = 0; i < cards.length; i++) {
-              const distance = Math.abs(i - rawIndex);
-              let scale, opacity, zIndex;
-              if (distance <= 0.5) {
-                scale = 1;
-                opacity = 1;
-                zIndex = 3;
-              } else if (distance <= 1.5) {
-                const t = (distance - 0.5) / 1.0;
-                scale = 1 - 0.15 * Math.min(t, 1);
-                opacity = 1 - 0.5 * Math.min(t, 1);
-                zIndex = 2;
-              } else {
-                scale = 0.8;
-                opacity = 0.25;
-                zIndex = 1;
-              }
-              setters[i].scale(scale);
-              setters[i].opacity(opacity);
-              setters[i].zIndex(zIndex);
             }
           },
         },
@@ -172,52 +139,7 @@ const DemandedRoles = ({ filter = 'all' }) => {
         0
       );
 
-      cards.forEach((card) => {
-        const image = card.querySelector('.card-image');
-        if (!image) return;
-
-        let hoverAnim = null;
-
-        const onEnter = () => {
-          if (card.classList.contains('active')) {
-            hoverAnim = gsap.to(card, {
-              scale: 1.03,
-              duration: 0.4,
-              ease: 'power2.out',
-              force3D: true,
-              overwrite: 'auto',
-            });
-          }
-        };
-
-        const onLeave = () => {
-          if (hoverAnim) {
-            hoverAnim.kill();
-            hoverAnim = null;
-          }
-          if (card.classList.contains('active')) {
-            gsap.to(card, {
-              scale: 1,
-              duration: 0.4,
-              ease: 'power2.out',
-              force3D: true,
-              overwrite: 'auto',
-            });
-          }
-        };
-
-        image.addEventListener('mouseenter', onEnter);
-        image.addEventListener('mouseleave', onLeave);
-
-        card._cleanupHover = () => {
-          image.removeEventListener('mouseenter', onEnter);
-          image.removeEventListener('mouseleave', onLeave);
-          if (hoverAnim) {
-            hoverAnim.kill();
-            hoverAnim = null;
-          }
-        };
-      });
+      // Removed JS hover effects to rely purely on active state
 
       ScrollTrigger.refresh();
     }, sectionRef);
@@ -229,12 +151,6 @@ const DemandedRoles = ({ filter = 'all' }) => {
         ctxRef.current.revert();
         ctxRef.current = null;
       }
-      cards.forEach((card) => {
-        if (card._cleanupHover) {
-          card._cleanupHover();
-          delete card._cleanupHover;
-        }
-      });
       quickSettersRef.current = [];
     };
   }, [isMobile, filter, roles.length]);

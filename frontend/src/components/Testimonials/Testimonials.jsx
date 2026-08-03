@@ -146,8 +146,7 @@ const Testimonials = () => {
               const t = testimonials[tIndex];
               const posClass = pos > 2 ? 'pos-hidden' : `pos-${pos}`;
               const isFront = pos === 0;
-
-              const style = { ...(isFront ? { background: t.color } : {}) };
+              const style = { background: t.color };
               if (isFront && dragging) {
                 style.transform = `translate(${dragX}px, 0) rotate(${dragX / 20}deg)`;
                 style.transition = 'none';
@@ -166,36 +165,34 @@ const Testimonials = () => {
                       is inconsistent on mobile browsers (esp. with data-saver /
                       low-resource modes), which was causing their full text to
                       show through and overlap with the front card. */}
-                  {isFront && (
-                    <>
-                      <div className="card-quote">"</div>
+                  <>
+                    <div className="card-quote">"</div>
 
-                      <div className="card-body">
-                        <p className="card-text">"{t.text}"</p>
-                      </div>
+                    <div className="card-body">
+                      <p className="card-text">"{t.text}"</p>
+                    </div>
 
-                      <div className="card-author">
-                        <div className="card-avatar">
-                          <img
-                            src={t.image}
-                            alt={t.name}
-                            draggable="false"
-                            onError={(e) => {
-                              e.target.style.display = 'none';
-                              e.target.nextSibling.style.display = 'flex';
-                            }}
-                          />
-                          <span className="fallback" style={{ display: 'none' }}>
-                            {t.name.charAt(0)}
-                          </span>
-                        </div>
-                        <div>
-                          <h4>{t.name}</h4>
-                          <p>{t.role}</p>
-                        </div>
+                    <div className="card-author">
+                      <div className="card-avatar">
+                        <img
+                          src={t.image}
+                          alt={t.name}
+                          draggable="false"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                        <span className="fallback" style={{ display: 'none' }}>
+                          {t.name.charAt(0)}
+                        </span>
                       </div>
-                    </>
-                  )}
+                      <div>
+                        <h4>{t.name}</h4>
+                        <p>{t.role}</p>
+                      </div>
+                    </div>
+                  </>
                 </div>
               );
             })}

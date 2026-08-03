@@ -89,7 +89,7 @@ const Navbar = () => {
               onFocus={openRolesDesktop}
               onBlur={closeRolesDesktop}
             >
-              Career Roles
+              In-Demand Roles
               <svg className="dropdown-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 9l6 6 6-6" />
               </svg>
@@ -116,7 +116,7 @@ const Navbar = () => {
 
         <div className="nav-right">
           <Link to="/contact" className="nav-btn" onClick={handleContactClick}>
-            Contact
+            Contact Us
           </Link>
         </div>
 
@@ -147,7 +147,7 @@ const Navbar = () => {
               onClick={() => setRolesOpen((prev) => !prev)}
               aria-expanded={rolesOpen}
             >
-              Career Roles
+              In-Demand Roles
               <svg className="dropdown-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 9l6 6 6-6" />
               </svg>

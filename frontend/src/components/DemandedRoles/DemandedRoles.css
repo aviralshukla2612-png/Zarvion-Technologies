@@ -129,7 +129,7 @@
   gap: 32px;
   height: 100%;
   width: max-content;
-  padding: 0 max(24px, calc((100vw - 460px) / 2));
+  padding: 0 max(24px, calc(50vw - (min(36vw, 460px) / 2)));
   will-change: transform;
 }
 
@@ -147,11 +147,18 @@
   -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 40px 90px rgba(0, 0, 0, 0.4);
   will-change: transform, opacity;
-  /* No transition on transform/opacity – GSAP handles it */
-  transition: border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.85);
+  opacity: 0.35;
+  z-index: 1;
+  transition: border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .role-card.active {
+  transform: scale(1);
+  opacity: 1;
+  z-index: 3;
   border-color: var(--card-border-hi);
   box-shadow: 0 40px 90px rgba(0, 0, 0, 0.4), 0 0 60px rgba(47, 128, 255, 0.06);
 }
@@ -175,7 +182,7 @@
   transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.card-image:hover img,
+.role-card.active .card-image img,
 .card-image:focus-visible img {
   filter: blur(0) saturate(1.05) contrast(1.02) brightness(0.9);
 }
@@ -215,7 +222,7 @@
   z-index: 1;
 }
 
-.card-image:hover .image-hover-veil {
+.role-card.active .image-hover-veil {
   opacity: 1;
 }
 
@@ -240,7 +247,7 @@
   margin: 0;
 }
 
-.card-image:hover .image-title,
+.role-card.active .image-title,
 .card-image:focus-visible .image-title {
   opacity: 1;
   transform: translateY(0) scale(1);

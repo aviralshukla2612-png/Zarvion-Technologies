@@ -69,12 +69,12 @@
 
 /* ===== INDUSTRIES WE SERVE ===== */
 .about-industries-section {
-  padding: clamp(20px, 4vw, 30px) 0 clamp(40px, 6vw, 60px);
+  padding: clamp(10px, 2vw, 20px) 0 clamp(40px, 6vw, 60px);
 }
 .about-industries-rows {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: clamp(24px, 4vw, 40px);
   mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
 }
@@ -84,7 +84,7 @@
   animation-name: industriesScrollLeft; animation-timing-function: linear; animation-iteration-count: infinite;
 }
 .about-industries-row.is-right .about-industries-track { animation-name: industriesScrollRight; }
-.about-industries-rows:hover .about-industries-track { animation-play-state: paused; }
+.about-industries-row:hover .about-industries-track { animation-play-state: paused; }
 @keyframes industriesScrollLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-33.333%); } }
 @keyframes industriesScrollRight { 0% { transform: translateX(-33.333%); } 100% { transform: translateX(0); } }
 
@@ -111,9 +111,9 @@
 
 /* ===== COMPANY LOGO CAROUSEL ===== */
 .about-carousel-section {
-  padding: clamp(16px, 3vw, 20px) clamp(20px, 4vw, 48px) clamp(40px, 6vw, 60px);
+  padding: clamp(16px, 3vw, 20px) clamp(20px, 4vw, 48px) clamp(16px, 3vw, 24px);
   border-top: 1px solid rgba(255,255,255,.06);
-  margin: 0 clamp(20px, 4vw, 48px) clamp(20px, 4vw, 40px);
+  margin: 0 clamp(20px, 4vw, 48px) clamp(10px, 2vw, 20px);
 }
 .about-carousel-title {
   text-align: center; font-family: var(--font-heading); font-size: clamp(17px, 2vw, 22px);
@@ -138,10 +138,10 @@
 }
 .about-logo-img {
   width: 26px; height: 26px; object-fit: contain; border-radius: 6px;
-  filter: grayscale(1) brightness(1.6) contrast(0.9); opacity: 0.65;
+  opacity: 0.85;
   transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease; flex-shrink: 0;
 }
-.about-carousel-item:hover .about-logo-img { filter: grayscale(0) brightness(1) contrast(1); opacity: 1; transform: scale(1.12) rotate(-4deg); }
+.about-carousel-item:hover .about-logo-img { opacity: 1; transform: scale(1.12) rotate(-4deg); }
 .about-logo-fallback {
   width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
   background: rgba(79,139,255,.12); border: 1px solid rgba(79,139,255,.3);
@@ -198,9 +198,9 @@
 }
 .about-team-cell img {
   width: 100%; height: 100%; object-fit: cover; display: block;
-  filter: grayscale(1) brightness(.8); transition: filter .45s ease, transform .45s ease;
+  transition: filter .45s ease, transform .45s ease;
 }
-.about-team-cell:hover img { filter: grayscale(0) brightness(1); transform: scale(1.06); }
+.about-team-cell:hover img { transform: scale(1.06); }
 .about-team-cell-info {
   position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 12px;
   background: linear-gradient(0deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,0) 100%);
