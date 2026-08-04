@@ -31,7 +31,7 @@ const Contact = () => {
   const navigate = useNavigate();
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
+  const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[1]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const dropdownRef = useRef(null);
@@ -225,7 +225,7 @@ const Contact = () => {
                       
                       {isDropdownOpen && (
                         <div className="country-select-dropdown">
-                          {COUNTRIES.map(c => (
+                          {COUNTRIES.filter(c => c.code !== selectedCountry.code).map(c => (
                             <div 
                               key={c.code} 
                               className="country-option"
