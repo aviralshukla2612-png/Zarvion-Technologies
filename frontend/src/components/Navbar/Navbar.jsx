@@ -163,7 +163,7 @@ const Navbar = () => {
 
         <div className="mobile-menu-footer">
           <Link to="/contact" className="nav-btn" onClick={handleContactClick}>
-            Contact
+            Contact Us
           </Link>
         </div>
       </div>
