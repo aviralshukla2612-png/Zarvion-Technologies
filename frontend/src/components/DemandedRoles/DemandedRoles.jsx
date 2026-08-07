@@ -218,6 +218,9 @@ const DemandedRoles = ({ filter = 'all' }) => {
                   <div className="image-glow" />
                   <div className="image-hover-veil" />
                   <h3 className="image-title">{role.title}</h3>
+                  <div className="explore-career-wrapper">
+                    <span className="explore-career-btn">Explore Career &rarr;</span>
+                  </div>
                 </div>
               </article>
             ))}
