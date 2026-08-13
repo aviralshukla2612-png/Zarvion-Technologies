@@ -1426,7 +1426,7 @@ const hyperspeedPresets = {
 // Hero Component
 // ============================================
 const HERO_DESCRIPTION =
-  "At Z+ Strategies, we don't just help you find a job—we prepare you for a successful career. Through industry-focused training, personalized mentorship, and real-world experience, we equip you with the skills, confidence, and opportunities needed to thrive in today's competitive job market.";
+  "At Zarvion Technologies, we don't just help you find a job—we prepare you for a successful career. Through industry-focused training, personalized mentorship, and real-world experience, we equip you with the skills, confidence, and opportunities needed to thrive in today's competitive job market.";
 
 const Hero = () => {
   const typedHeadRef = useRef(null);
@@ -1440,7 +1440,7 @@ const Hero = () => {
     if (!el || !cursor) return;
 
     const line1 = 'AVIATION OF YOUR CAREER WITH';
-    const accent = 'ZARVION TECHNOLOGIES.';
+    const accent = 'Z+ STRATEGIES.';
 
     const CHAR_DELAY = 12; // increased typing speed (lower delay)
     const START_DELAY = 150; // starts typing sooner
@@ -1509,7 +1509,7 @@ const Hero = () => {
         <h1
           className="h-head"
           ref={typedHeadRef}
-          aria-label="Aviation of your career with Zarvion Technologies."
+          aria-label="Aviation of your career with Z+ Strategies."
         ></h1>
         <span ref={cursorRef} className="typed-cursor" style={{ display: 'none' }}></span>
 

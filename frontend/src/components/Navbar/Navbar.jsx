@@ -62,6 +62,11 @@ const Navbar = () => {
     document.activeElement?.blur();
   };
 
+  const handleHomeClick = () => {
+    closeMenu();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const openRolesDesktop = () => {
     clearTimeout(closeTimer.current);
     setRolesOpen(true);
@@ -78,7 +83,7 @@ const Navbar = () => {
         </Link>
 
         <ul className="nav-links">
-          <li><Link to="/" className={(path === '/' && !activeSection) ? 'active' : ''}>Home</Link></li>
+          <li><Link to="/" className={(path === '/' && !activeSection) ? 'active' : ''} onClick={handleHomeClick}>Home</Link></li>
           <li><Link to="/about" className={(path === '/about' || (path === '/' && activeSection === 'about')) ? 'active' : ''}>About</Link></li>
           <li><Link to="/service" className={(path.startsWith('/service') || (path === '/' && activeSection === 'services')) ? 'active' : ''}>Services</Link></li>
 
@@ -140,7 +145,7 @@ const Navbar = () => {
 
       <div id="mobile-menu" className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
         <ul>
-          <li><Link to="/" className={(path === '/' && !activeSection) ? 'active' : ''} onClick={closeMenu}>Home</Link></li>
+          <li><Link to="/" className={(path === '/' && !activeSection) ? 'active' : ''} onClick={handleHomeClick}>Home</Link></li>
           <li><Link to="/about" className={(path === '/about' || (path === '/' && activeSection === 'about')) ? 'active' : ''} onClick={closeMenu}>About</Link></li>
           <li><Link to="/service" className={(path.startsWith('/service') || (path === '/' && activeSection === 'services')) ? 'active' : ''} onClick={closeMenu}>Services</Link></li>
 
