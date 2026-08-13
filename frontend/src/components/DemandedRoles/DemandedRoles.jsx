@@ -185,7 +185,7 @@ const DemandedRoles = ({ filter = 'all' }) => {
               <article
                 key={role.slug}
                 ref={(el) => (cardRefs.current[index] = el)}
-                className="role-card"
+                className="demanded-role-card"
                 data-index={index}
               >
                 <div

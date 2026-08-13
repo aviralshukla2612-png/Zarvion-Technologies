@@ -13,9 +13,12 @@ import DemandedRoles from './components/DemandedRoles/DemandedRoles';
 import Services from './components/Services/Services';
 import ServiceDetails from './pages/ServiceDetails/ServiceDetails';
 import Contact from './components/Contact/Contact';
+import Careers from './components/Careers/Careers';
 import ITRoles from './pages/ITRoles/ITRoles';
 import NonITRoles from './pages/NonITRoles/NonITRoles';
 import Blog from './pages/Blog/Blog';
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
+import Terms from './pages/Terms/Terms';
 import Loader from './components/Loader/Loader';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -73,10 +76,13 @@ function App() {
             <Route path="service" element={<div className="page-spacer"><Services /></div>} />
             <Route path="services/:slug" element={<ServiceDetails />} />
             <Route path="contact" element={<div className="page-spacer"><Contact /></div>} />
+            <Route path="careers" element={<div className="page-spacer"><Careers /></div>} />
             <Route path="*" element={<NotFound />} />
             <Route path="/it-roles" element={<div className="page-spacer"><ITRoles /></div>} />
             <Route path="/non-it-roles" element={<div className="page-spacer"><NonITRoles /></div>} /> 
             <Route path="/blog" element={<div className="page-spacer"><Blog /></div>} /> 
+            <Route path="/privacy-policy" element={<div className="page-spacer"><PrivacyPolicy /></div>} />
+            <Route path="/terms" element={<div className="page-spacer"><Terms /></div>} />
           </Route>
         </Routes>
       </Router>

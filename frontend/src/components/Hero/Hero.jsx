@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import * as THREE from 'three';
 import { BloomEffect, EffectComposer, EffectPass, RenderPass } from 'postprocessing';
 import './Hero.css';
@@ -1425,7 +1426,7 @@ const hyperspeedPresets = {
 // Hero Component
 // ============================================
 const HERO_DESCRIPTION =
-  "At Zarvion Technologies, we don't just help you find a job—we prepare you for a successful career. Through industry-focused training, personalized mentorship, and real-world experience, we equip you with the skills, confidence, and opportunities needed to thrive in today's competitive job market.";
+  "At Z+ Strategies, we don't just help you find a job—we prepare you for a successful career. Through industry-focused training, personalized mentorship, and real-world experience, we equip you with the skills, confidence, and opportunities needed to thrive in today's competitive job market.";
 
 const Hero = () => {
   const typedHeadRef = useRef(null);
@@ -1441,9 +1442,9 @@ const Hero = () => {
     const line1 = 'AVIATION OF YOUR CAREER WITH';
     const accent = 'ZARVION TECHNOLOGIES.';
 
-    const CHAR_DELAY = 28;
-    const START_DELAY = 500;
-    const LINE_GAP = 200;
+    const CHAR_DELAY = 12; // increased typing speed (lower delay)
+    const START_DELAY = 150; // starts typing sooner
+    const LINE_GAP = 50; // faster transition to second line
 
     let c1 = 0;
     let c2 = 0;
@@ -1521,7 +1522,7 @@ const Hero = () => {
         </p>
 
         <div className="h-btns">
-          <a href="#contact" className="btn-w" id="hero-explore">
+          <Link to="/contact" className="btn-w" id="hero-explore">
             Contact Us
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path
@@ -1532,7 +1533,7 @@ const Hero = () => {
                 strokeWidth="1.8"
               />
             </svg>
-          </a>
+          </Link>
           <a href="#services" className="btn-g" id="hero-quote">
             Our Services
           </a>

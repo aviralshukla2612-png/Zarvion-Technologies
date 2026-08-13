@@ -118,28 +118,21 @@ const SERVICES = [
     icon: IconTechTraining,
   },
   {
-    id: '06', slug: 'placement-assistance', title: 'Placement Assistance',
-    desc: 'Access our curated network of hiring partners and let us help you secure your ideal role with end-to-end placement support.',
-    features: ['Global Network', 'Top Employers', 'Offer Negotiation', 'Interview Coordination'],
-    accent: '#818CF8',
-    icon: IconPlacement,
-  },
-  {
-    id: '07', slug: 'seamless-onboarding', title: 'Seamless Onboarding',
+    id: '06', slug: 'seamless-onboarding', title: 'Seamless Onboarding',
     desc: 'Expert guidance on navigating corporate culture, building early relationships, and making an immediate impact.',
     features: ['First 30 Days', 'Culture Navigation', 'Relationship Building', 'Expectation Setting'],
     accent: '#F43F5E',
     icon: IconOnboarding,
   },
   {
-    id: '08', slug: 'immigration-advisory', title: 'Immigration Advisory',
+    id: '07', slug: 'immigration-advisory', title: 'Immigration Advisory',
     desc: 'Expert guidance for work permits, skilled-worker visas, document authentication, and cross-border legal compliance.',
     features: ['Work Permits', 'Visa Guidance', 'Document Prep', 'Legal Support'],
     accent: '#F97316',
     icon: IconImmigration,
   },
   {
-    id: '09', slug: 'post-placement-support', title: 'Post Placement Support',
+    id: '08', slug: 'post-placement-support', title: 'Post Placement Support',
     desc: 'Continued support after you join — 90-day check-ins and coaching to help you settle in and thrive.',
     features: ['90-Day Check-ins', 'Performance Coaching', 'Ongoing Mentorship', 'Retention Support'],
     accent: '#14B8A6',
@@ -330,6 +323,7 @@ const Services = ({ variant = 'home' }) => {
                   <span className="srv-stack-chevron" aria-hidden="true">{ChevronIcon}</span>
                 </button>
               ))}
+              <div style={{ minHeight: '40vh', flexShrink: 0 }} aria-hidden="true" />
             </div>
 
             {/* RIGHT — sticky panel, flows in from the right on change */}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiTwitter, FiLinkedin, FiInstagram } from 'react-icons/fi';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo.jpeg';
 import textLogo from '../../assets/images/ZARVION-TECHNOLOGIES-Font.png';
 import './Footer.css';
 
@@ -33,7 +33,7 @@ const Footer = () => {
         <div className="footer-grid">
           {/* Brand Column */}
           <div className="footer-brand">
-            <Link to="/" className="footer-logo">
+            <Link to="/" className="footer-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <img src={logo} alt="Zarvion Logo" className="logo-icon" />
               <img src={textLogo} alt="Zarvion Technologies" className="logo-text" />
             </Link>
@@ -61,7 +61,7 @@ const Footer = () => {
             <ul>
               <li><Link to="/about">About Us</Link></li>
               <li><Link to="/service">Our Services</Link></li>
-              <li><Link to="/demand">Careers</Link></li>
+              <li><Link to="/careers">Careers</Link></li>
               <li><Link to="/contact">Contact</Link></li>
             </ul>
           </div>
@@ -70,12 +70,8 @@ const Footer = () => {
           <div className="footer-links">
             <h4>Our Services</h4>
             <ul>
-              <li><a href="/service">Executive Recruitment</a></li>
-              <li><a href="/service">Talent Sourcing</a></li>
-              <li><a href="/service">Career Development</a></li>
-              <li><a href="/service">Resume Enhancement</a></li>
-              <li><a href="/service">Interview Preparation</a></li>
-              <li><a href="/service">Staffing Solutions</a></li>
+              <li><Link to="/service">Staffing Solutions</Link></li>
+              <li><Link to="/it-roles">Tech Consulting</Link></li>
             </ul>
           </div>
 
@@ -85,9 +81,8 @@ const Footer = () => {
             <ul>
               <li><Link to="/blog">Blog</Link></li>
               <li><a href="/#faq">FAQs</a></li>
-              <li><a href="#">Documentation</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Terms & Conditions</a></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/terms">Terms & Conditions</Link></li>
             </ul>
           </div>
 

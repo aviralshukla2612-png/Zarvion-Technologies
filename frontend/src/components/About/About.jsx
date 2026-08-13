@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './About.css';
 
 // ============================================
@@ -193,9 +194,9 @@ const About = () => {
               </div>
 
               <div className="about-hero-actions">
-                <a className="about-btn-primary" href="#">Know More About Us
+                <Link className="about-btn-primary" to="/about">Know More About Us
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </a>
+                </Link>
               </div>
             </div>
 

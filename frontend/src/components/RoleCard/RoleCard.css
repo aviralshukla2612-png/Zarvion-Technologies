@@ -10,8 +10,8 @@
   border-radius: var(--radius-lg, 22px);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(90, 168, 255, 0.18);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+
+
   box-shadow: 0 40px 90px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
   opacity: 0.4;
   transform: scale(0.9);

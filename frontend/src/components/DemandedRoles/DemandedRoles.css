@@ -133,8 +133,10 @@
   will-change: transform;
 }
 
-.role-card {
+.demanded-role-card {
   position: relative;
+  display: block;
+  padding: 0;
   flex: 0 0 auto;
   width: min(36vw, 460px);
   height: min(54vh, 420px);
@@ -157,7 +159,7 @@
               box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.role-card.active {
+.demanded-role-card.active {
   transform: scale(1.03);
   opacity: 1;
   z-index: 3;
@@ -165,7 +167,7 @@
   box-shadow: 0 40px 90px rgba(0, 0, 0, 0.4), 0 0 80px rgba(47, 128, 255, 0.25);
 }
 
-.role-card.active:hover {
+.demanded-role-card.active:hover {
   transform: scale(1.05);
   box-shadow: 0 40px 90px rgba(0, 0, 0, 0.4), 0 0 100px rgba(47, 128, 255, 0.35);
   border-color: rgba(90, 168, 255, 1);
@@ -178,6 +180,12 @@
   overflow: hidden;
   border-radius: var(--radius-lg);
   cursor: pointer;
+  outline: none;
+}
+
+.card-image:focus-visible {
+  outline: 2px solid var(--card-border-hi);
+  outline-offset: 4px;
 }
 
 .card-image img {
@@ -190,7 +198,7 @@
   transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.role-card.active .card-image img,
+.demanded-role-card.active .card-image img,
 .card-image:focus-visible img {
   filter: blur(0) saturate(1.05) contrast(1.02) brightness(0.9);
 }
@@ -216,7 +224,7 @@
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.role-card.active .image-glow {
+.demanded-role-card.active .image-glow {
   opacity: 1;
 }
 
@@ -230,7 +238,7 @@
   z-index: 1;
 }
 
-.role-card.active .image-hover-veil {
+.demanded-role-card.active .image-hover-veil {
   opacity: 1;
 }
 
@@ -255,7 +263,7 @@
   margin: 0;
 }
 
-.role-card.active .image-title,
+.demanded-role-card.active .image-title,
 .card-image:focus-visible .image-title {
   opacity: 1;
   transform: translateY(0) scale(1);
@@ -273,7 +281,7 @@
   pointer-events: none;
 }
 
-.role-card.active .explore-career-wrapper,
+.demanded-role-card.active .explore-career-wrapper,
 .card-image:focus-visible .explore-career-wrapper {
   opacity: 1;
   transform: translateY(0) scale(1);
@@ -317,7 +325,7 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .role-card {
+  .demanded-role-card {
     width: min(48vw, 420px);
     height: min(48vh, 380px);
   }
@@ -348,7 +356,7 @@
     gap: 24px;
     padding: 0 20px;
   }
-  .role-card {
+  .demanded-role-card {
     width: 100%;
     max-width: 400px;
     height: 280px;
@@ -403,7 +411,7 @@
   .card-stage {
     padding: 0 16px;
   }
-  .role-card {
+  .demanded-role-card {
     height: 240px;
   }
   .image-title {

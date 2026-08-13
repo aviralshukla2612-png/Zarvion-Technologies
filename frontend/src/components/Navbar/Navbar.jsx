@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo.jpeg';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -9,13 +9,18 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [rolesOpen, setRolesOpen] = useState(false); // mobile dropdown toggle
   const closeTimer = useRef(null);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // kept for future use
   const location = useLocation();
   const path = location.pathname;
 
   useEffect(() => {
     const handleScroll = () => {
       setFilled(window.scrollY > 10);
+      if (window.scrollY < 200) {
+        setActiveSection('');
+        return;
+      }
+
       const sections = ['about', 'services', 'demanded', 'contact'];
       let current = '';
       for (const section of sections) {
@@ -45,31 +50,30 @@ const Navbar = () => {
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
-  const handleContactClick = (e) => {
-    e.preventDefault();
+  const handleContactClick = () => {
     setMenuOpen(false);
-    navigate('/contact');
+    setRolesOpen(false);
+    document.activeElement?.blur();
   };
 
   const closeMenu = () => {
     setMenuOpen(false);
     setRolesOpen(false);
+    document.activeElement?.blur();
   };
 
-  // Small delay so moving the mouse from trigger -> submenu doesn't
-  // instantly collapse the dropdown.
   const openRolesDesktop = () => {
     clearTimeout(closeTimer.current);
     setRolesOpen(true);
   };
   const closeRolesDesktop = () => {
-    closeTimer.current = setTimeout(() => setRolesOpen(false), 150);
+    closeTimer.current = setTimeout(() => setRolesOpen(false), 300);
   };
 
   return (
     <>
       <nav className={`navbar ${filled ? 'filled' : ''}`} aria-label="Primary">
-        <Link to="/" className="brand" aria-label="Zarvion Technologies home" onClick={closeMenu}>
+        <Link to="/" className="brand" aria-label="Zarvion Technologies home" onClick={() => { closeMenu(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
           <img src={logo} alt="Zarvion Technologies logo" />
         </Link>
 

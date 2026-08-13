@@ -12,7 +12,7 @@
   background: #000000 !important;
   border: none;
   border-radius: 0;
-  z-index: 999;
+  z-index: 99999;
 }
 
 .brand {
@@ -52,6 +52,13 @@
   padding-bottom: 6px;
   white-space: nowrap;
   transition: .35s;
+  outline: none;
+}
+
+.nav-links a:focus-visible {
+  outline: 2px solid var(--blue-soft);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .nav-links a::after {
@@ -152,13 +159,11 @@
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
-  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
-  z-index: 1000;
+  transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+  z-index: 99999;
 }
 
-.dropdown-menu.open,
-.nav-dropdown:hover .dropdown-menu,
-.nav-dropdown:focus-within .dropdown-menu {
+.dropdown-menu.open {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
