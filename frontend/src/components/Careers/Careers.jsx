@@ -235,7 +235,15 @@ const Careers = () => {
                 <div className="form-row">
                   <div className="form-group reveal-field" style={{ transitionDelay: '0.1s' }}>
                     <label htmlFor="name">Your Name</label>
-                    <input type="text" id="name" placeholder="John Doe" required />
+                    <input 
+                      type="text" 
+                      id="name" 
+                      placeholder="John Doe" 
+                      required 
+                      onInput={(e) => {
+                        e.target.value = e.target.value.replace(/[0-9]/g, '');
+                      }}
+                    />
                   </div>
                   <div className="form-group reveal-field" style={{ transitionDelay: '0.15s' }}>
                     <label htmlFor="email">Your Email</label>

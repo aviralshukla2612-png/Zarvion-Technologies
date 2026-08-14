@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiTwitter, FiLinkedin, FiInstagram } from 'react-icons/fi';
-import logo from '../../assets/images/logo.jpeg';
+import logo from '../../assets/images/ZARVION TECHNOLOGIES ORG.png';
 import textLogo from '../../assets/images/ZARVION-TECHNOLOGIES-Font.png';
 import './Footer.css';
 
