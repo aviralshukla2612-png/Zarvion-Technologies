@@ -36,15 +36,15 @@ export default async function handler(req, res) {
     });
 
     // Destination email address (where you want to receive the messages)
-    const toEmail = process.env.CONTACT_EMAIL_TO && process.env.CONTACT_EMAIL_TO !== 'undefined' 
-        ? process.env.CONTACT_EMAIL_TO 
-        : 'aviralshukla2612@gmail.com';
+      const adminEmail = process.env.ADMIN_EMAIL && process.env.ADMIN_EMAIL !== 'undefined'
+        ? process.env.ADMIN_EMAIL
+        : 'heyjayu27@gmail.com';
 
     // Set up the email data
     const mailOptions = {
       from: `"${name}" <zarvion@vardaansmartsolutions.com>`, // Send via authenticated user
       replyTo: email, // Reply goes to the submitter
-      to: toEmail,
+      to: adminEmail,
       subject: `New Contact Request from ${name}`,
       text: `
 You have received a new contact request from Zarvion Technologies website.
