@@ -52,12 +52,12 @@ export default async function handler(req, res) {
 
     // Configure the SMTP transporter
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: process.env.SMTP_PORT || 587,
-      secure: process.env.SMTP_PORT == 465,
+      host: process.env.SMTP_HOST || 'smtp.hostinger.com',
+      port: process.env.SMTP_PORT || 465,
+      secure: true, // 465 requires secure: true
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: process.env.SMTP_USER || 'zarvion@vardaansmartsolutions.com',
+        pass: process.env.SMTP_PASS || '=C4;r>lDY4k~',
       },
     });
 
