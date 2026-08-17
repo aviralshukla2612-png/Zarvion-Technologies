@@ -296,10 +296,13 @@
 .cta-face {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   padding: 56px 48px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
   gap: 14px;
   z-index: 1;
 }
@@ -562,6 +565,7 @@
    ============================================================ */
 .contact-success {
   position: relative;
+  width: 100%;
   height: 100%;
   min-height: 400px;
   display: flex;
