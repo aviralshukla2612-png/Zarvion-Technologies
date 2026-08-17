@@ -561,8 +561,8 @@
    SUCCESS STATE (Back face overlay)
    ============================================================ */
 .contact-success {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
