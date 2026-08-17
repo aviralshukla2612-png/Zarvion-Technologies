@@ -17,7 +17,7 @@ import Careers from './components/Careers/Careers';
 import ITRoles from './pages/ITRoles/ITRoles';
 import NonITRoles from './pages/NonITRoles/NonITRoles';
 import Blog from './pages/Blog/Blog';
-import Article from './pages/Article/Article';
+import PostDetails from './pages/PostDetails/PostDetails';
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
 import Terms from './pages/Terms/Terms';
 import Loader from './components/Loader/Loader';
@@ -90,7 +90,8 @@ function App() {
               <Route path="/it-roles" element={<div className="page-spacer"><ITRoles /></div>} />
               <Route path="/non-it-roles" element={<div className="page-spacer"><NonITRoles /></div>} /> 
               <Route path="/blog" element={<div className="page-spacer"><Blog /></div>} /> 
-              <Route path="/blog/:id" element={<div className="page-spacer"><Article /></div>} />
+              <Route path="/blog/:id" element={<div className="page-spacer"><PostDetails /></div>} />
+              <Route path="/article/:id" element={<div className="page-spacer"><PostDetails /></div>} />
               <Route path="/privacy-policy" element={<div className="page-spacer"><PrivacyPolicy /></div>} />
               <Route path="/terms" element={<div className="page-spacer"><Terms /></div>} />
             </Route>

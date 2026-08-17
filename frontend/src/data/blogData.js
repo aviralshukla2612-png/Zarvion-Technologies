@@ -5,7 +5,7 @@ import socialImage from '../assets/images/roles/digital-marketing-manager.avif';
 import cyberImage from '../assets/images/roles/cyber-security-analyst.avif';
 import opsImage from '../assets/images/roles/operations-manager.avif';
 
-export const BLOG_POSTS = [
+export const ARTICLE_POSTS = [
   {
     id: 1,
     title: "The Future of AI in Tech Recruitment",
@@ -13,11 +13,8 @@ export const BLOG_POSTS = [
     category: "Technology",
     date: "Aug 12, 2026",
     image: aiImage,
-    featured: true,
     author: "Zarvion Research Team",
     content: `
-      <p>Artificial Intelligence is no longer just a buzzword; it's actively reshaping how companies hire and how candidates secure their dream jobs. The landscape of tech recruitment has evolved significantly in the past few years, moving from manual resume screening to sophisticated, AI-driven talent matching.</p>
-      
       <h2>Streamlining the Acquisition Process</h2>
       <p>Modern applicant tracking systems (ATS) now leverage deep learning algorithms to not just parse keywords, but to understand the context of a candidate's experience. This means candidates who have non-traditional backgrounds but highly relevant skills are less likely to fall through the cracks.</p>
       
@@ -31,7 +28,6 @@ export const BLOG_POSTS = [
       
       <h2>The Human Element</h2>
       <p>Despite the rise of automation, the human element remains irreplaceable. AI handles the heavy lifting of initial screening, allowing recruiters to spend more time on meaningful interactions—assessing cultural fit, understanding a candidate's long-term goals, and building relationships.</p>
-      <p>At Zarvion Technologies, we blend cutting-edge AI insights with deep human expertise to guide our candidates through this rapidly changing environment. The future of recruitment is intelligent, and those who adapt will secure the best opportunities.</p>
     `
   },
   {
@@ -41,11 +37,8 @@ export const BLOG_POSTS = [
     category: "Workplace",
     date: "Jul 28, 2026",
     image: opsImage,
-    featured: true,
     author: "Zarvion Operations",
     content: `
-      <p>The transition to hybrid work models has become the defining characteristic of the modern corporate landscape. While the initial scramble to remote work was driven by necessity, the current hybrid ecosystem is a deliberate choice aimed at balancing productivity with employee wellbeing.</p>
-      
       <h2>Redefining Company Culture</h2>
       <p>Building a cohesive culture is notoriously difficult when team members are distributed. Best-in-class organizations have shifted from "watercooler" culture to intentional connection. This means structuring meetings to include remote participants equally and prioritizing asynchronous communication tools to prevent burnout.</p>
       
@@ -66,11 +59,8 @@ export const BLOG_POSTS = [
     category: "Career Advice",
     date: "Jul 15, 2026",
     image: hrImage,
-    featured: true,
     author: "Zarvion HR Advisory",
     content: `
-      <p>While coding languages, frameworks, and software proficiencies are the baseline requirements for tech roles, they are rarely the deciding factor in the final interview rounds. In 2026, the complexity of technical projects means that strong interpersonal skills are more critical than ever.</p>
-      
       <h2>1. Adaptive Problem Solving</h2>
       <p>Employers aren't just looking for candidates who know the answers; they want candidates who know how to find the answers when the parameters change. This involves critical thinking and the ability to pivot strategies quickly.</p>
       
@@ -86,7 +76,10 @@ export const BLOG_POSTS = [
       <h2>5. Remote Collaboration</h2>
       <p>With distributed teams being the norm, the ability to collaborate effectively through digital mediums—knowing when to jump on a call versus when to send a Slack message—is a highly sought-after competency.</p>
     `
-  },
+  }
+];
+
+export const BLOG_POSTS = [
   {
     id: 4,
     title: "Optimizing Your LinkedIn Profile for Recruiter Search",
@@ -94,11 +87,8 @@ export const BLOG_POSTS = [
     category: "Career Advice",
     date: "Jul 02, 2026",
     image: socialImage,
-    featured: false,
     author: "Zarvion Placement Team",
     content: `
-      <p>Your LinkedIn profile is often your first impression with top-tier tech recruiters. If it's acting merely as a digital version of your static resume, you are missing out on significant inbound opportunities.</p>
-      
       <h2>The Power of the Headline</h2>
       <p>Your headline defaults to your current job title, but it shouldn't. It should be a highly searchable value proposition. Instead of "Software Engineer at XYZ," use "Senior Full Stack Developer | React & Node.js | Building Scalable Cloud Architecture."</p>
       
@@ -117,11 +107,8 @@ export const BLOG_POSTS = [
     category: "Industry Trends",
     date: "Jun 18, 2026",
     image: cyberImage,
-    featured: false,
     author: "Zarvion Tech Experts",
     content: `
-      <p>As businesses continue to migrate sensitive operations to the cloud and face increasingly sophisticated threat actors, the demand for cybersecurity professionals has vastly outpaced the supply. This sector is currently experiencing unprecedented growth.</p>
-      
       <h2>Why the Boom?</h2>
       <p>Data is the new oil, and protecting it is paramount. With strict regulatory frameworks like GDPR and CCPA enforcing massive fines for data breaches, companies view cybersecurity not as an IT expense, but as critical business insurance.</p>
       
@@ -141,11 +128,8 @@ export const BLOG_POSTS = [
     category: "Interview Prep",
     date: "Jun 05, 2026",
     image: interviewImage,
-    featured: false,
     author: "Zarvion Advisory",
     content: `
-      <p>The technical interview is notoriously daunting, often acting as a high-pressure gatekeeper to the industry's best roles. However, it is a highly predictable process that can be mastered with the right preparation framework.</p>
-      
       <h2>Deconstructing the Coding Assessment</h2>
       <p>Data structures and algorithms form the backbone of these assessments. Instead of blindly memorizing LeetCode solutions, focus on recognizing patterns—such as Sliding Window, Two Pointers, or Depth-First Search. When you recognize the pattern, the implementation becomes straightforward.</p>
       

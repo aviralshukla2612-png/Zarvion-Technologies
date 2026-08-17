@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Blog.css';
-import { BLOG_POSTS } from '../../data/blogData';
+import { ARTICLE_POSTS, BLOG_POSTS } from '../../data/blogData';
 
 const Blog = () => {
-  const featuredPosts = BLOG_POSTS.filter(post => post.featured);
-  const gridPosts = BLOG_POSTS.filter(post => !post.featured);
+  const featuredPosts = ARTICLE_POSTS;
+  const gridPosts = BLOG_POSTS;
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Auto-advance slider
@@ -44,7 +44,7 @@ const Blog = () => {
                   </div>
                   <h1 className="slide-title">{post.title}</h1>
                   <p className="slide-excerpt">{post.excerpt}</p>
-                  <Link to={`/blog/${post.id}`} className="slide-btn">Read Article</Link>
+                  <Link to={`/article/${post.id}`} className="slide-btn">Read Article</Link>
                 </div>
               </div>
             );
@@ -71,7 +71,7 @@ const Blog = () => {
            ============================================================ */}
       <section className="blog-grid-section">
         <div className="section-header">
-          <span className="section-badge">Latest News</span>
+          <span className="section-badge">Latest Blogs</span>
           <h2 className="section-title">Insights & <span>Updates</span></h2>
         </div>
 
