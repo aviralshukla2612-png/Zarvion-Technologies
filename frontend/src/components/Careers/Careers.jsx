@@ -32,7 +32,7 @@ const Careers = () => {
   const navigate = useNavigate();
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
+  const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[1]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);

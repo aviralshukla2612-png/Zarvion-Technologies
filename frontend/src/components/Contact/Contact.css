@@ -251,7 +251,8 @@
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 1;
-  /* animation disabled for performance */
+  /* Enable border spin animation */
+  animation: cta-border-spin 4s linear infinite;
   animation-play-state: running;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -361,9 +362,14 @@
    FORM (back face) — staggered field reveal on hover/focus-within
    ============================================================ */
 .contact-cta-panel .reveal-field {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1);
+}
+
+.contact-section.is-visible .contact-cta-panel .reveal-field {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .contact-form h3 {
