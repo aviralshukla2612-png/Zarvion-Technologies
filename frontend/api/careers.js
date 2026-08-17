@@ -103,8 +103,26 @@ ${message}
       attachments: attachments,
     };
 
-    // Send the email
+    // 1. Send the email to the company
     await transporter.sendMail(mailOptions);
+
+    // 2. Send the auto-reply to the applicant
+    const autoReplyOptions = {
+      from: `"Zarvion Technologies" <${process.env.SMTP_USER || 'zarvion@vardaansmartsolutions.com'}>`,
+      to: email,
+      subject: `Application Received - Zarvion Technologies`,
+      text: `Hi ${name},\n\nThank you for applying for the ${position} role at Zarvion Technologies.\n\nWe have successfully received your application and resume. Our team will review your qualifications and reach out to you if your profile matches our requirements.\n\nBest regards,\nThe Zarvion Technologies Team`,
+      html: `
+        <div style="font-family: sans-serif; line-height: 1.6; color: #333;">
+          <p>Hi ${name},</p>
+          <p>Thank you for applying for the <strong>${position}</strong> role at Zarvion Technologies.</p>
+          <p>We have successfully received your application and resume. Our team will review your qualifications and reach out to you if your profile matches our requirements.</p>
+          <br/>
+          <p>Best regards,<br/><strong>The Zarvion Technologies Team</strong></p>
+        </div>
+      `,
+    };
+    await transporter.sendMail(autoReplyOptions);
 
     return res.status(200).json({ success: true, message: 'Application submitted successfully' });
   } catch (error) {

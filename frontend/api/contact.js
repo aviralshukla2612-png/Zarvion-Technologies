@@ -65,8 +65,25 @@ ${message}
       `,
     };
 
-    // Send the email
+    // 1. Send the email to the company
     await transporter.sendMail(mailOptions);
+
+    // 2. Send the auto-reply to the user
+    const autoReplyOptions = {
+      from: `"Zarvion Technologies" <${process.env.SMTP_USER || 'zarvion@vardaansmartsolutions.com'}>`,
+      to: email,
+      subject: `Thank you for contacting Zarvion Technologies`,
+      text: `Hi ${name},\n\nThank you for reaching out to us. We have received your message and our team will get back to you shortly.\n\nBest regards,\nThe Zarvion Technologies Team`,
+      html: `
+        <div style="font-family: sans-serif; line-height: 1.6; color: #333;">
+          <p>Hi ${name},</p>
+          <p>Thank you for reaching out to us. We have received your message and our team will get back to you shortly.</p>
+          <br/>
+          <p>Best regards,<br/><strong>The Zarvion Technologies Team</strong></p>
+        </div>
+      `,
+    };
+    await transporter.sendMail(autoReplyOptions);
 
     return res.status(200).json({ success: true, message: 'Message sent successfully' });
   } catch (error) {
