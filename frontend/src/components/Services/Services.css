@@ -373,6 +373,15 @@
    RESPONSIVE
    ================================================================ */
 
+@media (max-height: 850px) and (min-width: 1025px) {
+  .srv-sticky-wrapper { padding-top: 2vh; }
+  .srv-header { margin-bottom: clamp(16px, 3vh, 30px); }
+  .srv-title { font-size: clamp(24px, 3.5vw, 36px); margin: 8px 0; }
+  .srv-panel-inner { padding: 24px; min-height: 320px; }
+  .srv-stack { max-height: calc(60vh + 20px); }
+  .srv-panel-features { margin-bottom: 16px; gap: 8px 16px; }
+}
+
 @media (max-width: 1100px) {
   .srv-layout { grid-template-columns: minmax(240px, 320px) minmax(0, 1fr); }
 }
