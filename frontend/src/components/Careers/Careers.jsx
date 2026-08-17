@@ -212,7 +212,7 @@ const Careers = () => {
                 const formData = new FormData(e.target);
                 formData.set('phone', `${selectedCountry.code} ${e.target.phone.value}`);
 
-                fetch("https://formsubmit.co/ajax/heyjayu27@gmail.com", {
+                fetch("https://formsubmit.co/ajax/aviralshukla2612@gmail.com", {
                     method: "POST",
                     body: formData
                 })
