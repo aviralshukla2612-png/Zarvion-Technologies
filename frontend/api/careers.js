@@ -79,7 +79,7 @@ export default async function handler(req, res) {
     const mailOptions = {
       from: `"${name}" <zarvion@vardaansmartsolutions.com>`,
       replyTo: email,
-      to: toEmail,
+      to: adminEmail,
       subject: `New Job Application: ${position} - ${name}`,
       text: `
 You have received a new career application.
