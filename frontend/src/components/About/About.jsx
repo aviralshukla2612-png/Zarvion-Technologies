@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import founderImg from '../../assets/images/team/founder.jpeg';
+import coFounderImg from '../../assets/images/team/co founder.jpeg';
+import leadSpecialistImg from '../../assets/images/team/lead specialist.jpeg';
 import './About.css';
 
 // ============================================
@@ -125,12 +128,9 @@ const About = () => {
   ];
 
   const team = [
-    { name: "Aarav Shah",   role: "Founder & CEO",       img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80", linkedin: "https://linkedin.com/in/aarav-shah" },
-    { name: "Kabir Mehta",  role: "Lead Developer",      img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80", linkedin: "https://linkedin.com/in/kabir-mehta" },
-    { name: "Riya Nair",    role: "Creative Director",   img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80", linkedin: "https://linkedin.com/in/riya-nair" },
-    { name: "Devika Rao",   role: "UI/UX Designer",      img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80", linkedin: "https://linkedin.com/in/devika-rao" },
-    { name: "Arjun Verma",  role: "Product Manager",     img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80", linkedin: "https://linkedin.com/in/arjun-verma" },
-    { name: "Sara Iyer",    role: "Marketing Head",      img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=500&q=80", linkedin: "https://linkedin.com/in/sara-iyer" },
+    { name: "Jay Makwana",   role: "Founder",       img: founderImg, linkedin: "#", objectPosition: "top" },
+    { name: "Himmat Parmar", role: "Co Founder",    img: coFounderImg, linkedin: "#", objectPosition: "top" },
+    { name: "Mihir Shrimali",role: "Lead Generation Specialist", img: leadSpecialistImg, linkedin: "#", objectPosition: "center 25%" },
   ];
 
   const COLUMN_COUNT = 5;
@@ -230,7 +230,7 @@ const About = () => {
               >
                 {[...col, ...col].map((member, i) => (
                   <div className="about-team-cell" key={i}>
-                    <img src={member.img} alt={member.name} loading="lazy" />
+                    <img src={member.img} alt={member.name} loading="lazy" style={{ objectPosition: member.objectPosition || 'center 25%' }} />
                     <div className="about-team-cell-info">
                       <h5>{member.name}</h5>
                       <span>{member.role}</span>

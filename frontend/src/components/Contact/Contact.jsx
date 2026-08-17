@@ -14,10 +14,10 @@ const COUNTRIES = [
 const OFFICE_ADDRESS = 'Plot No.71, 4th Floor, Silicon Avenue, Hitech City, Madhapur, Hyderabad, Telangana 500081, India';
 const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(OFFICE_ADDRESS)}`;
 const APPLE_MAP_URL = `http://maps.apple.com/?q=${encodeURIComponent(OFFICE_ADDRESS)}`;
-const PHONE_DISPLAY = '+91 7890012345';
-const PHONE_HREF = 'tel:+917890012345';
-const EMAIL_DISPLAY = 'hello@zarviontechnologies.com';
-const EMAIL_HREF = 'mailto:hello@zarviontechnologies.com';
+const PHONE_DISPLAY = '+1 (302) 364-2356';
+const PHONE_HREF = 'tel:+13023642356';
+const EMAIL_DISPLAY = 'info@zarviontechnologies.com';
+const EMAIL_HREF = 'mailto:info@zarviontechnologies.com';
 
 // Small diagonal arrow used on every hoverable contact row
 const ArrowUpRight = (
@@ -189,9 +189,26 @@ const Contact = () => {
               ) : (
               <form className="contact-form" onSubmit={(e) => {
                 e.preventDefault();
-                setShowSuccess(true);
-                e.target.reset();
+                
+                const formData = new FormData(e.target);
+                formData.set('phone', `${selectedCountry.code} ${e.target.phone.value}`);
+
+                fetch("https://formsubmit.co/ajax/heyjayu27@gmail.com", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    setShowSuccess(true);
+                    e.target.reset();
+                })
+                .catch(error => {
+                    console.error("Error submitting form:", error);
+                    alert("There was an issue sending your message. Please try again.");
+                });
               }}>
+                <input type="hidden" name="_subject" value="New Contact Request from Zarvion Technologies" />
+                <input type="hidden" name="_captcha" value="false" />
                 <h3 className="reveal-field" style={{ transitionDelay: '0.05s' }}>
                   Let's Build Together
                 </h3>
@@ -202,6 +219,7 @@ const Contact = () => {
                     <input 
                       type="text" 
                       id="name" 
+                      name="name"
                       placeholder="John Doe" 
                       required 
                       onInput={(e) => {
@@ -211,7 +229,7 @@ const Contact = () => {
                   </div>
                   <div className="form-group reveal-field" style={{ transitionDelay: '0.15s' }}>
                     <label htmlFor="email">Your Email</label>
-                    <input type="email" id="email" placeholder="john@example.com" required />
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required />
                   </div>
                 </div>
 
@@ -252,7 +270,8 @@ const Contact = () => {
                     <input 
                       type="tel" 
                       id="phone" 
-                      placeholder="98765 43210"
+                      name="phone"
+                      placeholder="(555) 123-4567"
                       maxLength="10"
                       onInput={(e) => {
                         e.target.value = e.target.value.replace(/[^0-9]/g, '');
@@ -265,6 +284,7 @@ const Contact = () => {
                   <label htmlFor="message">Your Message</label>
                   <textarea
                     id="message"
+                    name="message"
                     rows="6"
                     placeholder="Tell us about how we can help you..."
                     required

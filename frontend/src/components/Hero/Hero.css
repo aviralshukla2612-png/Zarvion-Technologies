@@ -193,6 +193,12 @@
   background: transparent;
 }
 
+.hero-right canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
 /* Readability veil — darkens the left side (behind the text) and
    fades out toward the right so the animation stays fully visible
    over there. Purely a readability aid, not a box edge. */

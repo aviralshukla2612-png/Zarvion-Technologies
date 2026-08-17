@@ -532,7 +532,7 @@ const ServiceDetails = () => {
               Contact Us
             </Link>
             <a 
-              href="tel:+917890012345" 
+              href="tel:+13023642356" 
               className="cta-btn" 
               style={{ 
                 background: 'rgba(255, 255, 255, 0.05)', 

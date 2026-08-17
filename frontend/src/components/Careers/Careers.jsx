@@ -15,10 +15,10 @@ const COUNTRIES = [
 const OFFICE_ADDRESS = 'Plot No.71, 4th Floor, Silicon Avenue, Hitech City, Madhapur, Hyderabad, Telangana 500081, India';
 const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(OFFICE_ADDRESS)}`;
 const APPLE_MAP_URL = `http://maps.apple.com/?q=${encodeURIComponent(OFFICE_ADDRESS)}`;
-const PHONE_DISPLAY = '+91 7890012345';
-const PHONE_HREF = 'tel:+917890012345';
-const EMAIL_DISPLAY = 'hello@zarviontechnologies.com';
-const EMAIL_HREF = 'mailto:hello@zarviontechnologies.com';
+const PHONE_DISPLAY = '+1 (302) 364-2356';
+const PHONE_HREF = 'tel:+13023642356';
+const EMAIL_DISPLAY = 'info@zarviontechnologies.com';
+const EMAIL_HREF = 'mailto:info@zarviontechnologies.com';
 
 // Small diagonal arrow used on every hoverable contact row
 const ArrowUpRight = (
@@ -208,9 +208,27 @@ const Careers = () => {
               ) : (
               <form className="contact-form" onSubmit={(e) => {
                 e.preventDefault();
-                setShowSuccess(true);
-                e.target.reset();
+                
+                const formData = new FormData(e.target);
+                formData.set('phone', `${selectedCountry.code} ${e.target.phone.value}`);
+
+                fetch("https://formsubmit.co/ajax/heyjayu27@gmail.com", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    setShowSuccess(true);
+                    e.target.reset();
+                    setSelectedFile(null);
+                })
+                .catch(error => {
+                    console.error("Error submitting form:", error);
+                    alert("There was an issue sending your application. Please try again.");
+                });
               }}>
+                <input type="hidden" name="_subject" value="New Career Application from Zarvion Technologies" />
+                <input type="hidden" name="_captcha" value="false" />
                 <h3 className="contact-form-title reveal-field" style={{ transitionDelay: '0.05s' }}>
                   Submit Your Resume
                 </h3>
@@ -219,7 +237,7 @@ const Careers = () => {
                   <div className="form-group reveal-field" style={{ transitionDelay: '0.08s' }}>
                     <label htmlFor="position">Position Applying For</label>
                     <div className="custom-select-wrapper">
-                      <select id="position" required className="styled-select">
+                      <select id="position" name="position" required className="styled-select">
                         <option value="" disabled selected>Select a position...</option>
                         {OPEN_POSITIONS.map(pos => (
                           <option key={pos.id} value={pos.title}>{pos.title}</option>
@@ -238,6 +256,7 @@ const Careers = () => {
                     <input 
                       type="text" 
                       id="name" 
+                      name="name"
                       placeholder="John Doe" 
                       required 
                       onInput={(e) => {
@@ -247,7 +266,7 @@ const Careers = () => {
                   </div>
                   <div className="form-group reveal-field" style={{ transitionDelay: '0.15s' }}>
                     <label htmlFor="email">Your Email</label>
-                    <input type="email" id="email" placeholder="john@example.com" required />
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required />
                   </div>
                 </div>
 
@@ -285,7 +304,8 @@ const Careers = () => {
                     <input 
                       type="tel" 
                       id="phone" 
-                      placeholder="98765 43210"
+                      name="phone"
+                      placeholder="(555) 123-4567"
                       maxLength="10"
                       required
                       onInput={(e) => {
@@ -301,6 +321,7 @@ const Careers = () => {
                     <input 
                       type="file" 
                       id="resume" 
+                      name="resume"
                       accept=".pdf,.doc,.docx" 
                       required 
                       className="file-input-hidden"
