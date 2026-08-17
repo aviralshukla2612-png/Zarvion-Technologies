@@ -65,7 +65,7 @@
   position: absolute;
   bottom: 48px;
   left: 48px;
-  max-width: 480px;
+  max-width: clamp(250px, 32vw, 420px);
   margin: 0;
   font-family: var(--font-heading);
   font-weight: 500;
