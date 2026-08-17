@@ -302,7 +302,6 @@
   align-items: flex-start;
   gap: 14px;
   z-index: 1;
-  overflow-y: auto;
 }
 
 .contact-cta-eyebrow {
@@ -378,6 +377,14 @@
   font-weight: 600;
   margin-bottom: 22px;
   color: var(--white);
+}
+
+.contact-form {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px; /* Room for scrollbar */
 }
 
 .form-row {
