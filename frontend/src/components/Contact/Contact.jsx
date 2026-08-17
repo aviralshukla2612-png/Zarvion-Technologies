@@ -11,7 +11,7 @@ const COUNTRIES = [
   { code: '+971', iso: 'ae' },
 ];
 
-const OFFICE_ADDRESS = 'Plot No.71, 4th Floor, Silicon Avenue, Hitech City, Madhapur, Hyderabad, Telangana 500081, India';
+const OFFICE_ADDRESS = '30 N Gould St Ste R, Sheridan, WY 82801, USA';
 const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(OFFICE_ADDRESS)}`;
 const APPLE_MAP_URL = `http://maps.apple.com/?q=${encodeURIComponent(OFFICE_ADDRESS)}`;
 const PHONE_DISPLAY = '+1 (302) 364-2356';
