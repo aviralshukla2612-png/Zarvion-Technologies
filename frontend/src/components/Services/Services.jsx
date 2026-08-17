@@ -323,7 +323,7 @@ const Services = ({ variant = 'home' }) => {
                   <span className="srv-stack-chevron" aria-hidden="true">{ChevronIcon}</span>
                 </button>
               ))}
-              <div style={{ minHeight: '40vh', flexShrink: 0 }} aria-hidden="true" />
+              {isDesktop && <div style={{ minHeight: '40vh', flexShrink: 0 }} aria-hidden="true" />}
             </div>
 
             {/* RIGHT — sticky panel, flows in from the right on change */}
