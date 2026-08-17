@@ -193,9 +193,15 @@ const Contact = () => {
                 const formData = new FormData(e.target);
                 formData.set('phone', `${selectedCountry.code} ${e.target.phone.value}`);
 
+                // Convert FormData to JSON object for the API
+                const data = Object.fromEntries(formData.entries());
+
                 fetch("/api/contact", {
                     method: "POST",
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
                 })
                 .then(response => response.json())
                 .then(data => {
