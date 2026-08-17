@@ -316,13 +316,13 @@ const Careers = () => {
                 </div>
 
                 <div className="form-group reveal-field" style={{ transitionDelay: '0.25s' }}>
-                  <label htmlFor="resume">Upload Resume (PDF, DOCX)</label>
+                  <label htmlFor="resume">Upload Resume (PDF, DOCX, Image)</label>
                   <div className="file-upload-wrapper">
                     <input 
                       type="file" 
                       id="resume" 
                       name="resume"
-                      accept=".pdf,.doc,.docx" 
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" 
                       required 
                       className="file-input-hidden"
                       onChange={(e) => {
