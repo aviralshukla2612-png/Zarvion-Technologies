@@ -30,9 +30,9 @@
 }
 
 .post-header {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 24px;
+  padding-bottom: 16px;
 }
 
 .back-link {
@@ -106,7 +106,7 @@
   line-height: 1.8;
 }
 
-.post-content > *:first-child {
+.post-content > div > *:first-child {
   margin-top: 0;
 }
 
