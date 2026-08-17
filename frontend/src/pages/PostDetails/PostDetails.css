@@ -106,8 +106,8 @@
   line-height: 1.8;
 }
 
-.post-content > div > *:first-child {
-  margin-top: 0;
+.post-content div > h2:first-child {
+  margin-top: 0 !important;
 }
 
 .post-content p {
