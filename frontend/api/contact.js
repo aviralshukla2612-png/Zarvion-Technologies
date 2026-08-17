@@ -26,21 +26,23 @@ export default async function handler(req, res) {
 
     // Configure the SMTP transporter using Environment Variables
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.hostinger.com',
-      port: process.env.SMTP_PORT || 465,
+      host: 'smtp.hostinger.com',
+      port: 465,
       secure: true, // 465 requires secure: true
       auth: {
-        user: process.env.SMTP_USER || 'zarvion@vardaansmartsolutions.com',
-        pass: process.env.SMTP_PASS || '=C4;r>lDY4k~',
+        user: 'zarvion@vardaansmartsolutions.com',
+        pass: '=C4;r>lDY4k~',
       },
     });
 
     // Destination email address (where you want to receive the messages)
-    const toEmail = process.env.CONTACT_EMAIL_TO || 'aviralshukla2612@gmail.com';
+    const toEmail = process.env.CONTACT_EMAIL_TO && process.env.CONTACT_EMAIL_TO !== 'undefined' 
+        ? process.env.CONTACT_EMAIL_TO 
+        : 'aviralshukla2612@gmail.com';
 
     // Set up the email data
     const mailOptions = {
-      from: `"${name}" <${process.env.SMTP_USER}>`, // Send via authenticated user
+      from: `"${name}" <zarvion@vardaansmartsolutions.com>`, // Send via authenticated user
       replyTo: email, // Reply goes to the submitter
       to: toEmail,
       subject: `New Contact Request from ${name}`,
@@ -70,7 +72,7 @@ ${message}
 
     // 2. Send the auto-reply to the user
     const autoReplyOptions = {
-      from: `"Zarvion Technologies" <${process.env.SMTP_USER || 'zarvion@vardaansmartsolutions.com'}>`,
+      from: `"Zarvion Technologies" <zarvion@vardaansmartsolutions.com>`,
       to: email,
       subject: `Thank you for contacting Zarvion Technologies`,
       text: `Hi ${name},\n\nThank you for reaching out to us. We have received your message and our team will get back to you shortly.\n\nBest regards,\nThe Zarvion Technologies Team`,
@@ -88,6 +90,6 @@ ${message}
     return res.status(200).json({ success: true, message: 'Message sent successfully' });
   } catch (error) {
     console.error('SMTP Error:', error);
-    return res.status(500).json({ error: 'Failed to send message. Check SMTP configuration.' });
+    return res.status(500).json({ error: 'Failed to send message. Check SMTP configuration.', details: error.toString(), stack: error.stack });
   }
 }

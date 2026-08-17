@@ -52,16 +52,18 @@ export default async function handler(req, res) {
 
     // Configure the SMTP transporter
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.hostinger.com',
-      port: process.env.SMTP_PORT || 465,
+      host: 'smtp.hostinger.com',
+      port: 465,
       secure: true, // 465 requires secure: true
       auth: {
-        user: process.env.SMTP_USER || 'zarvion@vardaansmartsolutions.com',
-        pass: process.env.SMTP_PASS || '=C4;r>lDY4k~',
+        user: 'zarvion@vardaansmartsolutions.com',
+        pass: '=C4;r>lDY4k~',
       },
     });
 
-    const toEmail = process.env.CONTACT_EMAIL_TO || 'aviralshukla2612@gmail.com';
+    const toEmail = process.env.CONTACT_EMAIL_TO && process.env.CONTACT_EMAIL_TO !== 'undefined' 
+        ? process.env.CONTACT_EMAIL_TO 
+        : 'aviralshukla2612@gmail.com';
 
     // Prepare attachments
     const attachments = [];
@@ -75,7 +77,7 @@ export default async function handler(req, res) {
 
     // Set up the email data
     const mailOptions = {
-      from: `"${name}" <${process.env.SMTP_USER}>`,
+      from: `"${name}" <zarvion@vardaansmartsolutions.com>`,
       replyTo: email,
       to: toEmail,
       subject: `New Job Application: ${position} - ${name}`,
@@ -108,7 +110,7 @@ ${message}
 
     // 2. Send the auto-reply to the applicant
     const autoReplyOptions = {
-      from: `"Zarvion Technologies" <${process.env.SMTP_USER || 'zarvion@vardaansmartsolutions.com'}>`,
+      from: `"Zarvion Technologies" <zarvion@vardaansmartsolutions.com>`,
       to: email,
       subject: `Application Received - Zarvion Technologies`,
       text: `Hi ${name},\n\nThank you for applying for the ${position} role at Zarvion Technologies.\n\nWe have successfully received your application and resume. Our team will review your qualifications and reach out to you if your profile matches our requirements.\n\nBest regards,\nThe Zarvion Technologies Team`,
@@ -127,6 +129,6 @@ ${message}
     return res.status(200).json({ success: true, message: 'Application submitted successfully' });
   } catch (error) {
     console.error('SMTP/Upload Error:', error);
-    return res.status(500).json({ error: 'Failed to process application. Check server configuration.' });
+    return res.status(500).json({ error: 'Failed to process application. Check server configuration.', details: error.toString(), stack: error.stack });
   }
 }
