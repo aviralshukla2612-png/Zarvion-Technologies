@@ -14,8 +14,7 @@ export const ARTICLE_POSTS = [
     date: "Aug 12, 2026",
     image: aiImage,
     author: "Zarvion Research Team",
-    content: `
-      <h2 style="margin-top: 0;">Streamlining the Acquisition Process</h2>
+    content: `<h2 style="margin-top: 0 !important; padding-top: 0 !important;">Streamlining the Acquisition Process</h2>
       <p>Modern applicant tracking systems (ATS) now leverage deep learning algorithms to not just parse keywords, but to understand the context of a candidate's experience. This means candidates who have non-traditional backgrounds but highly relevant skills are less likely to fall through the cracks.</p>
       
       <h2>What This Means for Job Seekers</h2>
@@ -38,8 +37,7 @@ export const ARTICLE_POSTS = [
     date: "Jul 28, 2026",
     image: opsImage,
     author: "Zarvion Operations",
-    content: `
-      <h2 style="margin-top: 0;">Redefining Company Culture</h2>
+    content: `<h2 style="margin-top: 0 !important; padding-top: 0 !important;">Redefining Company Culture</h2>
       <p>Building a cohesive culture is notoriously difficult when team members are distributed. Best-in-class organizations have shifted from "watercooler" culture to intentional connection. This means structuring meetings to include remote participants equally and prioritizing asynchronous communication tools to prevent burnout.</p>
       
       <h2>Best Practices for Hybrid Teams</h2>
@@ -60,8 +58,7 @@ export const ARTICLE_POSTS = [
     date: "Jul 15, 2026",
     image: hrImage,
     author: "Zarvion HR Advisory",
-    content: `
-      <h2 style="margin-top: 0;">1. Adaptive Problem Solving</h2>
+    content: `<h2 style="margin-top: 0 !important; padding-top: 0 !important;">1. Adaptive Problem Solving</h2>
       <p>Employers aren't just looking for candidates who know the answers; they want candidates who know how to find the answers when the parameters change. This involves critical thinking and the ability to pivot strategies quickly.</p>
       
       <h2>2. Cross-Functional Communication</h2>
@@ -88,8 +85,7 @@ export const BLOG_POSTS = [
     date: "Jul 02, 2026",
     image: socialImage,
     author: "Zarvion Placement Team",
-    content: `
-      <h2 style="margin-top: 0;">The Power of the Headline</h2>
+    content: `<h2 style="margin-top: 0 !important; padding-top: 0 !important;">The Power of the Headline</h2>
       <p>Your headline defaults to your current job title, but it shouldn't. It should be a highly searchable value proposition. Instead of "Software Engineer at XYZ," use "Senior Full Stack Developer | React & Node.js | Building Scalable Cloud Architecture."</p>
       
       <h2>The Featured Section</h2>
@@ -108,8 +104,7 @@ export const BLOG_POSTS = [
     date: "Jun 18, 2026",
     image: cyberImage,
     author: "Zarvion Tech Experts",
-    content: `
-      <h2 style="margin-top: 0;">Why the Boom?</h2>
+    content: `<h2 style="margin-top: 0 !important; padding-top: 0 !important;">Why the Boom?</h2>
       <p>Data is the new oil, and protecting it is paramount. With strict regulatory frameworks like GDPR and CCPA enforcing massive fines for data breaches, companies view cybersecurity not as an IT expense, but as critical business insurance.</p>
       
       <h2>Transitioning into Cyber</h2>
@@ -129,8 +124,7 @@ export const BLOG_POSTS = [
     date: "Jun 05, 2026",
     image: interviewImage,
     author: "Zarvion Advisory",
-    content: `
-      <h2 style="margin-top: 0;">Deconstructing the Coding Assessment</h2>
+    content: `<h2 style="margin-top: 0 !important; padding-top: 0 !important;">Deconstructing the Coding Assessment</h2>
       <p>Data structures and algorithms form the backbone of these assessments. Instead of blindly memorizing LeetCode solutions, focus on recognizing patterns—such as Sliding Window, Two Pointers, or Depth-First Search. When you recognize the pattern, the implementation becomes straightforward.</p>
       
       <h2>The Art of Systems Design</h2>
