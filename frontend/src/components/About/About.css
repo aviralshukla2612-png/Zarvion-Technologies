@@ -22,7 +22,7 @@
 }
 .about-h1 {
   font-family: var(--font-heading); font-weight: 700;
-  font-size: clamp(28px, 5.2vw, 52px); line-height: 1.1; letter-spacing: -.01em; color: var(--white);
+  font-size: clamp(28px, 3.8vw, 52px); line-height: 1.1; letter-spacing: -.01em; color: var(--white);
 }
 .about-h1 .about-accent {
   background: linear-gradient(90deg,#6fa4ff,#a6c6ff); -webkit-background-clip: text; background-clip: text; color: transparent;
