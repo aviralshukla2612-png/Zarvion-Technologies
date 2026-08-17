@@ -25,6 +25,20 @@ const Loader = ({ onComplete, duration = 6000 }) => {
   const [imgIndex, setImgIndex] = useState(0);
   const rafRef = useRef(null);
 
+  // Prevent scrolling while loader is active
+  useEffect(() => {
+    document.documentElement.style.setProperty('overflow', 'hidden', 'important');
+    document.body.style.setProperty('overflow', 'hidden', 'important');
+    document.body.style.setProperty('position', 'fixed', 'important');
+    document.body.style.setProperty('width', '100%', 'important');
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    };
+  }, []);
+
   // Counts 0 → 100, eased so it settles rather than ticking linearly.
   useEffect(() => {
     const start = performance.now();

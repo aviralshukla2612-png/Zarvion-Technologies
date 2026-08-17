@@ -52,40 +52,49 @@ function App() {
 
     gsap.ticker.lagSmoothing(0);
 
+    // Stop lenis while loading to hide scrollbar
+    if (isAppLoading) {
+      lenis.stop();
+    } else {
+      lenis.start();
+    }
+
     return () => {
       gsap.ticker.remove((time) => {
         lenis.raf(time * 1000);
       });
       lenis.destroy();
     };
-  }, []);
+  }, [isAppLoading]);
 
   return (
     <>
       {isAppLoading && (
         <Loader onComplete={() => setIsAppLoading(false)} duration={4800} />
       )}
-      <Router>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Home />} />
-            <Route path="roles/:slug" element={<RoleDetails />} />
-            <Route path="about" element={<div className="page-spacer"><About /></div>} />
-            <Route path="demand" element={<div className="page-spacer"><DemandedRoles /></div>} />
-            <Route path="service" element={<div className="page-spacer"><Services /></div>} />
-            <Route path="services/:slug" element={<ServiceDetails />} />
-            <Route path="contact" element={<div className="page-spacer"><Contact /></div>} />
-            <Route path="careers" element={<div className="page-spacer"><Careers /></div>} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/it-roles" element={<div className="page-spacer"><ITRoles /></div>} />
-            <Route path="/non-it-roles" element={<div className="page-spacer"><NonITRoles /></div>} /> 
-            <Route path="/blog" element={<div className="page-spacer"><Blog /></div>} /> 
-            <Route path="/privacy-policy" element={<div className="page-spacer"><PrivacyPolicy /></div>} />
-            <Route path="/terms" element={<div className="page-spacer"><Terms /></div>} />
-          </Route>
-        </Routes>
-      </Router>
+      <div style={isAppLoading ? { height: '100vh', overflow: 'hidden' } : {}}>
+        <Router>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Home />} />
+              <Route path="roles/:slug" element={<RoleDetails />} />
+              <Route path="about" element={<div className="page-spacer"><About /></div>} />
+              <Route path="demand" element={<div className="page-spacer"><DemandedRoles /></div>} />
+              <Route path="service" element={<div className="page-spacer"><Services /></div>} />
+              <Route path="services/:slug" element={<ServiceDetails />} />
+              <Route path="contact" element={<div className="page-spacer"><Contact /></div>} />
+              <Route path="careers" element={<div className="page-spacer"><Careers /></div>} />
+              <Route path="*" element={<NotFound />} />
+              <Route path="/it-roles" element={<div className="page-spacer"><ITRoles /></div>} />
+              <Route path="/non-it-roles" element={<div className="page-spacer"><NonITRoles /></div>} /> 
+              <Route path="/blog" element={<div className="page-spacer"><Blog /></div>} /> 
+              <Route path="/privacy-policy" element={<div className="page-spacer"><PrivacyPolicy /></div>} />
+              <Route path="/terms" element={<div className="page-spacer"><Terms /></div>} />
+            </Route>
+          </Routes>
+        </Router>
+      </div>
     </>
   );
 }
