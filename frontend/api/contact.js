@@ -36,9 +36,9 @@ export default async function handler(req, res) {
     });
 
     // Destination email address (where you want to receive the messages)
-      const adminEmail = process.env.ADMIN_EMAIL && process.env.ADMIN_EMAIL !== 'undefined'
-        ? process.env.ADMIN_EMAIL
-        : 'heyjayu27@gmail.com';
+    const adminEmail = process.env.ADMIN_EMAIL && process.env.ADMIN_EMAIL !== 'undefined'
+      ? process.env.ADMIN_EMAIL
+      : 'info@zarviontechnologies.com';
 
     // Set up the email data
     const mailOptions = {

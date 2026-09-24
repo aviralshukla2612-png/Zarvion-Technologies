@@ -66,10 +66,9 @@ Each role has: slug, category, title, description, skills (4), salary range (£)
 
 ## Contact Information
 
-- Phone: `+91 7890012345`
-- Email: `hello@zarviontechnologies.com`
-- Apply email: `careers@zarviontechnologies.com`
-- Office: Plot No.71, 4th Floor, Silicon Avenue, Hitech City, Madhapur, Hyderabad, Telangana 500081, India
+- Phone: `+1 (307) 357-5591`
+- Email: `info@zarviontechnologies.com`
+- Office: 30 N Gould St Ste R, Sheridan, WY 82801, USA
 
 ---
 

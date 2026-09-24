@@ -63,7 +63,7 @@ export default async function handler(req, res) {
 
     const adminEmail = process.env.ADMIN_EMAIL && process.env.ADMIN_EMAIL !== 'undefined'
         ? process.env.ADMIN_EMAIL
-        : 'heyjayu27@gmail.com';
+        : 'info@zarviontechnologies.com';
 
     // Prepare attachments
     const attachments = [];

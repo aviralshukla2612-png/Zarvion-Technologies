@@ -15,8 +15,8 @@ const COUNTRIES = [
 const OFFICE_ADDRESS = '30 N Gould St Ste R, Sheridan, WY 82801, USA';
 const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(OFFICE_ADDRESS)}`;
 const APPLE_MAP_URL = `http://maps.apple.com/?q=${encodeURIComponent(OFFICE_ADDRESS)}`;
-const PHONE_DISPLAY = '+1 (302) 364-2356';
-const PHONE_HREF = 'tel:+13023642356';
+const PHONE_DISPLAY = '+1 (307) 357-5591';
+const PHONE_HREF = 'tel:+13073575591';
 const EMAIL_DISPLAY = 'info@zarviontechnologies.com';
 const EMAIL_HREF = 'mailto:info@zarviontechnologies.com';
 

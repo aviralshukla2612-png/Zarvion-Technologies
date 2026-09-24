@@ -13,15 +13,17 @@ const PostDetails = () => {
   // Find the post that matches the ID in the URL
   const post = dataSource.find(p => p.id === parseInt(id));
 
+  // Scroll to top when the post loads
+  useEffect(() => {
+    if (post) {
+      window.scrollTo(0, 0);
+    }
+  }, [post]);
+
   // If the post doesn't exist, redirect to the main hub
   if (!post) {
     return <Navigate to="/blog" replace />;
   }
-
-  // Scroll to top when the post loads
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [post.id]);
 
   return (
     <div className="post-details-page">

@@ -128,9 +128,9 @@ const About = () => {
   ];
 
   const team = [
-    { name: "Jay Makwana",   role: "Founder",       img: founderImg, linkedin: "#", objectPosition: "top" },
+    { name: "Jay Makwana",   role: "Founder",       img: founderImg, linkedin: "https://www.linkedin.com/in/jay-makwana-a17526350", objectPosition: "top" },
     { name: "Himmat Parmar", role: "Co Founder",    img: coFounderImg, linkedin: "#", objectPosition: "top" },
-    { name: "Mihir Shrimali",role: "Lead Generation Specialist", img: leadSpecialistImg, linkedin: "#", objectPosition: "center 25%" },
+    { name: "Mihir Shrimali",role: "Lead Generation Specialist", img: leadSpecialistImg, linkedin: "https://www.linkedin.com/in/mihir-shrimali-462245257", objectPosition: "center 25%" },
   ];
 
   const COLUMN_COUNT = 5;
