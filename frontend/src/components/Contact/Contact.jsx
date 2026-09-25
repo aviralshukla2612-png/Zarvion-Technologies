@@ -86,8 +86,12 @@ const Contact = () => {
           "mainEntity": {
             "@type": "Organization",
             "name": "Zarvion Technologies",
+            "url": "https://zarviontechnologies.com/",
+            "logo": "https://zarviontechnologies.com/ZARVION%20TECHNOLOGIES%20ORG.png",
+            "image": "https://zarviontechnologies.com/og-image.png",
             "telephone": "+1-307-357-5591",
             "email": "info@zarviontechnologies.com",
+            "priceRange": "$$",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "30 N Gould St Ste R",
