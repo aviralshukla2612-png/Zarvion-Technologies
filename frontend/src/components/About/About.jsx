@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../SEO/SEO';
 import founderImg from '../../assets/images/team/founder.jpeg';
 import coFounderImg from '../../assets/images/team/co founder.jpeg';
 import leadSpecialistImg from '../../assets/images/team/lead specialist.jpeg';
@@ -164,6 +165,26 @@ const About = () => {
 
   return (
     <div id="about">
+      <SEO
+        title="About Us | Empowering Careers & Global IT Talent Solutions"
+        description="Learn about Zarvion Technologies, our leadership, our global talent acquisition footprint, and our mission to connect ambitious professionals with top-tier companies."
+        keywords="About Zarvion Technologies, IT recruitment agency, tech leadership, global career staffing, talent acquisition experts"
+        canonicalUrl="/about"
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "name": "About Zarvion Technologies",
+          "description": "Learn about Zarvion Technologies, our leadership, our global talent acquisition footprint, and our mission to empower tech careers.",
+          "url": "https://zarviontechnologies.com/about",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zarviontechnologies.com/" },
+              { "@type": "ListItem", "position": 2, "name": "About Us", "item": "https://zarviontechnologies.com/about" }
+            ]
+          }
+        }}
+      />
 
       {/* ===== HERO ===== */}
       <section className="about-hero">

@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SEO from '../SEO/SEO';
 import './Services.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -286,6 +287,26 @@ const Services = ({ variant = 'home' }) => {
       id="services"
       ref={sectionRef}
     >
+      <SEO
+        title="Our Services | Career Acceleration & Enterprise Staffing"
+        description="Explore Zarvion Technologies' specialized career services including resume enhancement, professional branding, interview preparation, technical training, and global job placement support."
+        keywords="Zarvion services, career coaching, resume optimization, tech interview prep, IT staffing services, professional branding"
+        canonicalUrl="/service"
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "Career Acceleration & Staffing Services",
+          "description": "Comprehensive suite of IT recruitment, career engineering, and staffing services.",
+          "url": "https://zarviontechnologies.com/service",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zarviontechnologies.com/" },
+              { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://zarviontechnologies.com/service" }
+            ]
+          }
+        }}
+      />
       <div className={isDesktop ? 'srv-sticky-wrapper' : ''}>
         <div className="srv-grid-bg" />
         <div className="srv-blob srv-blob--a" />

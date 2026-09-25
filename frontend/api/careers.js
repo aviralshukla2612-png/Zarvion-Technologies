@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 import multiparty from 'multiparty';
-import fs from 'fs';
 
 // Disable the default body parser so we can parse the stream with multiparty
 export const config = {

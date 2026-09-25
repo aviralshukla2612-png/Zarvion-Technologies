@@ -1,9 +1,21 @@
 import React from 'react';
+import SEO from '../../components/SEO/SEO';
 import './PrivacyPolicy.css';
 
 const PrivacyPolicy = () => {
   return (
     <div className="policy-page">
+      <SEO
+        title="Privacy Policy"
+        description="Review the privacy policy for Zarvion Technologies detailing data collection, client confidentiality, and data protection practices."
+        canonicalUrl="/privacy-policy"
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Privacy Policy - Zarvion Technologies",
+          "url": "https://zarviontechnologies.com/privacy-policy"
+        }}
+      />
       <div className="policy-container">
         <h1 className="policy-title">Privacy <span>Policy</span></h1>
         

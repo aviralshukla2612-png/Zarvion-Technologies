@@ -9,7 +9,6 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [rolesOpen, setRolesOpen] = useState(false); // mobile dropdown toggle
   const closeTimer = useRef(null);
-  const navigate = useNavigate(); // kept for future use
   const location = useLocation();
   const path = location.pathname;
 

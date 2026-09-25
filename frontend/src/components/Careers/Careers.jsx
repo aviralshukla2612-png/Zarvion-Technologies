@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../SEO/SEO';
 import { OPEN_POSITIONS } from '../../data/careers';
 import './Careers.css';
 
@@ -36,6 +37,7 @@ const Careers = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dropdownRef = useRef(null);
 
   const hasOpenings = OPEN_POSITIONS.length > 0;
@@ -74,6 +76,26 @@ const Careers = () => {
       className={`contact-section careers-section ${isVisible ? 'is-visible' : ''}`}
       ref={sectionRef}
     >
+      <SEO
+        title="Careers & Opportunities | Submit Your Resume"
+        description="Join Zarvion Technologies or submit your resume for premier global tech opportunities in engineering, marketing, and leadership."
+        keywords="Zarvion careers, IT job applications, submit resume, tech opportunities, recruitment open roles"
+        canonicalUrl="/careers"
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Careers at Zarvion Technologies",
+          "description": "Submit your resume to Zarvion Technologies for elite technology and executive placements.",
+          "url": "https://zarviontechnologies.com/careers",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zarviontechnologies.com/" },
+              { "@type": "ListItem", "position": 2, "name": "Careers", "item": "https://zarviontechnologies.com/careers" }
+            ]
+          }
+        }}
+      />
       <div className="contact-wrap">
         <div className="contact-grid">
           {/* Left Column: Info */}
@@ -206,26 +228,34 @@ const Careers = () => {
                   </button>
                 </div>
               ) : (
-                <form className="contact-form" onSubmit={(e) => {
+                <form className="contact-form" onSubmit={async (e) => {
                 e.preventDefault();
+                setIsSubmitting(true);
                 
-                const formData = new FormData(e.target);
-                formData.set('phone', `${selectedCountry.code} ${e.target.phone.value}`);
+                try {
+                  const formData = new FormData(e.target);
+                  formData.set('phone', `${selectedCountry.code} ${e.target.phone.value}`);
 
-                fetch("/api/careers", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    setShowSuccess(true);
-                    e.target.reset();
-                    setSelectedFile(null);
-                })
-                .catch(error => {
-                    console.error("Error submitting form:", error);
-                    alert("There was an issue sending your application. Please try again.");
-                });
+                  const response = await fetch("/api/careers", {
+                      method: "POST",
+                      body: formData
+                  });
+
+                  const resData = await response.json();
+
+                  if (!response.ok || !resData.success) {
+                    throw new Error(resData.error || "Failed to submit application");
+                  }
+
+                  setShowSuccess(true);
+                  e.target.reset();
+                  setSelectedFile(null);
+                } catch (error) {
+                  console.error("Error submitting form:", error);
+                  alert(error.message || "There was an issue sending your application. Please try again.");
+                } finally {
+                  setIsSubmitting(false);
+                }
               }}>
                 <input type="hidden" name="_subject" value="New Career Application from Zarvion Technologies" />
                 <input type="hidden" name="_captcha" value="false" />
@@ -346,14 +376,15 @@ const Careers = () => {
                   <label htmlFor="message">Your Message</label>
                   <textarea
                     id="message"
+                    name="message"
                     rows="6"
                     placeholder="Tell us about how we can help you..."
                     required
                   ></textarea>
                 </div>
 
-                <button type="submit" className="submit-btn reveal-field" style={{ transitionDelay: '0.35s' }}>
-                  Submit Application
+                <button type="submit" className="submit-btn reveal-field" style={{ transitionDelay: '0.35s' }} disabled={isSubmitting}>
+                  {isSubmitting ? "Submitting..." : "Submit Application"}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
                 </button>
               </form>

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, Navigate, Link, useLocation } from 'react-router-dom';
+import SEO from '../../components/SEO/SEO';
 import { ARTICLE_POSTS, BLOG_POSTS } from '../../data/blogData';
 import './PostDetails.css';
 
@@ -25,8 +26,48 @@ const PostDetails = () => {
     return <Navigate to="/blog" replace />;
   }
 
+  const canonicalPath = `/blog/${post.id}`;
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt,
+    "author": {
+      "@type": "Organization",
+      "name": post.author || "Zarvion Technologies"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Zarvion Technologies",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://zarviontechnologies.com/ZARVION%20TECHNOLOGIES%20ORG.png"
+      }
+    },
+    "datePublished": post.date,
+    "url": `https://zarviontechnologies.com${canonicalPath}`,
+    "mainEntityOfPage": `https://zarviontechnologies.com${canonicalPath}`,
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zarviontechnologies.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://zarviontechnologies.com/blog" },
+        { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://zarviontechnologies.com${canonicalPath}` }
+      ]
+    }
+  };
+
   return (
     <div className="post-details-page">
+      <SEO
+        title={post.title}
+        description={post.excerpt}
+        keywords={`${post.category}, tech careers, Zarvion blog, ${post.title}`}
+        canonicalUrl={canonicalPath}
+        ogType="article"
+        schemaData={articleSchema}
+      />
       <div className="post-container">
         
         <div className="post-header">

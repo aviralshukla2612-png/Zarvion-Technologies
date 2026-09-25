@@ -1510,7 +1510,11 @@ const Hero = () => {
           className="h-head"
           ref={typedHeadRef}
           aria-label="Aviation of your career with Z+ Strategies."
-        ></h1>
+        >
+          <span className="h-head-line1">Aviation of your career</span>
+          <br />
+          <span className="accent-line">with Z+ Strategies.</span>
+        </h1>
         <span ref={cursorRef} className="typed-cursor" style={{ display: 'none' }}></span>
 
         <p className="hero-desc">

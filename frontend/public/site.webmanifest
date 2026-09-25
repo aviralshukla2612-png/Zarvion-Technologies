@@ -1,0 +1,17 @@
+{
+  "name": "Zarvion Technologies",
+  "short_name": "Zarvion",
+  "description": "Empowering Careers. Connecting Futures. Global IT Staffing & Talent Acquisition Solutions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060913",
+  "theme_color": "#2F80FF",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/ZARVION%20TECHNOLOGIES%20ORG.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    }
+  ]
+}

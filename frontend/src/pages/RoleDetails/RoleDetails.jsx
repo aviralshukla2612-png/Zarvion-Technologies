@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './RoleDetails.css';
-
+import SEO from '../../components/SEO/SEO';
 import { ROLES } from '../../components/DemandedRoles/roles';
+import './RoleDetails.css';
 
 const RoleDetails = () => {
   const { slug } = useParams();
@@ -12,16 +12,17 @@ const RoleDetails = () => {
     window.scrollTo(0, 0);
     const foundRole = ROLES.find(r => r.slug === slug);
     setRole(foundRole);
-    if (foundRole) {
-      document.title = `${foundRole.title} — Zarvion Technologies`;
-    } else {
-      document.title = 'Role Not Found — Zarvion Technologies';
-    }
   }, [slug]);
 
   if (!role) {
     return (
       <div className="detail-page">
+        <SEO
+          title="Role Not Found"
+          description="The requested career role could not be found."
+          robots="noindex, follow"
+          canonicalUrl={`/roles/${slug}`}
+        />
         <div className="detail-wrap">
           <div className="not-found">
             <h2>Role not found</h2>
@@ -36,8 +37,45 @@ const RoleDetails = () => {
   const backTo = role.type === 'it' ? '/it-roles' : '/non-it-roles';
   const backLabel = role.type === 'it' ? 'Back to IT Roles' : 'Back to Non-IT Roles';
 
+  const roleSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Occupation",
+        "name": role.title,
+        "description": role.desc,
+        "occupationalCategory": role.category,
+        "skills": role.skills.join(', '),
+        "estimatedSalary": [
+          {
+            "@type": "MonetaryAmountDistribution",
+            "name": "base",
+            "currency": "GBP",
+            "duration": "P1Y",
+            "value": role.salary
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zarviontechnologies.com/" },
+          { "@type": "ListItem", "position": 2, "name": role.type === 'it' ? "IT Roles" : "Non-IT Roles", "item": `https://zarviontechnologies.com${backTo}` },
+          { "@type": "ListItem", "position": 3, "name": role.title, "item": `https://zarviontechnologies.com/roles/${role.slug}` }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="detail-page">
+      <SEO
+        title={`${role.title} Career Opportunities & Placement`}
+        description={`${role.title} roles at Zarvion Technologies: ${role.desc} Expected Salary: ${role.salary}, Experience: ${role.experience}.`}
+        keywords={`${role.title}, ${role.category}, ${role.skills.join(', ')}, Zarvion tech roles, IT placement`}
+        canonicalUrl={`/roles/${role.slug}`}
+        schemaData={roleSchema}
+      />
       <div className="detail-wrap">
         <Link className="back-link" to={backTo}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M11 18l-6-6 6-6" /></svg>
@@ -46,7 +84,7 @@ const RoleDetails = () => {
 
         <div className="detail-card">
           <div className="detail-image">
-            <img src={role.img} alt={role.title} />
+            <img src={role.img} alt={`${role.title} career opportunity at Zarvion Technologies`} />
           </div>
           <div className="detail-body">
             <span className="detail-category">{role.category}</span>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../SEO/SEO';
 import './Contact.css';
 
 const COUNTRIES = [
@@ -34,6 +35,7 @@ const Contact = () => {
   const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[1]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -70,6 +72,40 @@ const Contact = () => {
       className={`contact-section ${isVisible ? 'is-visible' : ''}`}
       ref={sectionRef}
     >
+      <SEO
+        title="Contact Us | Strategic Consultation & Enterprise Inquiries"
+        description="Connect with Zarvion Technologies to discuss custom IT talent acquisition, enterprise recruitment, and career acceleration strategies."
+        keywords="Contact Zarvion, hire tech talent, IT staffing consultation, recruiter contact, talent acquisition agency"
+        canonicalUrl="/contact"
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Contact Zarvion Technologies",
+          "description": "Reach out to Zarvion Technologies for recruitment inquiries and strategic career consultations.",
+          "url": "https://zarviontechnologies.com/contact",
+          "mainEntity": {
+            "@type": "Organization",
+            "name": "Zarvion Technologies",
+            "telephone": "+1-307-357-5591",
+            "email": "info@zarviontechnologies.com",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "30 N Gould St Ste R",
+              "addressLocality": "Sheridan",
+              "addressRegion": "WY",
+              "postalCode": "82801",
+              "addressCountry": "US"
+            }
+          },
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zarviontechnologies.com/" },
+              { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://zarviontechnologies.com/contact" }
+            ]
+          }
+        }}
+      />
       <div className="contact-wrap">
         <div className="contact-grid">
           {/* Left Column: Info */}
@@ -187,31 +223,39 @@ const Contact = () => {
                   </button>
                 </div>
               ) : (
-                <form className="contact-form" onSubmit={(e) => {
+                <form className="contact-form" onSubmit={async (e) => {
                 e.preventDefault();
+                setIsSubmitting(true);
                 
-                const formData = new FormData(e.target);
-                formData.set('phone', `${selectedCountry.code} ${e.target.phone.value}`);
+                try {
+                  const formData = new FormData(e.target);
+                  formData.set('phone', `${selectedCountry.code} ${e.target.phone.value}`);
 
-                // Convert FormData to JSON object for the API
-                const data = Object.fromEntries(formData.entries());
+                  // Convert FormData to JSON object for the API
+                  const data = Object.fromEntries(formData.entries());
 
-                fetch("/api/contact", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    setShowSuccess(true);
-                    e.target.reset();
-                })
-                .catch(error => {
-                    console.error("Error submitting form:", error);
-                    alert("There was an issue sending your message. Please try again.");
-                });
+                  const response = await fetch("/api/contact", {
+                      method: "POST",
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(data)
+                  });
+
+                  const resData = await response.json();
+
+                  if (!response.ok || !resData.success) {
+                    throw new Error(resData.error || "Failed to send message");
+                  }
+
+                  setShowSuccess(true);
+                  e.target.reset();
+                } catch (error) {
+                  console.error("Error submitting form:", error);
+                  alert(error.message || "There was an issue sending your message. Please try again.");
+                } finally {
+                  setIsSubmitting(false);
+                }
               }}>
                 <input type="hidden" name="_subject" value="New Contact Request from Zarvion Technologies" />
                 <input type="hidden" name="_captcha" value="false" />
@@ -297,8 +341,8 @@ const Contact = () => {
                   ></textarea>
                 </div>
 
-                <button type="submit" className="submit-btn reveal-field" style={{ transitionDelay: '0.35s' }}>
-                  Let's Build Together
+                <button type="submit" className="submit-btn reveal-field" style={{ transitionDelay: '0.35s' }} disabled={isSubmitting}>
+                  {isSubmitting ? "Sending..." : "Let's Build Together"}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
                 </button>
                 </form>

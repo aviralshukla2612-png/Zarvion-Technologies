@@ -9,6 +9,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { getServiceBySlug } from '../../data/services';
+import SEO from '../../components/SEO/SEO';
 import * as FaIcons from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
 import BenefitsParticles from './BenefitsParticles';
@@ -246,8 +247,52 @@ const ServiceDetails = () => {
     );
   }
 
+  const serviceSchema = service ? {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "name": `${service.title} - Zarvion Technologies`,
+        "serviceType": service.subtitle,
+        "description": service.description,
+        "provider": {
+          "@type": "Organization",
+          "name": "Zarvion Technologies",
+          "url": "https://zarviontechnologies.com/"
+        },
+        "url": `https://zarviontechnologies.com/services/${service.slug}`
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zarviontechnologies.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://zarviontechnologies.com/service" },
+          { "@type": "ListItem", "position": 3, "name": service.title, "item": `https://zarviontechnologies.com/services/${service.slug}` }
+        ]
+      },
+      ...(service.faq && service.faq.length > 0 ? [{
+        "@type": "FAQPage",
+        "mainEntity": service.faq.map(f => ({
+          "@type": "Question",
+          "name": f.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.answer
+          }
+        }))
+      }] : [])
+    ]
+  } : null;
+
   return (
     <div className="service-details-page" style={{ '--accent': service.accent, '--accent-dim': service.accentDim }}>
+      <SEO
+        title={`${service.title} | ${service.subtitle}`}
+        description={service.description}
+        keywords={`${service.title}, ${service.subtitle}, Zarvion career services, tech recruitment, career engineering`}
+        canonicalUrl={`/services/${service.slug}`}
+        schemaData={serviceSchema}
+      />
 
       {/* ============================================================
            HERO SECTION

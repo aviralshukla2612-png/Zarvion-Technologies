@@ -1,11 +1,23 @@
 import React from 'react';
+import SEO from '../../components/SEO/SEO';
 import '../PrivacyPolicy/PrivacyPolicy.css'; // Reusing the same styles
 
 const Terms = () => {
   return (
     <div className="policy-page">
+      <SEO
+        title="Terms & Conditions"
+        description="Review the terms and conditions for using Zarvion Technologies' website, recruitment platforms, and career advisory services."
+        canonicalUrl="/terms"
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Terms & Conditions - Zarvion Technologies",
+          "url": "https://zarviontechnologies.com/terms"
+        }}
+      />
       <div className="policy-container">
-        <h1 className="policy-title">Terms & <span>Conditions</span></h1>
+        <h1 className="policy-title">Terms &amp; <span>Conditions</span></h1>
         
         <div className="policy-content">
           <section className="policy-section">

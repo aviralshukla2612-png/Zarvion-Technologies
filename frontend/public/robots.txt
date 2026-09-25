@@ -1,0 +1,14 @@
+# robots.txt for Zarvion Technologies
+# https://zarviontechnologies.com/
+
+User-agent: *
+Allow: /
+Allow: /assets/
+Allow: /images/
+
+# Disallow API routes from search engine indexing
+Disallow: /api/
+Disallow: /api/*
+
+# XML Sitemap location
+Sitemap: https://zarviontechnologies.com/sitemap.xml
